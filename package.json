@@ -1,0 +1,22 @@
+{
+  "name": "getmuslims",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "check": "bunx biome check --write"
+  },
+  "dependencies": {
+    "@nuxt/ui": "^2.18.4",
+    "@nuxtjs/supabase": "^1.4.0",
+    "nuxt": "^3.13.0",
+    "vue": "latest"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.8.3"
+  }
+}
