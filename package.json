@@ -8,7 +8,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "check": "bunx biome check --write"
+    "check": "bunx biome check --write",
+    "db:generate": "supabase gen types typescript --project-id aldfzgmcgersdnecplul > types/database.types.ts"
   },
   "dependencies": {
     "@nuxt/ui": "^2.18.4",
