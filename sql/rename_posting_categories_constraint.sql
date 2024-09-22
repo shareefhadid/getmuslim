@@ -1,0 +1,2 @@
+ALTER table public.posting_categories
+  rename constraint posting_categories_posting_category_unique to posting_categories_posting_id_category_id;

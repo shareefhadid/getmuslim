@@ -3,7 +3,7 @@ create table if not exists public.postings (
   created_at timestamp with time zone not null default now (),
   title text not null,
   description text not null,
-  location geography null,
+  location postgis.geography null,
   show_location boolean null default false,
   address text null,
   constraint postings_pkey primary key (id),
