@@ -2,5 +2,8 @@
 	"editor.defaultFormatter": "biomejs.biome",
 	"[dotenv]": {
 		"editor.defaultFormatter": "foxundermoon.shell-format"
+	},
+	"[sql]": {
+		"editor.defaultFormatter": "mtxr.sqltools"
 	}
 }

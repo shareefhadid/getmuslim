@@ -1,0 +1,4 @@
+-- SELECT
+--   nearby_postings (44.025786, -79.4281974, 20000);
+-- SELECT
+--   nearby_postings (44.025786, -79.4281974);
