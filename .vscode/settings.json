@@ -5,5 +5,8 @@
 	},
 	"[sql]": {
 		"editor.defaultFormatter": "mtxr.sqltools"
+	},
+	"[markdown]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	}
 }
