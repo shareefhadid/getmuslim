@@ -3,5 +3,7 @@ create table if not exists public.categories (
   label text not null,
   icon text null,
   parent_id bigint null,
-  constraint categories_pkey primary key (id)
+  constraint categories_pkey primary key (id),
+  constraint fk_parent_id foreign key (parent_id) references categories (id) on delete
+  set null
 ) tablespace pg_default;

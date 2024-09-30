@@ -14,6 +14,6 @@ VALUES (
   (
     'Mawlana Kabab',
     'Delicious Afghan and Turkish cuisine.',
-    'POINT(79.446827 44.010638)',
+    'POINT(-79.446827 44.010638)',
     '15440 Bayview Ave unit B1, Aurora, ON L4G 7J1, Canada'
   );
