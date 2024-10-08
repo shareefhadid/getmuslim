@@ -1,7 +1,6 @@
 # TODO
 
 ## Category search
-- add function for searching by category, return postings sorted by proximity
 - implement frontend for selecting category
 - add RLS policies
 - **🚀 release MVP**
