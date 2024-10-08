@@ -3,7 +3,6 @@
 		"vue.volar",
 		"nuxtr.nuxtr-vscode",
 		"nuxt.mdc",
-		"biomejs.biome"
 	],
 	"unwantedRecommendations": []
 }

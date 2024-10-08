@@ -1,12 +1,12 @@
 {
-	"editor.defaultFormatter": "biomejs.biome",
-	"[dotenv]": {
-		"editor.defaultFormatter": "foxundermoon.shell-format"
-	},
-	"[sql]": {
-		"editor.defaultFormatter": "mtxr.sqltools"
-	},
-	"[markdown]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	}
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[dotenv]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "[sql]": {
+    "editor.defaultFormatter": "mtxr.sqltools"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
