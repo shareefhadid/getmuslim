@@ -1,8 +1,5 @@
 <template>
   <div>
-    <UContainer>
-      <UInput>
-      </UInput>
-    </UContainer>
+    <UInput />
   </div>
 </template>
