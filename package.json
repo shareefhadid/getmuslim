@@ -13,6 +13,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
+    "clean": "nuxt cleanup",
     "db:generate": "supabase gen types typescript --project-id aldfzgmcgersdnecplul > types/database.types.ts"
   },
   "type": "module"

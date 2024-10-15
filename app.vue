@@ -1,10 +1,27 @@
 <template>
-  <div>
-
-  </div>
+  <UApp>
+    <NuxtPage />
+  </UApp>
 </template>
 
 <style>
 @import "tailwindcss";
 @import "@nuxt/ui";
+
+@theme {
+  /* fonts */
+  --font-family-sans: 'Schibsted Grotesk', sans-serif;
+  /* colors */
+  --color-primary-50: var(--ui-color-primary-50);
+  --color-primary-100: var(--ui-color-primary-100);
+  --color-primary-200: var(--ui-color-primary-200);
+  --color-primary-300: var(--ui-color-primary-300);
+  --color-primary-400: var(--ui-color-primary-400);
+  --color-primary-500: var(--ui-color-primary-500);
+  --color-primary-600: var(--ui-color-primary-600);
+  --color-primary-700: var(--ui-color-primary-700);
+  --color-primary-800: var(--ui-color-primary-800);
+  --color-primary-900: var(--ui-color-primary-900);
+  --color-primary-950: var(--ui-color-primary-950);
+}
 </style>
