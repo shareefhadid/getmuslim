@@ -8,6 +8,80 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
+:root {
+  /* Least prominent text */
+  --ui-text-dimmed: var(--ui-color-neutral-400);
+  /* Slightly muted text */
+  --ui-text-muted: var(--ui-color-neutral-500);
+  /* Moderately prominent text */
+  --ui-text-toned: var(--ui-color-neutral-600);
+  /* Default text color */
+  --ui-text: var(--ui-color-neutral-700);
+  /* Most prominent text */
+  --ui-text-highlighted: var(--ui-color-neutral-900);
+
+  /* Main background color */
+  --ui-bg: var(--ui-color-neutral-100);
+  /* Slightly elevated background */
+  --ui-bg-elevated: var(--ui-color-neutral-100);
+  /* More prominent background */
+  --ui-bg-accented: var(--ui-color-neutral-200);
+  /* Inverted background color */
+  --ui-bg-inverted: var(--ui-color-neutral-900);
+
+  /* Default border color */
+  --ui-border: var(--ui-color-neutral-200);
+  /* More prominent border */
+  --ui-border-accented: var(--ui-color-neutral-300);
+  /* Inverted border color */
+  --ui-border-inverted: var(--ui-color-neutral-900);
+
+  --ui-primary: var(--ui-color-primary-500);
+  --ui-secondary: var(--ui-color-secondary-500);
+  --ui-success: var(--ui-color-success-500);
+  --ui-info: var(--ui-color-info-500);
+  --ui-warning: var(--ui-color-warning-500);
+  --ui-error: var(--ui-color-error-500);
+
+  --ui-radius: var(--radius-sm);
+}
+
+.dark {
+  /* Least prominent text */
+  --ui-text-dimmed: var(--ui-color-neutral-500);
+  /* Slightly muted text */
+  --ui-text-muted: var(--ui-color-neutral-400);
+  /* Moderately prominent text */
+  --ui-text-toned: var(--ui-color-neutral-300);
+  /* Default text color */
+  --ui-text: var(--ui-color-neutral-200);
+  /* Most prominent text */
+  --ui-text-highlighted: var(--color-white);
+
+  /* Main background color */
+  --ui-bg: var(--ui-color-neutral-900);
+  /* Slightly elevated background */
+  --ui-bg-elevated: var(--ui-color-neutral-800);
+  /* More prominent background */
+  --ui-bg-accented: var(--ui-color-neutral-700);
+  /* Inverted background color */
+  --ui-bg-inverted: var(--color-white);
+
+  /* Default border color */
+  --ui-border: var(--ui-color-neutral-800);
+  /* More prominent border */
+  --ui-border-accented: var(--ui-color-neutral-700);
+  /* Inverted border color */
+  --ui-border-inverted: var(--color-white);
+
+  --ui-primary: var(--ui-color-primary-400);
+  --ui-secondary: var(--ui-color-secondary-400);
+  --ui-success: var(--ui-color-success-400);
+  --ui-info: var(--ui-color-info-400);
+  --ui-warning: var(--ui-color-warning-400);
+  --ui-error: var(--ui-color-error-400);
+}
+
 @theme {
   /* fonts */
   --font-family-sans: 'Schibsted Grotesk', sans-serif;

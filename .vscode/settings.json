@@ -8,5 +8,6 @@
   },
   "[markdown]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "nuxtr.vueFiles.style.alwaysScoped": true
 }
