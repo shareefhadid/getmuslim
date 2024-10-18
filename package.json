@@ -16,5 +16,8 @@
     "clean": "nuxt cleanup",
     "db:generate": "supabase gen types typescript --project-id aldfzgmcgersdnecplul > types/database.types.ts"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "@iconify-json/mdi": "^1.2.1"
+  }
 }

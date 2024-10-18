@@ -1,7 +1,10 @@
 <template>
-  <UApp>
-    <NuxtPage />
-  </UApp>
+  <div>
+    <Html class="scroll-smooth" />
+    <UApp>
+      <NuxtPage />
+    </UApp>
+  </div>
 </template>
 
 <style>
@@ -23,7 +26,7 @@
   /* Main background color */
   --ui-bg: var(--ui-color-neutral-100);
   /* Slightly elevated background */
-  --ui-bg-elevated: var(--ui-color-neutral-100);
+  --ui-bg-elevated: var(--color-white);
   /* More prominent background */
   --ui-bg-accented: var(--ui-color-neutral-200);
   /* Inverted background color */
@@ -97,5 +100,27 @@
   --color-primary-800: var(--ui-color-primary-800);
   --color-primary-900: var(--ui-color-primary-900);
   --color-primary-950: var(--ui-color-primary-950);
+
+  --color-ui-text-dimmed: var(--ui-text-dimmed);
+  --color-ui-text-muted: var(--ui-text-muted);
+  --color-ui-text-toned: var(--ui-text-toned);
+  --color-ui-text: var(--ui-text);
+  --color-ui-text-highlighted: var(--ui-text-highlighted);
+
+  --color-ui-bg: var(--ui-bg);
+  --color-ui-bg-elevated: var(--ui-bg-elevated);
+  --color-ui-bg-accented: var(--ui-bg-accented);
+  --color-ui-bg-inverted: var(--ui-bg-inverted);
+
+  --color-ui-border: var(--ui-border);
+  --color-ui-border-accented: var(--ui-border-accented);
+  --color-ui-border-inverted: var(--ui-border-inverted);
+
+  --color-ui-primary: var(--ui-primary);
+  --color-ui-secondary: var(--ui-secondary);
+  --color-ui-success: var(--ui-success);
+  --color-ui-info: var(--ui-info);
+  --color-ui-warning: var(--ui-warning);
+  --color-ui-error: var(--ui-error);
 }
 </style>
