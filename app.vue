@@ -123,4 +123,13 @@
   --color-ui-warning: var(--ui-warning);
   --color-ui-error: var(--ui-error);
 }
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
 </style>
