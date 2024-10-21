@@ -10,6 +10,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "nuxtr.vueFiles.style.alwaysScoped": true,
+  "nuxtr.openItemsAfterCreation": true,
   "[svg]": {
     "editor.defaultFormatter": "jock.svg"
   }

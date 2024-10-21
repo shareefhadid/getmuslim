@@ -2,7 +2,9 @@
   <div>
     <Html class="scroll-smooth" />
     <UApp>
-      <NuxtPage />
+      <NuxtLayout>
+        <NuxtPage />
+      </NuxtLayout>
     </UApp>
   </div>
 </template>
