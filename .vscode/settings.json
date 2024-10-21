@@ -9,5 +9,8 @@
   "[markdown]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "nuxtr.vueFiles.style.alwaysScoped": true
+  "nuxtr.vueFiles.style.alwaysScoped": true,
+  "[svg]": {
+    "editor.defaultFormatter": "jock.svg"
+  }
 }
