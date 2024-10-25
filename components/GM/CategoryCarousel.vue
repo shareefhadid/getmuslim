@@ -1,27 +1,22 @@
 <template>
   <UCarousel v-slot="{ item }" :items="items"
-             :ui="{ item: 'not-first:pl-3 basis-auto last:me-4', container: 'p-px max-sm:px-4' }" wheel-gestures
+             :ui="{ item: 'not-first:pl-3 basis-auto last:me-4 flex', container: 'p-px max-sm:px-4 flex' }" wheel-gestures
              drag-free>
     <GMCategoryButton :icon="item.icon ?? undefined" :label="item.label" :id="item.id?.toString()" />
   </UCarousel>
 </template>
 
 <script lang="ts" setup>
-type CategoryCarouselItems = {
-  icon?: string | null;
-  id?: number;
-  label: string;
-  parent_id?: number | null;
-}[]
+import type { Categories } from '~/types/supabase';
 
-const { data } = await useFetch("/api/categories", {
-  headers: useRequestHeaders(["cookie"]),
-});
+type CategoryCarouselItems = (Partial<Categories> & { label: string })[];
 
-const categories = data.value?.categories;
+const { categories, fetchCategories } = useCategories();
 
-const items: CategoryCarouselItems = [
+await fetchCategories();
+
+const items = computed<CategoryCarouselItems>(() => [
   { label: "All" },
-  ...categories ?? [],
-];
+  ...categories.value ?? [],
+])
 </script>
