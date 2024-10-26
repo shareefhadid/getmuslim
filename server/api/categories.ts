@@ -4,24 +4,6 @@ import { z } from "zod";
 import { Database } from "~/types/database.types";
 
 const QueryParamsSchema = z.object({
-  page: z
-    .string()
-    .optional()
-    .transform((val) => {
-      const num = Number(val);
-      return isNaN(num) || num < 1 ? 1 : num;
-    }),
-  limit: z
-    .string()
-    .optional()
-    .transform((val) => {
-      const num = Number(val);
-      return isNaN(num) || num < 1 ? 20 : Math.min(num, 100);
-    }),
-  search: z
-    .string()
-    .optional()
-    .transform((val) => val?.trim() || undefined),
   parentId: z
     .string()
     .optional()
@@ -46,13 +28,11 @@ export default defineEventHandler(async (event: H3Event) => {
       });
     }
 
-    const { page, limit, search, parentId } = result.data;
+    const { parentId } = result.data;
 
     const client = await serverSupabaseClient<Database>(event);
 
-    let categoriesQuery = client
-      .from("categories")
-      .select("*", { count: "exact" });
+    let categoriesQuery = client.from("categories").select("*");
 
     if (parentId === null) {
       categoriesQuery = categoriesQuery.is("parent_id", parentId);
@@ -60,16 +40,7 @@ export default defineEventHandler(async (event: H3Event) => {
       categoriesQuery = categoriesQuery.eq("parent_id", parentId);
     }
 
-    if (search) {
-      categoriesQuery = categoriesQuery.ilike("label", `%${search}%`);
-    }
-
-    const from = (page - 1) * limit;
-    const to = from + limit - 1;
-
-    const { data, error, count } = await categoriesQuery
-      .range(from, to)
-      .order("label");
+    const { data, error } = await categoriesQuery.order("label");
 
     if (error) {
       throw createError({
@@ -80,12 +51,6 @@ export default defineEventHandler(async (event: H3Event) => {
 
     return {
       data,
-      pagination: {
-        page,
-        limit,
-        total: count || 0,
-        totalPages: count ? Math.ceil(count / limit) : 0,
-      },
     };
   } catch (err) {
     if (err instanceof H3Error) throw err;
