@@ -1,5 +1,5 @@
 import { serverSupabaseClient } from "#supabase/server";
-import { H3Error, H3Event } from "h3";
+import { H3Error } from "h3";
 import { z } from "zod";
 import { Database } from "~/types/database.types";
 
@@ -15,7 +15,7 @@ const QueryParamsSchema = z.object({
     }),
 });
 
-export default defineEventHandler(async (event: H3Event) => {
+export default defineEventHandler(async (event) => {
   try {
     const query = getQuery(event);
     const result = QueryParamsSchema.safeParse(query);
