@@ -5,12 +5,14 @@
     "@nuxtjs/supabase": "1.4.1",
     "@vueuse/nuxt": "^11.1.0",
     "nuxt": "^3.13.2",
-    "vue": "3.5.12"
+    "vue": "3.5.12",
+    "zod": "^3.23.8"
   },
   "private": true,
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "dev:debug": "nuxt dev --inspect",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
