@@ -1,6 +1,7 @@
 <template>
 	<UButton :variant="isActive ? 'solid' : 'outline'" size="xs" :icon="icon" color="neutral" @click="handleClick"
-					 class="hover:cursor-pointer">
+					 class="hover:cursor-pointer"
+					 :ui="{ base: isActive ? '' : 'bg-[var(--ui-bg-elevated)] hover:bg-[var(--ui-bg)]' }">
 		{{ label }}
 	</UButton>
 </template>
@@ -12,7 +13,6 @@ const { icon, label, id } = defineProps<{
 	id?: string | null;
 }>();
 
-const router = useRouter();
 const route = useRoute();
 
 const selectedCategory = computed(() => route.query.category);

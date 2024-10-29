@@ -1,7 +1,7 @@
 {
   "name": "getmuslims",
   "dependencies": {
-    "@nuxt/ui": "3.0.0-alpha.6",
+    "@nuxt/ui": "3.0.0-alpha.7",
     "@nuxtjs/supabase": "1.4.1",
     "@vueuse/nuxt": "^11.1.0",
     "nuxt": "^3.13.2",

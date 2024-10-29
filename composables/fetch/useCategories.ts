@@ -3,7 +3,7 @@ export const useCategories = () => {
     data: response,
     error,
     status,
-  } = useAsyncData("allCategories", () =>
+  } = useAsyncData(() =>
     $fetch("/api/categories", {
       query: {
         parentId: "null",

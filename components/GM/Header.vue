@@ -1,8 +1,8 @@
 <template>
-  <header class="sticky top-0 z-50 py-3 rounded ring ring-ui-border backdrop-blur bg-ui-bg/60">
+  <header class="sticky top-0 z-50 py-3 rounded ring ring-ui-border backdrop-blur-md bg-ui-bg/90">
     <UContainer>
       <div class="flex justify-between">
-        <div class="flex gap-2 justify-center items-center">
+        <div class="flex items-center justify-center gap-x-2">
           <GMLogo />
           <p class="font-semibold text-[var(--ui-text-highlighted)] text-lg leading-none">getmuslim</p>
         </div>

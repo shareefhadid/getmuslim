@@ -48,7 +48,7 @@
   --ui-warning: var(--ui-color-warning-500);
   --ui-error: var(--ui-color-error-500);
 
-  --ui-radius: var(--radius-sm);
+  --ui-radius: var(--radius);
 }
 
 .dark {
@@ -66,7 +66,7 @@
   /* Main background color */
   --ui-bg: var(--ui-color-neutral-900);
   /* Slightly elevated background */
-  --ui-bg-elevated: var(--ui-color-neutral-800);
+  --ui-bg-elevated: var(--ui-color-neutral-850);
   /* More prominent background */
   --ui-bg-accented: var(--ui-color-neutral-700);
   /* Inverted background color */
@@ -124,6 +124,9 @@
   --color-ui-info: var(--ui-info);
   --color-ui-warning: var(--ui-warning);
   --color-ui-error: var(--ui-error);
+
+  --color-zinc-850: #202023;
+  --ui-color-neutral-850: var(--color-zinc-850)
 }
 
 .no-scrollbar::-webkit-scrollbar {
