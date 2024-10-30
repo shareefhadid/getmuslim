@@ -1,13 +1,22 @@
 <template>
-  <UCarousel v-slot="{ item }" :items="items"
-             :ui="{ item: 'not-first:pl-3 basis-auto last:me-4 flex', container: 'p-px max-sm:px-4 flex' }"
-             wheel-gestures drag-free>
-    <GMCategoryButton :icon="item.icon ?? undefined" :label="item.label" :id="item.id?.toString()" />
+  <UCarousel
+    v-slot="{ item }"
+    :items="items"
+    :ui="{
+      item: 'flex basis-auto not-first:pl-3 last:me-4',
+      container: 'flex p-px max-sm:px-4',
+    }"
+    wheel-gestures
+    drag-free>
+    <GMCategoryButton
+      :icon="item.icon ?? undefined"
+      :label="item.label"
+      :id="item.id?.toString()" />
   </UCarousel>
 </template>
 
 <script lang="ts" setup>
-import type { Category } from '~/types/supabase';
+import type { Category } from "~/types/supabase";
 
 type CategoryCarouselItems = (Partial<Category> & { label: string })[];
 
@@ -15,6 +24,6 @@ const { categories } = useCategories();
 
 const items = computed<CategoryCarouselItems>(() => [
   { label: "All" },
-  ...categories.value ?? [],
-])
+  ...(categories.value ?? []),
+]);
 </script>

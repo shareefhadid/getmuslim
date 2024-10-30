@@ -13,5 +13,8 @@
   "nuxtr.openItemsAfterCreation": true,
   "[svg]": {
     "editor.defaultFormatter": "jock.svg"
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }

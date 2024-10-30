@@ -5,25 +5,33 @@
     </UContainer>
 
     <UContainer class="pt-10">
-      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div
+        class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         <template v-for="posting in postings" :key="posting.id">
-          <UCard :ui="{ root: 'bg-ui-bg-elevated hover:shadow-md transition hover:cursor-pointer group text-left items-stretch' }"
-                 as="button">
+          <UCard
+            :ui="{
+              root: 'bg-ui-bg-elevated group items-stretch text-left transition hover:cursor-pointer hover:shadow-md',
+            }"
+            as="button">
             <template #header>
-              <img :src="`https://picsum.photos/seed/${posting.id}/200/300`" alt="Random Image"
-                   class="w-full h-64! object-cover object-center ring ring-[var(--ui-border)] rounded" />
+              <img
+                :src="`https://picsum.photos/seed/${posting.id}/200/300`"
+                alt="Random Image"
+                class="h-64! w-full rounded object-cover object-center ring ring-[var(--ui-border)]" />
             </template>
-            <div class="flex flex-col gap-2 items-between">
+            <div class="items-between flex flex-col gap-2">
               <div class="flex flex-wrap gap-1">
                 <UBadge variant="subtle" size="sm">App</UBadge>
                 <UBadge variant="subtle" size="sm">App</UBadge>
               </div>
               <h2 class="font-semibold">{{ posting.title }}</h2>
-              <p class="text-sm line-clamp-3 text-ui-text-toned">{{ posting.description }}</p>
+              <p class="text-ui-text-toned line-clamp-3 text-sm">
+                {{ posting.description }}
+              </p>
             </div>
             <template #footer>
               <p
-                 class="text-sm after:content-[''] after:h-px after:w-0 after:bg-[currentColor] relative after:absolute after:-bottom-0.5 after:left-0 group-hover:after:w-full after:transition-all text-ui-primary inline">
+                class="text-ui-primary relative inline text-sm after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-0 after:bg-[currentColor] after:transition-all after:content-[''] group-hover:after:w-full">
                 Learn more
               </p>
             </template>

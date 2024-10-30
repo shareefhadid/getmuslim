@@ -89,7 +89,7 @@
 
 @theme {
   /* fonts */
-  --font-family-sans: 'Schibsted Grotesk', sans-serif;
+  --font-family-sans: "Schibsted Grotesk", sans-serif;
   /* colors */
   --color-primary-50: var(--ui-color-primary-50);
   --color-primary-100: var(--ui-color-primary-100);
@@ -126,7 +126,7 @@
   --color-ui-error: var(--ui-error);
 
   --color-zinc-850: #202023;
-  --ui-color-neutral-850: var(--color-zinc-850)
+  --ui-color-neutral-850: var(--color-zinc-850);
 }
 
 .no-scrollbar::-webkit-scrollbar {
