@@ -18,7 +18,7 @@
     "postinstall": "nuxt prepare",
     "clean": "nuxt cleanup",
     "db:generate": "supabase gen types typescript --project-id aldfzgmcgersdnecplul > types/database.types.ts",
-    "format:vue": "npx prettier --write '**/*.vue'"
+    "format:vue": "npx prettier --write './**/*.vue'"
   },
   "type": "module",
   "devDependencies": {
