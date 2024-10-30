@@ -1,11 +1,11 @@
 <template>
   <UButton
+    class="hover:cursor-pointer"
     :variant="isActive ? 'solid' : 'outline'"
     size="xs"
     :icon="icon"
     color="neutral"
     @click="handleClick"
-    class="hover:cursor-pointer"
     :ui="{
       base: isActive
         ? ''

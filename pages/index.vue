@@ -15,9 +15,9 @@
             as="button">
             <template #header>
               <img
+                class="h-64! w-full rounded object-cover object-center ring ring-[var(--ui-border)]"
                 :src="`https://picsum.photos/seed/${posting.id}/200/300`"
-                alt="Random Image"
-                class="h-64! w-full rounded object-cover object-center ring ring-[var(--ui-border)]" />
+                alt="Random Image" />
             </template>
             <div class="items-between flex flex-col gap-2">
               <div class="flex flex-wrap gap-1">
