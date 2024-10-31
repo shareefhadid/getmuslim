@@ -2,6 +2,7 @@
 
 ## Feature image
 
+- setup r2 for image transformations to self-upload
 - add `media` table
 - add `posting_media` table
 - populate `posting_media` with featured images

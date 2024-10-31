@@ -15,7 +15,7 @@
             as="button">
             <template #header>
               <img
-                class="h-64! w-full rounded object-cover object-center ring ring-[var(--ui-border)]"
+                class="h-64 w-full object-cover object-center ring ring-[var(--ui-border-accented)]"
                 :src="`https://picsum.photos/seed/${posting.id}/200/300`"
                 alt="Random Image" />
             </template>
