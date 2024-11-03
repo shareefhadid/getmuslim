@@ -22,6 +22,7 @@
   },
   "type": "module",
   "devDependencies": {
+    "@iconify-json/heroicons": "^1.2.1",
     "@iconify-json/mdi": "^1.2.1",
     "prettier": "^3.3.3",
     "prettier-plugin-organize-attributes": "^1.0.0",
