@@ -88,6 +88,8 @@
 }
 
 @theme {
+  /* breakpoints */
+  --breakpoint-xs: 32rem;
   /* fonts */
   --font-family-sans: "Schibsted Grotesk", sans-serif;
   /* colors */

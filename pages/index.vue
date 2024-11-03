@@ -4,9 +4,9 @@
       <GMCategoryCarousel />
     </UContainer>
 
-    <UContainer class="pt-10">
+    <UContainer class="py-10">
       <div
-        class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        class="xs:grid-cols-2 grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
         <template v-for="posting in postings" :key="posting.id">
           <UCard
             :ui="{
@@ -15,7 +15,7 @@
             as="button">
             <template #header>
               <img
-                class="h-64 w-full object-cover object-center ring ring-[var(--ui-border-accented)]"
+                class="aspect-square w-full object-cover object-center ring ring-[var(--ui-border-accented)]"
                 :src="`https://picsum.photos/seed/${posting.id}/200/300`"
                 alt="Random Image" />
             </template>
