@@ -11,6 +11,9 @@ JOINING
 - include categories as array
 - include links as array
 - include media as array
+OTHER
+- pagination
+- limit
 */
 
 create or replace function get_postings (

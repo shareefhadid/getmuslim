@@ -1,16 +1,11 @@
 # TODO
 
-- populate `posting_media` with featured images
-- implement featured image
-- add `links` table
-- add `posting_links` table
-- populate `posting_links`
-- finalize query
+- finalize get_postings function
 - posting details view
 - pagination
 - extract cards, pass props
 - Add frontend prompt to get location
-- Sort postings by location
+- populate tables
 - 🚀 deploy
 
 ## Basic search
