@@ -22,13 +22,13 @@
                 alt="Random Image" />
             </template>
             <div class="items-between flex flex-col gap-3">
-              <h2 class="font-semibold">
-                {{ posting.title }}
-                <span class="text-ui-text-muted ms-1 text-sm font-light">
-                  42km
-                </span>
-              </h2>
-              <p class="text-ui-text-toned line-clamp-3 text-sm">
+              <div class="grid grid-cols-6 gap-x-2 items-baseline">
+                <h2 class="font-semibold col-span-5 break-words">
+                  {{ posting.title }}
+                </h2>
+                <p class="text-ui-text-muted text-sm font-light">42km</p>
+              </div>
+              <p class="text-ui-text-muted line-clamp-3 text-sm">
                 {{ posting.description }}
               </p>
             </div>

@@ -15,13 +15,13 @@
 
 :root {
   /* Least prominent text */
-  --ui-text-dimmed: var(--ui-color-neutral-400);
+  --ui-text-dimmed: var(--ui-color-neutral-500);
   /* Slightly muted text */
-  --ui-text-muted: var(--ui-color-neutral-500);
+  --ui-text-muted: var(--ui-color-neutral-600);
   /* Moderately prominent text */
-  --ui-text-toned: var(--ui-color-neutral-600);
+  --ui-text-toned: var(--ui-color-neutral-700);
   /* Default text color */
-  --ui-text: var(--ui-color-neutral-700);
+  --ui-text: var(--ui-color-neutral-800);
   /* Most prominent text */
   --ui-text-highlighted: var(--ui-color-neutral-900);
 
@@ -53,13 +53,13 @@
 
 .dark {
   /* Least prominent text */
-  --ui-text-dimmed: var(--ui-color-neutral-500);
+  --ui-text-dimmed: var(--ui-color-neutral-400);
   /* Slightly muted text */
-  --ui-text-muted: var(--ui-color-neutral-400);
+  --ui-text-muted: var(--ui-color-neutral-300);
   /* Moderately prominent text */
-  --ui-text-toned: var(--ui-color-neutral-300);
+  --ui-text-toned: var(--ui-color-neutral-200);
   /* Default text color */
-  --ui-text: var(--ui-color-neutral-200);
+  --ui-text: var(--ui-color-neutral-100);
   /* Most prominent text */
   --ui-text-highlighted: var(--color-white);
 
@@ -91,7 +91,7 @@
   /* breakpoints */
   --breakpoint-xs: 32rem;
   /* fonts */
-  --font-family-sans: "Schibsted Grotesk", sans-serif;
+  --font-family-sans: "Lexend", sans-serif;
   /* colors */
   --color-primary-50: var(--ui-color-primary-50);
   --color-primary-100: var(--ui-color-primary-100);
