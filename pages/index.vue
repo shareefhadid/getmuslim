@@ -11,29 +11,44 @@
           <UCard
             :ui="{
               root: 'bg-ui-bg-elevated group items-stretch text-left transition hover:cursor-pointer hover:shadow-md',
+              header:
+                'overflow-hidden rounded-t-[calc(var(--ui-radius)*2)] p-0!',
             }"
             as="button">
             <template #header>
               <img
-                class="aspect-square w-full object-cover object-center ring ring-[var(--ui-border-accented)]"
+                class="aspect-square w-full object-cover object-center ring ring-[var(--ui-border-accented)] transition-transform group-hover:scale-105"
                 :src="`https://picsum.photos/seed/${posting.id}/200/300`"
                 alt="Random Image" />
             </template>
-            <div class="items-between flex flex-col gap-2">
-              <div class="flex flex-wrap gap-1">
-                <UBadge variant="subtle" size="sm">App</UBadge>
-                <UBadge variant="subtle" size="sm">App</UBadge>
-              </div>
-              <h2 class="font-semibold">{{ posting.title }}</h2>
+            <div class="items-between flex flex-col gap-3">
+              <h2 class="font-semibold">
+                {{ posting.title }}
+                <span class="text-ui-text-muted ms-1 text-sm font-light">
+                  42km
+                </span>
+              </h2>
               <p class="text-ui-text-toned line-clamp-3 text-sm">
                 {{ posting.description }}
               </p>
             </div>
             <template #footer>
-              <p
-                class="text-ui-primary relative inline text-sm after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-0 after:bg-[currentColor] after:transition-all after:content-[''] group-hover:after:w-full">
-                Learn more
-              </p>
+              <div class="flex flex-wrap gap-1">
+                <UBadge
+                  class="hover:bg-ui-primary badge transition-colors hover:cursor-pointer hover:text-white"
+                  variant="subtle"
+                  size="sm">
+                  <UIcon class="me-1" name="mdi:google-play" />
+                  Apps
+                </UBadge>
+                <UBadge
+                  class="hover:bg-ui-primary transition-colors hover:cursor-pointer hover:text-white"
+                  variant="subtle"
+                  size="sm">
+                  <UIcon class="me-1" name="mdi:stethoscope" />
+                  Health
+                </UBadge>
+              </div>
             </template>
           </UCard>
         </template>

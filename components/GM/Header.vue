@@ -1,10 +1,10 @@
 <template>
   <header
-    class="sticky top-0 z-50 -mb-px border-b border-[var(--ui-border)] bg-[var(--ui-bg)]/75 py-3 backdrop-blur">
+    class="sticky top-0 z-50 -mb-px border-b border-[var(--ui-border)] bg-[var(--ui-bg-elevated)]/90 py-3 backdrop-blur-md">
     <UContainer>
       <div class="flex justify-between">
         <div class="flex items-center justify-center gap-x-2">
-          <GMLogo />
+          <GMLogo size="32" />
           <p
             class="text-lg font-semibold leading-none text-[var(--ui-text-highlighted)]">
             getmuslim
