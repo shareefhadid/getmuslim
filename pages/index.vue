@@ -23,7 +23,7 @@
             </template>
             <div class="items-between flex flex-col gap-3">
               <div class="grid grid-cols-6 gap-x-2 items-baseline">
-                <h2 class="font-semibold col-span-5 break-words">
+                <h2 class="font-semibold col-span-5 text-lg">
                   {{ posting.title }}
                 </h2>
                 <p class="text-ui-text-muted text-sm font-light">42km</p>
