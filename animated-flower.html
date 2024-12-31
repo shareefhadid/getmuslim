@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Flower</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #f0f8ff;
+            margin: 0;
+        }
+        .flower {
+            width: 300px;
+            height: 300px;
+        }
+        #stem {
+            animation: grow 3s ease-out forwards;
+        }
+        #flower-center {
+            animation: appear 1s ease-out 3s forwards;
+            opacity: 0;
+        }
+        .petal {
+            animation: bloom 2s ease-out 3.5s forwards;
+            transform-origin: center;
+            opacity: 0;
+        }
+        @keyframes grow {
+            from {
+                transform: scaleY(0);
+                transform-origin: bottom;
+            }
+            to {
+                transform: scaleY(1);
+                transform-origin: bottom;
+            }
+        }
+        @keyframes appear {
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes bloom {
+            from {
+                transform: scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1) rotate(360deg);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <svg class="flower" viewBox="0 0 100 100">
+        <!-- Stem -->
+        <path id="stem" 
+              d="M50 90 L50 40" 
+              stroke="#2d5a27" 
+              stroke-width="2" 
+              fill="none"/>
+        
+        <!-- Flower center -->
+        <circle id="flower-center" 
+                cx="50" cy="40" r="5" 
+                fill="#ffb347"/>
+        
+        <!-- Petals -->
+        <path class="petal" 
+              d="M50 35 Q45 25 50 15 Q55 25 50 35" 
+              fill="#ff69b4"/>
+        <path class="petal" 
+              d="M55 40 Q65 35 75 40 Q65 45 55 40" 
+              fill="#ff69b4"/>
+        <path class="petal" 
+              d="M50 45 Q45 55 50 65 Q55 55 50 45" 
+              fill="#ff69b4"/>
+        <path class="petal" 
+              d="M45 40 Q35 35 25 40 Q35 45 45 40" 
+              fill="#ff69b4"/>
+    </svg>
+</body>
+</html>
