@@ -3,13 +3,7 @@ export const useCategories = () => {
     data: response,
     error,
     status,
-  } = useAsyncData(() =>
-    $fetch("/api/categories", {
-      query: {
-        parentId: "null",
-      },
-    })
-  );
+  } = useAsyncData(() => $fetch("/api/categories"));
 
   const categories = computed(() => response.value?.data || []);
 
