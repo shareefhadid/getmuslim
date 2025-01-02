@@ -1,0 +1,2 @@
+CREATE INDEX posting_categories_category_id_index ON public.posting_categories(category_id);
+CREATE INDEX posting_categories_posting_category_index ON public.posting_categories(posting_id, category_id);

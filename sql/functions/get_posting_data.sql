@@ -19,63 +19,18 @@ select jsonb_build_object(
     end,
     'categories',
     (
-      select coalesce(
-          jsonb_agg(
-            jsonb_build_object('id', c.id, 'label', c.label, 'icon', c.icon)
-          ),
-          '[]'::jsonb
-        )
-      from public.categories c
-        join public.posting_categories pc on pc.category_id = c.id
-      where pc.posting_id = p.id
+      select categories
+      from get_posting_details(ARRAY [posting_id])
     ),
     'media',
     (
-      select coalesce(
-          jsonb_agg(
-            jsonb_build_object(
-              'id',
-              pm.id,
-              'url',
-              pm.url,
-              'media_type',
-              pm.media_type,
-              'is_featured',
-              pm.is_featured
-            )
-          ),
-          '[]'::jsonb
-        )
-      from public.posting_media pm
-      where pm.posting_id = p.id
+      select media
+      from get_posting_details(ARRAY [posting_id])
     ),
     'links',
     (
-      select coalesce(
-          jsonb_agg(
-            jsonb_build_object(
-              'id',
-              pl.id,
-              'url',
-              pl.url,
-              'link_type',
-              jsonb_build_object(
-                'id',
-                lt.id,
-                'label',
-                lt.label,
-                'icon',
-                lt.icon,
-                'prefix',
-                lt.prefix
-              )
-            )
-          ),
-          '[]'::jsonb
-        )
-      from public.posting_links pl
-        join public.link_types lt on lt.id = pl.link_type_id
-      where pl.posting_id = p.id
+      select links
+      from get_posting_details(ARRAY [posting_id])
     )
   )
 from public.postings p
