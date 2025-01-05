@@ -161,7 +161,9 @@ export type Database = {
           id: number
           location: unknown
           show_address: boolean
+          status: Database["public"]["Enums"]["posting_status"]
           title: string
+          updated_at: string | null
         }
         Insert: {
           address: string
@@ -171,7 +173,9 @@ export type Database = {
           id?: number
           location: unknown
           show_address?: boolean
+          status?: Database["public"]["Enums"]["posting_status"]
           title: string
+          updated_at?: string | null
         }
         Update: {
           address?: string
@@ -181,7 +185,9 @@ export type Database = {
           id?: number
           location?: unknown
           show_address?: boolean
+          status?: Database["public"]["Enums"]["posting_status"]
           title?: string
+          updated_at?: string | null
         }
         Relationships: []
       }
@@ -207,11 +213,53 @@ export type Database = {
           address: string
           featured_image: string
           distance: number
+          categories: Json[]
+          links: Json[]
+          media: Json[]
+        }[]
+      }
+      get_posting_data: {
+        Args: {
+          posting_id: number
+        }
+        Returns: Json
+      }
+      get_posting_details: {
+        Args: {
+          posting_ids: number[]
+        }
+        Returns: {
+          posting_id: number
+          categories: Json[]
+          links: Json[]
+          media: Json[]
+        }[]
+      }
+      get_recent_postings: {
+        Args: {
+          lat?: number
+          long?: number
+          category?: number
+          limit_count?: number
+          offset_count?: number
+        }
+        Returns: {
+          id: number
+          created_at: string
+          title: string
+          description: string
+          address: string
+          featured_image: string
+          distance: number
+          categories: Json[]
+          links: Json[]
+          media: Json[]
         }[]
       }
     }
     Enums: {
       media_type_enum: "image" | "video"
+      posting_status: "active" | "inactive" | "deleted"
     }
     CompositeTypes: {
       [_ in never]: never

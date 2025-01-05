@@ -1,33 +1,33 @@
 import { serverSupabaseClient } from "#supabase/server";
-import { H3Error } from "h3";
-import { Database } from "~/types/database.types";
+import { logError } from "../utils/logger";
 
-export default defineEventHandler(async (event) => {
-  try {
-    const client = await serverSupabaseClient<Database>(event);
+const parseNumericParam = (value: unknown) =>
+  value ? parseInt(value as string) : undefined;
 
-    let categoriesQuery = client.from("postings").select("*");
+const parseFloatParam = (value: unknown) =>
+  value ? parseFloat(value as string) : undefined;
 
-    const { data, error } = await categoriesQuery.order("title");
+export default eventHandler(async (event) => {
+  const query = getQuery(event);
+  const client = await serverSupabaseClient(event);
 
-    if (error) {
-      throw createError({
-        statusCode: 500,
-        statusMessage: error.message,
-      });
-    }
+  const params = {
+    lat: parseFloatParam(query.lat),
+    long: parseFloatParam(query.long),
+    category: parseNumericParam(query.category),
+    limit_count: parseNumericParam(query.limit),
+    offset_count: parseNumericParam(query.offset),
+    max_distance: parseNumericParam(query.maxDistance),
+  };
 
-    return {
-      data,
-    };
-  } catch (err) {
-    if (err instanceof H3Error) throw err;
+  const functionName =
+    query.mode === "nearby" ? "get_nearby_postings" : "get_recent_postings";
 
-    console.error("Postings fetch error:", err);
+  const { data, error } = await client.rpc(functionName, params);
 
-    throw createError({
-      statusCode: 500,
-      statusMessage: "Failed to fetch Postings",
-    });
+  if (error) {
+    logError(getRequestURL(event).pathname, error);
+    throw createError({ statusCode: 400, message: error.message });
   }
+  return { data, total: data?.length ?? 0 };
 });

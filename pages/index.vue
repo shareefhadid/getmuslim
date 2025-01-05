@@ -22,8 +22,8 @@
                 alt="Random Image" />
             </template>
             <div class="items-between flex flex-col gap-3">
-              <div class="grid grid-cols-6 gap-x-2 items-baseline">
-                <h2 class="font-semibold col-span-5 text-lg">
+              <div class="grid grid-cols-6 items-baseline gap-x-2">
+                <h2 class="col-span-5 text-lg font-semibold">
                   {{ posting.title }}
                 </h2>
                 <p class="text-ui-text-muted text-sm font-light">42km</p>
@@ -62,5 +62,5 @@
 </template>
 
 <script lang="ts" setup>
-const { postings } = usePostings();
+const { postings } = usePostings({ mode: PostingMode.Recent });
 </script>
