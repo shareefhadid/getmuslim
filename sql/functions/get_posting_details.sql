@@ -1,22 +1,22 @@
-create or replace function get_posting_details(posting_ids bigint []) returns table (
+CREATE OR REPLACE FUNCTION get_posting_details(posting_ids bigint []) RETURNS TABLE (
     posting_id bigint,
     categories json [],
     links json [],
     media json []
-  ) language sql
-set search_path = 'public' as $$
-select p.id as posting_id,
+  ) language SQL
+SET search_path = 'public' AS $$
+SELECT p.id AS posting_id,
   coalesce(
     array_agg(
-      distinct jsonb_build_object('id', c.id, 'label', c.label, 'icon', c.icon)
+      DISTINCT jsonb_build_object('id', c.id, 'label', c.label, 'icon', c.icon)
     ) filter (
-      where c.id is not null
+      WHERE c.id IS NOT NULL
     ),
     '{}'
-  )::json [] as categories,
+  )::json [] AS categories,
   coalesce(
     array_agg(
-      distinct jsonb_build_object(
+      DISTINCT jsonb_build_object(
         'id',
         pl.id,
         'url',
@@ -34,13 +34,13 @@ select p.id as posting_id,
         )
       )
     ) filter (
-      where pl.id is not null
+      WHERE pl.id IS NOT NULL
     ),
     '{}'
-  )::json [] as links,
+  )::json [] AS links,
   coalesce(
     array_agg(
-      distinct jsonb_build_object(
+      DISTINCT jsonb_build_object(
         'id',
         pm.id,
         'url',
@@ -49,16 +49,16 @@ select p.id as posting_id,
         pm.media_type
       )
     ) filter (
-      where pm.id is not null
+      WHERE pm.id IS NOT NULL
     ),
     '{}'
-  )::json [] as media
-from unnest(posting_ids) pid
-  join public.postings p on p.id = pid
-  left join public.posting_categories pc on pc.posting_id = p.id
-  left join public.categories c on c.id = pc.category_id
-  left join public.posting_links pl on pl.posting_id = p.id
-  left join public.link_types lt on lt.id = pl.link_type_id
-  left join public.posting_media pm on pm.posting_id = p.id
-group by p.id;
+  )::json [] AS media
+FROM unnest(posting_ids) pid
+  JOIN public.postings p ON p.id = pid
+  LEFT JOIN public.posting_categories pc ON pc.posting_id = p.id
+  LEFT JOIN public.categories c ON c.id = pc.category_id
+  LEFT JOIN public.posting_links pl ON pl.posting_id = p.id
+  LEFT JOIN public.link_types lt ON lt.id = pl.link_type_id
+  LEFT JOIN public.posting_media pm ON pm.posting_id = p.id
+GROUP BY p.id;
 $$;

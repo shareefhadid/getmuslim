@@ -1,6 +1,6 @@
-create or replace function get_posting_data(posting_id bigint) returns jsonb language sql
-set search_path = 'public' as $$
-select jsonb_build_object(
+CREATE OR REPLACE FUNCTION get_posting_data(posting_id bigint) RETURNS jsonb language SQL
+SET search_path = 'public' AS $$
+SELECT jsonb_build_object(
     'id',
     p.id,
     'title',
@@ -8,31 +8,31 @@ select jsonb_build_object(
     'description',
     p.description,
     'lat',
-    case
-      when p.location is not null then postgis.st_y(p.location::postgis.geometry)
-      else null
-    end,
+    CASE
+      WHEN p.location IS NOT NULL THEN postgis.st_y(p.location::postgis.geometry)
+      ELSE NULL
+    END,
     'long',
-    case
-      when p.location is not null then postgis.st_x(p.location::postgis.geometry)
-      else null
-    end,
+    CASE
+      WHEN p.location IS NOT NULL THEN postgis.st_x(p.location::postgis.geometry)
+      ELSE NULL
+    END,
     'categories',
     (
-      select categories
-      from get_posting_details(ARRAY [posting_id])
+      SELECT categories
+      FROM get_posting_details(ARRAY [posting_id])
     ),
     'media',
     (
-      select media
-      from get_posting_details(ARRAY [posting_id])
+      SELECT media
+      FROM get_posting_details(ARRAY [posting_id])
     ),
     'links',
     (
-      select links
-      from get_posting_details(ARRAY [posting_id])
+      SELECT links
+      FROM get_posting_details(ARRAY [posting_id])
     )
   )
-from public.postings p
-where p.id = posting_id;
+FROM public.postings p
+WHERE p.id = posting_id;
 $$;
