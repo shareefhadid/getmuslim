@@ -29,5 +29,6 @@ export default eventHandler(async (event) => {
     logError(getRequestURL(event).pathname, error);
     throw createError({ statusCode: 400, message: error.message });
   }
+
   return { data, total: data?.length ?? 0 };
 });

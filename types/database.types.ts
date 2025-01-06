@@ -213,16 +213,25 @@ export type Database = {
           address: string
           featured_image: string
           distance: number
-          categories: Json[]
-          links: Json[]
-          media: Json[]
+          categories: Database["public"]["CompositeTypes"]["category_detail"][]
+          links: Database["public"]["CompositeTypes"]["link_detail"][]
+          media: Database["public"]["CompositeTypes"]["media_detail"][]
         }[]
       }
       get_posting_data: {
         Args: {
           posting_id: number
         }
-        Returns: Json
+        Returns: {
+          id: number
+          title: string
+          description: string
+          lat: number
+          long: number
+          categories: Database["public"]["CompositeTypes"]["category_detail"][]
+          media: Database["public"]["CompositeTypes"]["media_detail"][]
+          links: Database["public"]["CompositeTypes"]["link_detail"][]
+        }[]
       }
       get_posting_details: {
         Args: {
@@ -230,9 +239,9 @@ export type Database = {
         }
         Returns: {
           posting_id: number
-          categories: Json[]
-          links: Json[]
-          media: Json[]
+          categories: Database["public"]["CompositeTypes"]["category_detail"][]
+          links: Database["public"]["CompositeTypes"]["link_detail"][]
+          media: Database["public"]["CompositeTypes"]["media_detail"][]
         }[]
       }
       get_recent_postings: {
@@ -251,9 +260,9 @@ export type Database = {
           address: string
           featured_image: string
           distance: number
-          categories: Json[]
-          links: Json[]
-          media: Json[]
+          categories: Database["public"]["CompositeTypes"]["category_detail"][]
+          links: Database["public"]["CompositeTypes"]["link_detail"][]
+          media: Database["public"]["CompositeTypes"]["media_detail"][]
         }[]
       }
     }
@@ -262,7 +271,27 @@ export type Database = {
       posting_status: "active" | "inactive" | "deleted"
     }
     CompositeTypes: {
-      [_ in never]: never
+      category_detail: {
+        id: number | null
+        label: string | null
+        icon: string | null
+      }
+      link_detail: {
+        id: number | null
+        url: string | null
+        type: Database["public"]["CompositeTypes"]["link_type_detail"] | null
+      }
+      link_type_detail: {
+        id: number | null
+        label: string | null
+        icon: string | null
+        prefix: string | null
+      }
+      media_detail: {
+        id: number | null
+        url: string | null
+        media_type: Database["public"]["Enums"]["media_type_enum"] | null
+      }
     }
   }
 }

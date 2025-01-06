@@ -12,9 +12,9 @@ CREATE OR REPLACE FUNCTION get_recent_postings (
     address text,
     featured_image text,
     distance bigint,
-    categories json [],
-    links json [],
-    media json []
+    categories category_detail [],
+    links link_detail [],
+    media media_detail []
   ) language plpgsql
 SET search_path = 'public, postgis' AS $$ BEGIN RETURN QUERY WITH base_postings AS (
     SELECT p.id,

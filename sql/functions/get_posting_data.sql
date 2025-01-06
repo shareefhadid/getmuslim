@@ -1,38 +1,29 @@
-CREATE OR REPLACE FUNCTION get_posting_data(posting_id bigint) RETURNS jsonb language SQL
+CREATE OR REPLACE FUNCTION get_posting_data(posting_id bigint) RETURNS TABLE (
+    id bigint,
+    title text,
+    description text,
+    lat double precision,
+    long double precision,
+    categories category_detail [],
+    media media_detail [],
+    links link_detail []
+  ) LANGUAGE SQL
 SET search_path = 'public' AS $$
-SELECT jsonb_build_object(
-    'id',
-    p.id,
-    'title',
-    p.title,
-    'description',
-    p.description,
-    'lat',
-    CASE
-      WHEN p.location IS NOT NULL THEN postgis.st_y(p.location::postgis.geometry)
-      ELSE NULL
-    END,
-    'long',
-    CASE
-      WHEN p.location IS NOT NULL THEN postgis.st_x(p.location::postgis.geometry)
-      ELSE NULL
-    END,
-    'categories',
-    (
-      SELECT categories
-      FROM get_posting_details(ARRAY [posting_id])
-    ),
-    'media',
-    (
-      SELECT media
-      FROM get_posting_details(ARRAY [posting_id])
-    ),
-    'links',
-    (
-      SELECT links
-      FROM get_posting_details(ARRAY [posting_id])
-    )
-  )
+SELECT p.id,
+  p.title,
+  p.description,
+  CASE
+    WHEN p.location IS NOT NULL THEN postgis.ST_Y(p.location::postgis.geometry)
+    ELSE NULL
+  END,
+  CASE
+    WHEN p.location IS NOT NULL THEN postgis.ST_X(p.location::postgis.geometry)
+    ELSE NULL
+  END,
+  pd.categories,
+  pd.media,
+  pd.links
 FROM public.postings p
+  LEFT JOIN get_posting_details(ARRAY [posting_id]) pd ON pd.posting_id = p.id
 WHERE p.id = posting_id;
 $$;

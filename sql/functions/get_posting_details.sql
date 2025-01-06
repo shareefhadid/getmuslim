@@ -1,58 +1,39 @@
 CREATE OR REPLACE FUNCTION get_posting_details(posting_ids bigint []) RETURNS TABLE (
     posting_id bigint,
-    categories json [],
-    links json [],
-    media json []
-  ) language SQL
+    categories category_detail [],
+    links link_detail [],
+    media media_detail []
+  ) LANGUAGE SQL
 SET search_path = 'public' AS $$
 SELECT p.id AS posting_id,
-  coalesce(
-    array_agg(
-      DISTINCT jsonb_build_object('id', c.id, 'label', c.label, 'icon', c.icon)
-    ) filter (
+  COALESCE(
+    ARRAY_AGG(
+      (c.id, c.label, c.icon)::category_detail
+    ) FILTER (
       WHERE c.id IS NOT NULL
     ),
-    '{}'
-  )::json [] AS categories,
-  coalesce(
-    array_agg(
-      DISTINCT jsonb_build_object(
-        'id',
+    ARRAY []::category_detail []
+  ) AS categories,
+  COALESCE(
+    ARRAY_AGG(
+      (
         pl.id,
-        'url',
         pl.url,
-        'type',
-        jsonb_build_object(
-          'id',
-          lt.id,
-          'label',
-          lt.label,
-          'icon',
-          lt.icon,
-          'prefix',
-          lt.prefix
-        )
-      )
-    ) filter (
+        (lt.id, lt.label, lt.icon, lt.prefix)::link_type_detail
+      )::link_detail
+    ) FILTER (
       WHERE pl.id IS NOT NULL
     ),
-    '{}'
-  )::json [] AS links,
-  coalesce(
-    array_agg(
-      DISTINCT jsonb_build_object(
-        'id',
-        pm.id,
-        'url',
-        pm.url,
-        'media_type',
-        pm.media_type
-      )
-    ) filter (
+    ARRAY []::link_detail []
+  ) AS links,
+  COALESCE(
+    ARRAY_AGG(
+      (pm.id, pm.url, pm.media_type)::media_detail
+    ) FILTER (
       WHERE pm.id IS NOT NULL
     ),
-    '{}'
-  )::json [] AS media
+    ARRAY []::media_detail []
+  ) AS media
 FROM unnest(posting_ids) pid
   JOIN public.postings p ON p.id = pid
   LEFT JOIN public.posting_categories pc ON pc.posting_id = p.id
