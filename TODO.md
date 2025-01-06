@@ -2,6 +2,7 @@
 
 ## Tasks
 
+- track enums
 - fix pagination
 - add alert to get location
 - store location in cookie
