@@ -1,0 +1,1 @@
+CREATE TYPE paginated_postings AS (rows posting_details [], count bigint);
