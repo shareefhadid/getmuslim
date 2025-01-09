@@ -12,7 +12,7 @@
           ? 'hover:bg-ui-primary transition-colors hover:text-white'
           : isActive
             ? ''
-            : 'bg-ui-bg-elevated hover:bg-ui-bg',
+            : 'bg-ui-bg-elevated hover:bg-ui-bg-accented',
     }">
     {{ label }}
   </UButton>

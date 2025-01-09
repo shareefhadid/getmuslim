@@ -66,7 +66,7 @@
   /* Main background color */
   --ui-bg: var(--ui-color-neutral-900);
   /* Slightly elevated background */
-  --ui-bg-elevated: var(--ui-color-neutral-850);
+  --ui-bg-elevated: var(--ui-color-neutral-875);
   /* More prominent background */
   --ui-bg-accented: var(--ui-color-neutral-700);
   /* Inverted background color */
@@ -127,8 +127,8 @@
   --color-ui-warning: var(--ui-warning);
   --color-ui-error: var(--ui-error);
 
-  --color-zinc-850: #202023;
-  --ui-color-neutral-850: var(--color-zinc-850);
+  --color-zinc-875: #1c1c1f;
+  --ui-color-neutral-875: var(--color-zinc-875);
 }
 
 .no-scrollbar::-webkit-scrollbar {
