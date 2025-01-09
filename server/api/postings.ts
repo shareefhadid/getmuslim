@@ -30,5 +30,5 @@ export default eventHandler(async (event) => {
     throw createError({ statusCode: 400, message: error.message });
   }
 
-  return { data, total: data?.length ?? 0 };
+  return { data: data?.rows, total: data?.count ?? 0 };
 });

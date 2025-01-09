@@ -48,7 +48,7 @@
   --ui-warning: var(--ui-color-warning-500);
   --ui-error: var(--ui-color-error-500);
 
-  --ui-radius: var(--radius);
+  --ui-radius: var(--radius-md);
 }
 
 .dark {

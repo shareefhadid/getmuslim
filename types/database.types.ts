@@ -205,18 +205,7 @@ export type Database = {
           limit_count?: number
           offset_count?: number
         }
-        Returns: {
-          id: number
-          created_at: string
-          title: string
-          description: string
-          address: string
-          featured_image: string
-          distance: number
-          categories: Database["public"]["CompositeTypes"]["category_detail"][]
-          links: Database["public"]["CompositeTypes"]["link_detail"][]
-          media: Database["public"]["CompositeTypes"]["media_detail"][]
-        }[]
+        Returns: Database["public"]["CompositeTypes"]["paginated_postings"]
       }
       get_posting_data: {
         Args: {
@@ -252,18 +241,7 @@ export type Database = {
           limit_count?: number
           offset_count?: number
         }
-        Returns: {
-          id: number
-          created_at: string
-          title: string
-          description: string
-          address: string
-          featured_image: string
-          distance: number
-          categories: Database["public"]["CompositeTypes"]["category_detail"][]
-          links: Database["public"]["CompositeTypes"]["link_detail"][]
-          media: Database["public"]["CompositeTypes"]["media_detail"][]
-        }[]
+        Returns: Database["public"]["CompositeTypes"]["paginated_postings"]
       }
     }
     Enums: {
@@ -291,6 +269,24 @@ export type Database = {
         id: number | null
         url: string | null
         media_type: Database["public"]["Enums"]["media_type_enum"] | null
+      }
+      paginated_postings: {
+        rows: Database["public"]["CompositeTypes"]["posting_details"][] | null
+        count: number | null
+      }
+      posting_details: {
+        id: number | null
+        created_at: string | null
+        title: string | null
+        description: string | null
+        address: string | null
+        featured_image: string | null
+        distance: number | null
+        categories:
+          | Database["public"]["CompositeTypes"]["category_detail"][]
+          | null
+        links: Database["public"]["CompositeTypes"]["link_detail"][] | null
+        media: Database["public"]["CompositeTypes"]["media_detail"][] | null
       }
     }
   }

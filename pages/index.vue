@@ -15,10 +15,11 @@
 
     <UContainer class="">
       <pre class="pt-10 text-xs">{{ postings }}</pre>
+      <pre class="pt-10 text-xs">{{ pagination }}</pre>
     </UContainer>
   </div>
 </template>
 
 <script lang="ts" setup>
-const { postings } = usePostings({ mode: PostingMode.Recent });
+const { postings, pagination } = usePostings({ mode: PostingMode.Recent });
 </script>

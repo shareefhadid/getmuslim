@@ -1,8 +1,5 @@
 import { z } from "zod";
-import type { Database } from "~/types/database.types";
-
-export type Posting =
-  Database["public"]["Functions"]["get_recent_postings"]["Returns"][0];
+import type { PostingDetails } from "~/types/postings";
 
 export enum PostingMode {
   Recent = "recent",
@@ -26,7 +23,7 @@ const PostingsParamsSchema = z
     long: z.number().min(-180).max(180).optional(),
     category: z.number().optional(),
     page: z.number().min(1).default(1),
-    pageSize: z.number().min(1).max(100).default(12),
+    pageSize: z.number().min(1).max(100).default(1),
     maxDistance: z.number().min(0).optional(),
   })
   .refine(
@@ -62,13 +59,16 @@ export const usePostings = (params: PostingsParams) => {
         );
       }
 
-      return $fetch<{ data: Posting[]; total: number }>("/api/postings", {
-        params: {
-          ...validParams.value,
-          limit: validParams.value.pageSize,
-          offset: (validParams.value.page - 1) * validParams.value.pageSize,
+      return $fetch<{ data: PostingDetails[]; total: number }>(
+        "/api/postings",
+        {
+          params: {
+            ...validParams.value,
+            limit: validParams.value.pageSize,
+            offset: (validParams.value.page - 1) * validParams.value.pageSize,
+          },
         },
-      });
+      );
     },
     {
       watch: [params],

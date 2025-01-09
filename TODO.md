@@ -2,7 +2,7 @@
 
 ## Tasks
 
-- fix pagination
+- updated postings composable and function to use updated schema
 - add alert to get location
 - store location in cookie
 - if location is present, default to nearby
