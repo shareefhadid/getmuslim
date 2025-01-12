@@ -6,24 +6,24 @@
         <div class="flex items-center justify-center gap-x-2">
           <GMLogo size="32" />
           <p
-            class="text-lg font-semibold leading-none text-[var(--ui-text-highlighted)]">
+            class="text-lg leading-none font-semibold text-[var(--ui-text-highlighted)]">
             getmuslim
           </p>
         </div>
-        <UButton
-          class="hover:cursor-pointer"
-          :icon="
-            colorMode.preference === 'light'
-              ? 'heroicons:sun'
-              : 'heroicons:moon'
-          "
-          variant="link"
-          color="neutral"
-          @click="
-            colorMode.value === 'light'
-              ? (colorMode.preference = 'dark')
-              : (colorMode.preference = 'light')
-          " />
+        <ColorScheme>
+          <UButton
+            class="hover:cursor-pointer"
+            :icon="
+              colorMode.value === 'light' ? 'heroicons:sun' : 'heroicons:moon'
+            "
+            variant="link"
+            color="neutral"
+            @click="
+              colorMode.value === 'light'
+                ? (colorMode.preference = 'dark')
+                : (colorMode.preference = 'light')
+            " />
+        </ColorScheme>
       </div>
     </UContainer>
   </header>
