@@ -13,11 +13,13 @@
       </div>
       <div class="py-10 flex flex-row justify-center">
         <UPagination
-          v-model="page"
+          :page="page"
           :items-per-page="1"
           show-controls
+          :to="to"
           :total="pagination.totalPages"
           variant="subtle"
+          :ui="{ label: 'hover:cursor-pointer' }"
           size="sm"
           active-color="neutral" />
       </div>
@@ -31,6 +33,21 @@
 </template>
 
 <script lang="ts" setup>
-const page = ref(1);
-const { postings, pagination } = usePostings({ mode: PostingMode.Recent });
+const route = useRoute();
+const page = computed(() => Number(route.query.page) || 1);
+const params = computed(() => ({
+  page: page.value,
+  mode: PostingMode.Recent,
+}));
+
+function to(pageNum: number) {
+  return {
+    query: {
+      ...route.query,
+      page: pageNum,
+    },
+  };
+}
+
+const { postings, pagination } = usePostings(params);
 </script>

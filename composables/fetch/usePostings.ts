@@ -38,10 +38,17 @@ const PostingsParamsSchema = z
     },
   );
 
-export const usePostings = (params: PostingsParams) => {
-  const parsedParams = computed(() => PostingsParamsSchema.safeParse(params));
+export const usePostings = (params: Ref<PostingsParams>) => {
+  const parsedParams = computed(() =>
+    PostingsParamsSchema.safeParse(params.value),
+  );
+
   const validParams = computed(() =>
     parsedParams.value.success ? parsedParams.value.data : null,
+  );
+
+  const cacheKey = computed(
+    () => `postings-${JSON.stringify(validParams?.value)}`,
   );
 
   const {
@@ -49,7 +56,7 @@ export const usePostings = (params: PostingsParams) => {
     status,
     error,
   } = useAsyncData(
-    `postings-${JSON.stringify(params)}`,
+    cacheKey.value,
     async () => {
       if (!validParams.value) {
         throw new Error(
@@ -71,14 +78,14 @@ export const usePostings = (params: PostingsParams) => {
       );
     },
     {
-      watch: [params],
+      watch: [cacheKey],
     },
   );
 
   return {
-    postings: response.value?.data ?? [],
-    isLoading: status.value === "pending",
-    error,
+    postings: computed(() => response.value?.data ?? []),
+    isLoading: computed(() => status.value === "pending"),
+    error: computed(() => error),
     pagination: computed(() => {
       const page = validParams.value?.page ?? 1;
       const pageSize = validParams.value?.pageSize ?? 10;
@@ -93,17 +100,4 @@ export const usePostings = (params: PostingsParams) => {
       };
     }),
   };
-};
-
-export const useNearbyPostings = (
-  params: Omit<PostingsParams, "mode"> &
-    Required<Pick<PostingsParams, "lat" | "long">>,
-) => {
-  return usePostings({ ...params, mode: PostingMode.Nearby });
-};
-
-export const useRecentPostings = (
-  params: Omit<PostingsParams, "mode" | "lat" | "long" | "maxDistance">,
-) => {
-  return usePostings({ ...params, mode: PostingMode.Recent });
 };
