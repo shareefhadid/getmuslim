@@ -2,14 +2,13 @@
   <UCard
     :ui="{
       root: 'bg-ui-bg-elevated group items-stretch text-left transition hover:cursor-pointer hover:shadow-md',
-      header: 'p-0! overflow-hidden rounded-t-[calc(var(--ui-radius)*2)]',
-    }"
-    as="button">
+      header: 'overflow-hidden rounded-t-[calc(var(--ui-radius)*2)] p-0!',
+    }">
     <template #header>
       <div class="aspect-square w-full">
         <template v-if="posting.featured_image">
           <img
-            class="h-full w-full object-cover object-center ring ring-ui-border-accented transition-transform group-hover:scale-105"
+            class="ring-ui-border-accented h-full w-full object-cover object-center ring transition-transform group-hover:scale-105"
             :src="posting.featured_image"
             :alt="posting.title" />
         </template>
@@ -21,27 +20,27 @@
         </template>
       </div>
     </template>
-    <div class="items-between gap-3 flex flex-col">
-      <div class="gap-x-2 grid grid-cols-6 items-baseline">
-        <h2 class="text-lg col-span-5 font-semibold">
+    <div class="items-between flex flex-col gap-3">
+      <div class="grid grid-cols-6 items-baseline gap-x-2">
+        <h2 class="col-span-5 text-lg font-semibold">
           {{ posting.title }}
         </h2>
         <p class="text-ui-text-muted text-sm font-light" v-if="distance">
           {{ distance }}
         </p>
       </div>
-      <p class="text-ui-text-muted text-sm line-clamp-3">
+      <p class="text-ui-text-muted line-clamp-3 text-sm">
         {{ posting.description }}
       </p>
     </div>
     <template #footer>
-      <div class="gap-1 flex flex-wrap">
+      <div class="flex flex-wrap gap-1">
         <div v-for="category in posting.categories" :key="category.id">
           <GMCategoryButton
             mode="badge"
             :icon="category.icon || 'i-heroicons-tag'"
             :label="category.label"
-            :id="category.id.toString()" />
+            :category-id="category.id.toString()" />
         </div>
       </div>
     </template>

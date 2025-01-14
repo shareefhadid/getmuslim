@@ -47,16 +47,12 @@ export const usePostings = (params: Ref<PostingsParams>) => {
     parsedParams.value.success ? parsedParams.value.data : null,
   );
 
-  const cacheKey = computed(
-    () => `postings-${JSON.stringify(validParams?.value)}`,
-  );
-
   const {
     data: response,
     status,
     error,
   } = useAsyncData(
-    cacheKey.value,
+    'postings',
     async () => {
       if (!validParams.value) {
         throw new Error(
@@ -78,7 +74,8 @@ export const usePostings = (params: Ref<PostingsParams>) => {
       );
     },
     {
-      watch: [cacheKey],
+      watch: [params],
+      default: () => ({ data: [], total: 0 })
     },
   );
 

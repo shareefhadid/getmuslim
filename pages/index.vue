@@ -6,12 +6,12 @@
 
     <UContainer class="py-10">
       <div
-        class="xs:grid-cols-2 gap-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
+        class="xs:grid-cols-2 grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
         <template v-for="posting in postings" :key="posting.id">
           <GMPostingCard :posting="posting" />
         </template>
       </div>
-      <div class="py-10 flex flex-row justify-center">
+      <div class="flex flex-row justify-center py-10">
         <UPagination
           :page="page"
           :items-per-page="1"

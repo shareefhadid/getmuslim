@@ -22,12 +22,12 @@
 const {
   icon,
   label,
-  id,
+  categoryId,
   mode = "filter",
 } = defineProps<{
   icon?: string;
   label: string;
-  id?: string | null;
+  categoryId?: string | null;
   mode?: "filter" | "badge";
 }>();
 
@@ -36,14 +36,14 @@ const route = useRoute();
 const selectedCategory = computed(() => route.query.category);
 
 const handleClick = async () => {
-  if (id && selectedCategory.value !== id) {
-    await navigateTo({ query: { category: id }, replace: true });
+  if (categoryId && selectedCategory.value !== categoryId) {
+    await navigateTo({ query: { category: categoryId }, replace: true });
   } else if (mode === "filter") {
     await navigateTo({ query: {}, replace: true });
   }
 };
 
 const isActive = computed(() => {
-  return selectedCategory.value === id;
+  return selectedCategory.value === categoryId;
 });
 </script>

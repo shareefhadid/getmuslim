@@ -11,7 +11,7 @@
     <GMCategoryButton
       :icon="item.icon ?? undefined"
       :label="item.label"
-      :id="item.id?.toString()" />
+      :category-id="item.id?.toString()" />
   </UCarousel>
 </template>
 
