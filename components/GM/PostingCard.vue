@@ -1,7 +1,7 @@
 <template>
   <UCard
     :ui="{
-      root: 'bg-ui-bg-elevated group items-stretch text-left transition hover:cursor-pointer hover:shadow-md',
+      root: 'group items-stretch text-left transition hover:cursor-pointer hover:shadow-md',
       header: 'overflow-hidden rounded-t-[calc(var(--ui-radius)*2)] p-0!',
     }">
     <template #header>

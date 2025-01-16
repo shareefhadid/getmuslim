@@ -14,6 +14,9 @@
 @import "@nuxt/ui";
 
 :root {
+  /* Custom colors */
+  --ui-color-neutral-850: var(--color-zinc-850);
+
   /* Least prominent text */
   --ui-text-dimmed: var(--ui-color-neutral-500);
   /* Slightly muted text */
@@ -26,9 +29,9 @@
   --ui-text-highlighted: var(--ui-color-neutral-900);
 
   /* Main background color */
-  --ui-bg: var(--ui-color-neutral-100);
+  --ui-bg: var(--ui-color-neutral-50);
   /* Slightly elevated background */
-  --ui-bg-elevated: var(--color-white);
+  --ui-bg-elevated: var(--ui-color-neutral-100);
   /* More prominent background */
   --ui-bg-accented: var(--ui-color-neutral-200);
   /* Inverted background color */
@@ -66,7 +69,7 @@
   /* Main background color */
   --ui-bg: var(--ui-color-neutral-900);
   /* Slightly elevated background */
-  --ui-bg-elevated: var(--ui-color-neutral-875);
+  --ui-bg-elevated: var(--ui-color-neutral-850);
   /* More prominent background */
   --ui-bg-accented: var(--ui-color-neutral-700);
   /* Inverted background color */
@@ -127,8 +130,7 @@
   --color-ui-warning: var(--ui-warning);
   --color-ui-error: var(--ui-error);
 
-  --color-zinc-875: #1c1c1f;
-  --ui-color-neutral-875: var(--color-zinc-875);
+  --color-zinc-850: #1f1f22;
 }
 
 .no-scrollbar::-webkit-scrollbar {

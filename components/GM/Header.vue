@@ -1,6 +1,6 @@
 <template>
   <header
-    class="sticky top-0 z-50 -mb-px border-b border-[var(--ui-border)] bg-[var(--ui-bg-elevated)]/90 py-3 backdrop-blur-md">
+    class="sticky top-0 z-50 -mb-px border-b border-[var(--ui-border)] bg-[var(--ui-bg)]/90 py-4 backdrop-blur-md">
     <UContainer>
       <div class="flex justify-between">
         <div class="flex items-center justify-center gap-x-2">
