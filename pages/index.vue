@@ -13,7 +13,7 @@
           :items="sortOptions"
           size="xs"
           variant="subtle"
-          @update:modelValue="test" />
+          @update:modelValue="setSorting" />
       </div>
     </UContainer>
 
@@ -48,20 +48,27 @@
 import { GMLocationModal } from "#components";
 
 const route = useRoute();
-const page = computed(() => Number(route.query.page) || 1);
 const modal = useModal();
 
+// Pagination
+const page = computed(() => Number(route.query.page) || 1);
+
+function to(pageNum: number) {
+  return {
+    query: {
+      ...route.query,
+      page: pageNum,
+    },
+  };
+}
+
+// Sorting
 const sortMode = ref<PostingMode>(PostingMode.Recent);
-function test(payload: PostingMode) {
+
+function setSorting(payload: PostingMode) {
   if (payload === PostingMode.Nearby) {
     sortMode.value = PostingMode.Recent;
-    modal.open(GMLocationModal, {
-      close: {
-        color: "neutral",
-        variant: "soft",
-        class: "hover:cursor-pointer",
-      },
-    });
+    modal.open(GMLocationModal);
   }
 }
 
@@ -78,20 +85,12 @@ const sortOptions = [
   },
 ];
 
+// Fetch postings
 const params = computed<PostingsParams>(() => ({
   page: page.value,
   mode: sortMode.value,
   category: Number(route.query.category) || undefined,
 }));
-
-function to(pageNum: number) {
-  return {
-    query: {
-      ...route.query,
-      page: pageNum,
-    },
-  };
-}
 
 const { postings, pagination } = usePostings(params);
 </script>
