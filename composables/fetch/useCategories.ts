@@ -3,7 +3,9 @@ export const useCategories = () => {
     data: response,
     error,
     status,
-  } = useAsyncData(() => $fetch("/api/categories"));
+  } = useAsyncData(() =>
+    $fetch("/api/categories", { headers: useRequestHeaders(["cookie"]) }),
+  );
 
   const categories = computed(() => response.value?.data || []);
 

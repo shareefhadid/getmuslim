@@ -37,6 +37,9 @@
       </div>
     </UContainer>
 
+    <UContainer>
+      <pre class="pt-10 text-xs">{{ location }}</pre>
+    </UContainer>
     <UContainer class="hidden">
       <pre class="pt-10 text-xs">{{ postings }}</pre>
       <pre class="pt-10 text-xs">{{ pagination }}</pre>
@@ -49,6 +52,8 @@ import { GMLocationModal } from "#components";
 
 const route = useRoute();
 const modal = useModal();
+
+const location = useCookie("location");
 
 // Pagination
 const page = computed(() => Number(route.query.page) || 1);
@@ -68,7 +73,11 @@ const sortMode = ref<PostingMode>(PostingMode.Recent);
 function setSorting(payload: PostingMode) {
   if (payload === PostingMode.Nearby) {
     sortMode.value = PostingMode.Recent;
-    modal.open(GMLocationModal);
+    modal.open(GMLocationModal, {
+      onLocationSet: () => {
+        // sortMode.value = PostingMode.Nearby;
+      },
+    });
   }
 }
 

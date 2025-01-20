@@ -8,27 +8,34 @@ const parseFloatParam = (value: unknown) =>
   value ? parseFloat(value as string) : undefined;
 
 export default eventHandler(async (event) => {
-  const query = getQuery(event);
-  const client = await serverSupabaseClient(event);
+  try {
+    const query = getQuery(event);
+    const client = await serverSupabaseClient(event);
+    const locationToken = getCookie(event, "location");
 
-  const params = {
-    lat: parseFloatParam(query.lat),
-    long: parseFloatParam(query.long),
-    category: parseNumericParam(query.category),
-    limit_count: parseNumericParam(query.limit),
-    offset_count: parseNumericParam(query.offset),
-    max_distance: parseNumericParam(query.maxDistance),
-  };
+    const { lat, long } = locationToken ? JSON.parse(locationToken) : {};
 
-  const functionName =
-    query.mode === "nearby" ? "get_nearby_postings" : "get_recent_postings";
+    const params = {
+      lat: parseFloatParam(query.lat) ?? lat,
+      long: parseFloatParam(query.long) ?? long,
+      category: parseNumericParam(query.category),
+      limit_count: parseNumericParam(query.limit),
+      offset_count: parseNumericParam(query.offset),
+      max_distance: parseNumericParam(query.maxDistance),
+    };
 
-  const { data, error } = await client.rpc(functionName, params);
+    const functionName =
+      query.mode === "nearby" ? "get_nearby_postings" : "get_recent_postings";
 
-  if (error) {
-    logError(getRequestURL(event).pathname, error);
-    throw createError({ statusCode: 400, message: error.message });
+    const { data, error } = await client.rpc(functionName, params);
+
+    if (error) {
+      logError(getRequestURL(event).pathname, error);
+      throw createError({ statusCode: 400, message: error.message });
+    }
+
+    return { data: data?.rows, total: data?.count ?? 0 };
+  } catch (error) {
+    handleServerError(event, error);
   }
-
-  return { data: data?.rows, total: data?.count ?? 0 };
 });

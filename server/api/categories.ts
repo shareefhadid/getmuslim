@@ -1,5 +1,4 @@
 import { serverSupabaseClient } from "#supabase/server";
-import { H3Error } from "h3";
 import { Database } from "~/types/database.types";
 
 export default defineEventHandler(async (event) => {
@@ -20,14 +19,7 @@ export default defineEventHandler(async (event) => {
     return {
       data,
     };
-  } catch (err) {
-    if (err instanceof H3Error) throw err;
-
-    console.error("Categories fetch error:", err);
-
-    throw createError({
-      statusCode: 500,
-      statusMessage: "Failed to fetch categories",
-    });
+  } catch (error) {
+    handleServerError(event, error);
   }
 });

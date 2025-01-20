@@ -52,7 +52,7 @@ export const usePostings = (params: Ref<PostingsParams>) => {
     status,
     error,
   } = useAsyncData(
-    'postings',
+    "postings",
     async () => {
       if (!validParams.value) {
         throw new Error(
@@ -70,19 +70,20 @@ export const usePostings = (params: Ref<PostingsParams>) => {
             limit: validParams.value.pageSize,
             offset: (validParams.value.page - 1) * validParams.value.pageSize,
           },
+          headers: useRequestHeaders(["cookie"]),
         },
       );
     },
     {
       watch: [params],
-      default: () => ({ data: [], total: 0 })
+      default: () => ({ data: [], total: 0 }),
     },
   );
 
   return {
     postings: computed(() => response.value?.data ?? []),
     isLoading: computed(() => status.value === "pending"),
-    error: computed(() => error),
+    error,
     pagination: computed(() => {
       const page = validParams.value?.page ?? 1;
       const pageSize = validParams.value?.pageSize ?? 10;
