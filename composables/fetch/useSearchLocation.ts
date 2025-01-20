@@ -1,5 +1,5 @@
 export const useSearchLocation = (searchText: Ref<string>) => {
-  const debouncedSearchText = refDebounced(searchText, 1000);
+  const debouncedSearchText = refDebounced(searchText, 750);
 
   const { data, status, error, refresh } = useFetch("/api/search-location", {
     query: { searchText: debouncedSearchText },

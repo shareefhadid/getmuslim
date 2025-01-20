@@ -10,7 +10,7 @@
       </p>
       <UButton
         class="hover:cursor-pointer"
-        icon="i-heroicons-rocket-launch"
+        icon="lucide:rocket"
         color="neutral"
         @click="
           colorMode.value === 'light'

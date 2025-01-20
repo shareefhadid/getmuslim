@@ -32,14 +32,27 @@ const {
 }>();
 
 const route = useRoute();
+const router = useRouter();
 
 const selectedCategory = computed(() => route.query.category);
 
 const handleClick = async () => {
   if (categoryId && selectedCategory.value !== categoryId) {
-    await navigateTo({ query: { category: categoryId }, replace: true });
+    await router.replace({
+      query: {
+        ...route.query,
+        category: categoryId,
+        page: undefined,
+      },
+    });
   } else if (mode === "filter") {
-    await navigateTo({ query: {}, replace: true });
+    await router.replace({
+      query: {
+        ...route.query,
+        category: undefined,
+        page: undefined,
+      },
+    });
   }
 };
 

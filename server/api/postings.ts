@@ -11,9 +11,9 @@ export default eventHandler(async (event) => {
   try {
     const query = getQuery(event);
     const client = await serverSupabaseClient(event);
-    const locationToken = getCookie(event, "location");
+    const locationCookie = getCookie(event, "location");
 
-    const { lat, long } = locationToken ? JSON.parse(locationToken) : {};
+    const { lat, long } = locationCookie ? JSON.parse(locationCookie) : {};
 
     const params = {
       lat: parseFloatParam(query.lat) ?? lat,

@@ -35,7 +35,7 @@
 const modal = useModal();
 
 const emit = defineEmits<{
-  "location-set": [lat: number, long: number, place: string];
+  "location-set": [];
 }>();
 
 const searchText = ref("");
@@ -52,6 +52,7 @@ const items = computed(() => {
       onSelect: (e: Event) => {
         if (suggestion) {
           selectedSuggestion.value = suggestion;
+          emit("location-set");
           modal.close();
           setTimeout(() => (searchText.value = ""), 500);
         }

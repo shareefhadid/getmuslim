@@ -15,7 +15,7 @@
         <template v-else>
           <div
             class="bg-ui-bg-accented flex h-full w-full items-center justify-center transition-transform group-hover:scale-105">
-            <UIcon class="text-ui-text h-12 w-12" name="i-heroicons-photo" />
+            <UIcon class="text-ui-text h-12 w-12" name="lucide:image" />
           </div>
         </template>
       </div>
@@ -38,7 +38,7 @@
         <div v-for="category in posting.categories" :key="category.id">
           <GMCategoryButton
             mode="badge"
-            :icon="category.icon || 'i-heroicons-tag'"
+            :icon="category.icon || 'lucide:tags'"
             :label="category.label"
             :category-id="category.id.toString()" />
         </div>

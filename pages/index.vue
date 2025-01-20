@@ -4,17 +4,8 @@
       <GMCategoryCarousel />
     </UContainer>
 
-    <UContainer>
-      <div class="mt-12 flex items-center gap-x-2">
-        <p class="text-xs">Sort by:</p>
-        <USelect
-          class="w-32 focus-visible:ring-[var(--ui-border-accented)]"
-          v-model="sortMode"
-          :items="sortOptions"
-          size="xs"
-          variant="subtle"
-          @update:modelValue="setSorting" />
-      </div>
+    <UContainer class="mt-12">
+      <GMSortSelect v-model:sort-mode="sortMode" />
     </UContainer>
 
     <UContainer class="pt-6 pb-10">
@@ -25,21 +16,12 @@
         </template>
       </div>
       <div class="flex flex-row justify-center pt-16">
-        <UPagination
+        <GMPostingPagination
           :page="page"
-          :items-per-page="1"
-          show-controls
-          :to="to"
-          :total="pagination.totalPages"
-          :ui="{ label: 'hover:cursor-pointer' }"
-          size="sm"
-          active-color="neutral" />
+          :total-pages="pagination.totalPages" />
       </div>
     </UContainer>
 
-    <UContainer>
-      <pre class="pt-10 text-xs">{{ location }}</pre>
-    </UContainer>
     <UContainer class="hidden">
       <pre class="pt-10 text-xs">{{ postings }}</pre>
       <pre class="pt-10 text-xs">{{ pagination }}</pre>
@@ -48,57 +30,27 @@
 </template>
 
 <script lang="ts" setup>
-import { GMLocationModal } from "#components";
-
 const route = useRoute();
-const modal = useModal();
 
-const location = useCookie("location");
+const locationCookie = useLocationCookie();
 
 // Pagination
 const page = computed(() => Number(route.query.page) || 1);
 
-function to(pageNum: number) {
-  return {
-    query: {
-      ...route.query,
-      page: pageNum,
-    },
-  };
-}
-
-// Sorting
-const sortMode = ref<PostingMode>(PostingMode.Recent);
-
-function setSorting(payload: PostingMode) {
-  if (payload === PostingMode.Nearby) {
-    sortMode.value = PostingMode.Recent;
-    modal.open(GMLocationModal, {
-      onLocationSet: () => {
-        // sortMode.value = PostingMode.Nearby;
-      },
-    });
-  }
-}
-
-const sortOptions = [
-  {
-    label: "Newest",
-    value: PostingMode.Recent,
-    icon: "mdi:sparkles-outline",
-  },
-  {
-    label: "Nearest",
-    value: PostingMode.Nearby,
-    icon: "mdi:map-marker-radius-outline",
-  },
-];
+// Initialize sortMode based on criteria
+const sortMode = ref<PostingMode>(
+  route.query.sort === 'nearby' && locationCookie.value.isSet
+    ? PostingMode.Nearby
+    : PostingMode.Recent
+);
 
 // Fetch postings
 const params = computed<PostingsParams>(() => ({
   page: page.value,
   mode: sortMode.value,
   category: Number(route.query.category) || undefined,
+  lat: locationCookie.value.lat,
+  long: locationCookie.value.long,
 }));
 
 const { postings, pagination } = usePostings(params);

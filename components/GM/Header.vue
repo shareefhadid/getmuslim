@@ -14,7 +14,7 @@
           <UButton
             class="hover:cursor-pointer"
             :icon="
-              colorMode.value === 'light' ? 'heroicons:sun' : 'heroicons:moon'
+              colorMode.value === 'light' ? 'lucide:sun' : 'lucide:moon'
             "
             variant="link"
             color="neutral"
