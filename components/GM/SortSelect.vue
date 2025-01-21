@@ -1,13 +1,34 @@
 <template>
-  <div class="flex items-center gap-x-2">
-    <p class="text-xs">Sort by:</p>
-    <USelect
-      class="w-28 focus-visible:ring-[var(--ui-border-accented)]"
-      :model-value="selected"
-      :items="sortOptions"
-      size="xs"
-      variant="subtle"
-      @update:modelValue="handleSortChange" />
+  <div class="flex items-center justify-between gap-x-2">
+    <div class="flex items-center gap-x-2">
+      <UButtonGroup>
+        <template v-for="option in sortOptions">
+          <UTooltip :text="option.tooltip" ignoreNonKeyboardFocus>
+            <UButton
+              size="xs"
+              variant="subtle"
+              :icon="option.icon"
+              color="neutral"
+              :class="selected === option.value ? 'bg-ui-bg-accented/75' : ''"
+              @click="handleSortChange(option.value)">
+              {{ option.label }}
+            </UButton>
+          </UTooltip>
+        </template>
+      </UButtonGroup>
+    </div>
+    <UTooltip text="Click to edit location" ignoreNonKeyboardFocus>
+      <UButton
+        class="not-hover:underline hover:cursor-pointer"
+        v-if="locationCookie.isSet"
+        icon="mdi:map-marker"
+        variant="ghost"
+        color="neutral"
+        size="xs"
+        @click="editLocation">
+        {{ locationCookie.place }}
+      </UButton>
+    </UTooltip>
   </div>
 </template>
 
@@ -24,11 +45,13 @@ const sortOptions = [
     label: "Newest",
     value: PostingMode.Recent,
     icon: "mdi:sparkles-outline",
+    tooltip: "Sort by newest",
   },
   {
     label: "Nearest",
     value: PostingMode.Nearby,
     icon: "mdi:map-marker-radius-outline",
+    tooltip: "Sort by nearest",
   },
 ];
 
@@ -38,7 +61,21 @@ const selected = computed(() =>
     : PostingMode.Recent,
 );
 
+const editLocation = () => {
+  modal.open(GMLocationModal, {
+    onLocationSet: () => {
+      router.replace({
+        query: {
+          ...route.query,
+          page: undefined,
+        },
+      });
+    },
+  });
+};
+
 function handleSortChange(payload: PostingMode) {
+  if (payload === selected.value) return;
   if (payload === PostingMode.Nearby && !locationCookie.value.isSet) {
     modal.open(GMLocationModal, {
       onLocationSet: () => {

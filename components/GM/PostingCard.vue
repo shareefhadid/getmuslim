@@ -21,8 +21,8 @@
       </div>
     </template>
     <div class="items-between flex flex-col gap-3">
-      <div class="grid grid-cols-6 items-baseline gap-x-2">
-        <h2 class="col-span-5 text-lg font-semibold">
+      <div class="flex items-baseline gap-x-2">
+        <h2 class="grow text-lg font-semibold">
           {{ posting.title }}
         </h2>
         <p class="text-ui-text-muted text-sm font-light" v-if="distance">
@@ -60,8 +60,12 @@ const distance = computed(() => {
 
   const distanceInKm = props.posting.distance / 1000;
 
-  return distanceInKm < 1
-    ? `${distanceInKm.toFixed(1)}km`
-    : `${Math.round(distanceInKm)}km`;
+  if (distanceInKm > 100) {
+    return "100 km+";
+  } else if (distanceInKm >= 1) {
+    return `${Math.round(distanceInKm)} km`;
+  } else {
+    return `${distanceInKm.toFixed(1)} km`;
+  }
 });
 </script>

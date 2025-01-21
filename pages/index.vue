@@ -23,14 +23,12 @@
         </div>
       </div>
       <div
-        class="flex flex-col items-center justify-center py-16 text-center"
+        class="flex flex-col items-center justify-center gap-y-2 py-8 text-center"
         v-else>
-        <p class="mb-4 text-lg text-gray-600">No postings found</p>
-        <NuxtLink
-          class="text-primary-600 hover:text-primary-700 font-medium"
-          to="/">
-          Reset filters and try again
-        </NuxtLink>
+        <p class="text-ui-accented text-2xl">🤔 No postings found</p>
+        <UButton to="/" variant="link" size="xl" color="neutral">
+          Reset filters
+        </UButton>
       </div>
     </UContainer>
 

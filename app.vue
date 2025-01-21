@@ -1,9 +1,10 @@
 <template>
-  <div>
-    <Html class="scroll-smooth" />
+  <div class="h-full">
+    <Html class="h-full" />
+    <Body class="flex h-full flex-col" />
     <UApp>
-      <NuxtLayout>
-        <NuxtPage />
+      <NuxtLayout class="flex h-full flex-col">
+        <NuxtPage class="grow" />
       </NuxtLayout>
     </UApp>
   </div>
@@ -12,6 +13,10 @@
 <style>
 @import "tailwindcss";
 @import "@nuxt/ui";
+
+#__nuxt {
+  flex-grow: 1;
+}
 
 :root {
   /* Custom colors */

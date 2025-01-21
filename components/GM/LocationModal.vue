@@ -26,7 +26,9 @@
         placeholder="Enter your city"
         autofocus
         trailing-icon=""
-        :items="items" />
+        :items="items">
+        <template #empty>{{ emptyText }}</template>
+      </UInputMenu>
     </template>
   </UModal>
 </template>
@@ -37,6 +39,12 @@ const modal = useModal();
 const emit = defineEmits<{
   "location-set": [];
 }>();
+
+const emptyText = computed(() =>
+  searchText.value.length < 3
+    ? "Type 3 or more letters to searching"
+    : "Searching...",
+);
 
 const searchText = ref("");
 const selectedSuggestion = ref<any>(null);

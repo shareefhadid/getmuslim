@@ -1,6 +1,7 @@
 <template>
-  <div>
+  <div class="test">
     <GMHeader />
     <slot />
+    <GMFooter />
   </div>
 </template>

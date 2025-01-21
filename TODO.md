@@ -2,15 +2,13 @@
 
 ## Tasks
 
-- show place when location is set, allow editing location
-- remove distance from newest
-- empty state for postings
 - posting bottom sheet
 - postings page
 
 ## Features
 
 - populate tables
+- banner for muslimhub
 - 🚀 deploy
 
 ### Basic search

@@ -8,11 +8,9 @@
     @click.stop="handleClick"
     :ui="{
       base:
-        mode === 'badge'
-          ? 'hover:bg-ui-primary transition-colors hover:text-white'
-          : isActive
-            ? ''
-            : 'bg-ui-bg-elevated hover:bg-ui-bg-accented',
+        mode !== 'badge' && !isActive
+          ? 'bg-ui-bg-elevated hover:bg-ui-bg-accented/75'
+          : '',
     }">
     {{ label }}
   </UButton>
