@@ -23,7 +23,7 @@ const PostingsParamsSchema = z
     long: z.number().min(-180).max(180).optional(),
     category: z.number().optional(),
     page: z.number().min(1).default(1),
-    pageSize: z.number().min(1).max(100).default(1),
+    pageSize: z.number().min(1).max(100).default(12),
     maxDistance: z.number().min(0).optional(),
   })
   .refine(

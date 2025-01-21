@@ -5,20 +5,32 @@
     </UContainer>
 
     <UContainer class="mt-12">
-      <GMSortSelect v-model:sort-mode="sortMode" />
+      <GMSortSelect />
     </UContainer>
 
     <UContainer class="pt-6 pb-10">
-      <div
-        class="xs:grid-cols-2 grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
-        <template v-for="posting in postings" :key="posting.id">
-          <GMPostingCard :posting="posting" />
-        </template>
+      <div v-if="postings.length > 0">
+        <div
+          class="xs:grid-cols-2 grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
+          <template v-for="posting in postings" :key="posting.id">
+            <GMPostingCard :posting="posting" />
+          </template>
+        </div>
+        <div class="flex flex-row justify-center pt-16">
+          <GMPostingPagination
+            :page="page"
+            :total-pages="pagination.totalPages" />
+        </div>
       </div>
-      <div class="flex flex-row justify-center pt-16">
-        <GMPostingPagination
-          :page="page"
-          :total-pages="pagination.totalPages" />
+      <div
+        class="flex flex-col items-center justify-center py-16 text-center"
+        v-else>
+        <p class="mb-4 text-lg text-gray-600">No postings found</p>
+        <NuxtLink
+          class="text-primary-600 hover:text-primary-700 font-medium"
+          to="/">
+          Reset filters and try again
+        </NuxtLink>
       </div>
     </UContainer>
 
@@ -37,11 +49,11 @@ const locationCookie = useLocationCookie();
 // Pagination
 const page = computed(() => Number(route.query.page) || 1);
 
-// Initialize sortMode based on criteria
-const sortMode = ref<PostingMode>(
-  route.query.sort === 'nearby' && locationCookie.value.isSet
+// Initialize sortMode based on URL
+const sortMode = computed<PostingMode>(() =>
+  route.query.sort === "nearby" && locationCookie.value.isSet
     ? PostingMode.Nearby
-    : PostingMode.Recent
+    : PostingMode.Recent,
 );
 
 // Fetch postings

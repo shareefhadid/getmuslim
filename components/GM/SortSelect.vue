@@ -3,7 +3,7 @@
     <p class="text-xs">Sort by:</p>
     <USelect
       class="w-28 focus-visible:ring-[var(--ui-border-accented)]"
-      v-model:model-value="selected"
+      :model-value="selected"
       :items="sortOptions"
       size="xs"
       variant="subtle"
@@ -18,9 +18,6 @@ const route = useRoute();
 const router = useRouter();
 const modal = useModal();
 const locationCookie = useLocationCookie();
-const emit = defineEmits<{
-  "update:sortMode": [mode: PostingMode];
-}>();
 
 const sortOptions = [
   {
@@ -35,29 +32,16 @@ const sortOptions = [
   },
 ];
 
-const selected = ref(
+const selected = computed(() =>
   route.query.sort === "nearby" && locationCookie.value.isSet
     ? PostingMode.Nearby
     : PostingMode.Recent,
 );
 
-if (route.query.sort === "nearby" && !locationCookie.value.isSet) {
-  router.replace({ query: { ...route.query, sort: undefined } });
-}
-
 function handleSortChange(payload: PostingMode) {
   if (payload === PostingMode.Nearby && !locationCookie.value.isSet) {
-    selected.value = PostingMode.Recent;
-    router.replace({
-      query: {
-        ...route.query,
-        sort: undefined,
-        page: undefined,
-      },
-    });
     modal.open(GMLocationModal, {
       onLocationSet: () => {
-        selected.value = PostingMode.Nearby;
         router.replace({
           query: {
             ...route.query,
@@ -65,17 +49,16 @@ function handleSortChange(payload: PostingMode) {
             page: undefined,
           },
         });
-        emit("update:sortMode", PostingMode.Nearby);
       },
     });
   } else {
-    const newQuery = {
-      ...route.query,
-      sort: payload === PostingMode.Nearby ? "nearby" : undefined,
-      page: undefined,
-    };
-    router.replace({ query: newQuery });
-    emit("update:sortMode", payload);
+    router.replace({
+      query: {
+        ...route.query,
+        sort: payload === PostingMode.Nearby ? "nearby" : undefined,
+        page: undefined,
+      },
+    });
   }
 }
 </script>

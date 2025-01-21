@@ -2,17 +2,14 @@
 
 ## Tasks
 
-- add alert to get location
-- store location in cookie
-- if location is present, default to nearby
-- add dropdown to change from `newest` to `nearest`
+- show place when location is set, allow editing location
+- remove distance from newest
+- empty state for postings
+- posting bottom sheet
+- postings page
 
 ## Features
 
-- Add frontend prompt to get location
-- pagination
-- posting details view
-- extract cards, pass props
 - populate tables
 - 🚀 deploy
 
