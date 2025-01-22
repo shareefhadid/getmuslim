@@ -207,6 +207,25 @@ export type Database = {
         }
         Returns: Database["public"]["CompositeTypes"]["paginated_postings"]
       }
+      get_posting: {
+        Args: {
+          posting_id: number
+          lat?: number
+          long?: number
+        }
+        Returns: {
+          id: number
+          created_at: string
+          title: string
+          description: string
+          address: string
+          featured_image: string
+          distance: number
+          categories: Database["public"]["CompositeTypes"]["category_detail"][]
+          links: Database["public"]["CompositeTypes"]["link_detail"][]
+          media: Database["public"]["CompositeTypes"]["media_detail"][]
+        }[]
+      }
       get_posting_data: {
         Args: {
           posting_id: number
