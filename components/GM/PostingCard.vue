@@ -1,5 +1,5 @@
 <template>
-  <ULink :to="`/posts/${posting.id}`" @click.prevent="console.log('test')">
+  <ULink :to="`/postings/${posting.id}`" @click="">
     <UCard
       :ui="{
         root: 'group h-full items-stretch text-left transition hover:cursor-pointer hover:shadow-md',

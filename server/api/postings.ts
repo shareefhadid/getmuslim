@@ -1,31 +1,50 @@
 import { serverSupabaseClient } from "#supabase/server";
+import { z } from "zod";
 import { logError } from "../utils/logger";
-
-const parseNumericParam = (value: unknown) =>
-  value ? parseInt(value as string) : undefined;
-
-const parseFloatParam = (value: unknown) =>
-  value ? parseFloat(value as string) : undefined;
+import { parseFloatParam } from "../utils/parse-float-param";
+import { parseNumericParam } from "../utils/parse-numeric-param";
 
 export default eventHandler(async (event) => {
   try {
-    const query = getQuery(event);
-    const client = await serverSupabaseClient(event);
     const locationCookie = getCookie(event, "location");
-
     const { lat, long } = locationCookie ? JSON.parse(locationCookie) : {};
 
-    const params = {
-      lat: parseFloatParam(query.lat) ?? lat,
-      long: parseFloatParam(query.long) ?? long,
-      category: parseNumericParam(query.category),
-      limit_count: parseNumericParam(query.limit),
-      offset_count: parseNumericParam(query.offset),
-      max_distance: parseNumericParam(query.maxDistance),
-    };
+    const { mode, ...params } = await getValidatedQuery(event, (data) =>
+      z
+        .object({
+          lat: z
+            .string()
+            .optional()
+            .transform((val) => parseFloatParam(val) ?? lat),
+          long: z
+            .string()
+            .optional()
+            .transform((val) => parseFloatParam(val) ?? long),
+          category: z
+            .string()
+            .optional()
+            .transform((val) => (val ? parseNumericParam(val) : undefined)),
+          limit_count: z
+            .string()
+            .optional()
+            .transform((val) => (val ? parseNumericParam(val) : undefined)),
+          offset_count: z
+            .string()
+            .optional()
+            .transform((val) => (val ? parseNumericParam(val) : undefined)),
+          max_distance: z
+            .string()
+            .optional()
+            .transform((val) => (val ? parseNumericParam(val) : undefined)),
+          mode: z.enum(["nearby", "recent"]).optional(),
+        })
+        .parse(data),
+    );
+
+    const client = await serverSupabaseClient(event);
 
     const functionName =
-      query.mode === "nearby" ? "get_nearby_postings" : "get_recent_postings";
+      mode === "nearby" ? "get_nearby_postings" : "get_recent_postings";
 
     const { data, error } = await client.rpc(functionName, params);
 
