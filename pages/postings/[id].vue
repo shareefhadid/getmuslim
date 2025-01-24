@@ -3,7 +3,7 @@
     <div class="flex flex-col items-center" v-if="posting">
       <div class="md:pr-4">
         <template v-if="posting.featured_image">
-          <img
+          <NuxtImg
             class="ring-ui-border-accented w- aspect-square object-cover object-center ring transition-transform group-hover:scale-105"
             :src="posting.featured_image"
             :alt="posting.title" />

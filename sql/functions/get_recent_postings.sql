@@ -10,10 +10,12 @@ DECLARE result public.paginated_postings;
 BEGIN WITH base_postings AS (
   SELECT p.id,
     p.created_at,
+    p.updated_at,
     p.title,
     p.description,
     p.address,
     p.featured_image,
+    p.status,
     p.location
   FROM public.postings p
   WHERE p.status = 'active'
@@ -52,11 +54,13 @@ posting_details AS (
 final_results AS (
   SELECT pp.id,
     pp.created_at,
+    pp.updated_at,
     pp.title,
     pp.description,
     pp.address,
     pp.featured_image,
     pp.distance,
+    pp.status,
     pd.categories,
     pd.links,
     pd.media

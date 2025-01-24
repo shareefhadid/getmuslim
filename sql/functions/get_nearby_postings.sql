@@ -11,10 +11,12 @@ DECLARE result public.paginated_postings;
 BEGIN WITH base_postings AS (
   SELECT p.id,
     p.created_at,
+    p.updated_at,
     p.title,
     p.description,
     p.address,
     p.featured_image,
+    p.status,
     postgis.ST_Distance(p.location, POINT(long, lat)::postgis.geometry)::bigint AS distance
   FROM public.postings p
   WHERE postgis.ST_DWithin(
@@ -49,11 +51,13 @@ posting_details AS (
 final_results AS (
   SELECT fp.id,
     fp.created_at,
+    fp.updated_at,
     fp.title,
     fp.description,
     fp.address,
     fp.featured_image,
     fp.distance,
+    fp.status,
     pd.categories,
     pd.links,
     pd.media

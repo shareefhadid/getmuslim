@@ -216,11 +216,13 @@ export type Database = {
         Returns: {
           id: number
           created_at: string
+          updated_at: string
           title: string
           description: string
           address: string
           featured_image: string
           distance: number
+          status: Database["public"]["Enums"]["posting_status"]
           categories: Database["public"]["CompositeTypes"]["category_detail"][]
           links: Database["public"]["CompositeTypes"]["link_detail"][]
           media: Database["public"]["CompositeTypes"]["media_detail"][]
@@ -296,11 +298,13 @@ export type Database = {
       posting_details: {
         id: number | null
         created_at: string | null
+        updated_at: string | null
         title: string | null
         description: string | null
         address: string | null
         featured_image: string | null
         distance: number | null
+        status: Database["public"]["Enums"]["posting_status"] | null
         categories:
           | Database["public"]["CompositeTypes"]["category_detail"][]
           | null
