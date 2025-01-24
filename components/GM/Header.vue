@@ -3,19 +3,19 @@
     class="sticky top-0 z-50 -mb-px border-b border-[var(--ui-border)] bg-[var(--ui-bg)]/90 py-4 backdrop-blur-md">
     <UContainer>
       <div class="flex justify-between">
-        <div class="flex items-center justify-center gap-x-2">
+        <ULink
+          class="flex items-center justify-center gap-x-2 transition-opacity hover:opacity-[.85]"
+          to="/">
           <GMLogo size="32" />
           <p
             class="text-lg leading-none font-semibold text-[var(--ui-text-highlighted)]">
             getmuslim
           </p>
-        </div>
+        </ULink>
         <ColorScheme>
           <UButton
             class="hover:cursor-pointer"
-            :icon="
-              colorMode.value === 'light' ? 'lucide:sun' : 'lucide:moon'
-            "
+            :icon="colorMode.value === 'light' ? 'lucide:sun' : 'lucide:moon'"
             variant="link"
             color="neutral"
             @click="

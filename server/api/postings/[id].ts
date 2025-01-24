@@ -43,7 +43,7 @@ export default eventHandler(async (event) => {
       throw createError({ statusCode: 400, message: error.message });
     }
 
-    return { data };
+    return { data: data[0] ?? null };
   } catch (error) {
     handleServerError(event, error);
   }

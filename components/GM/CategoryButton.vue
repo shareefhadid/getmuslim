@@ -22,11 +22,13 @@ const {
   label,
   categoryId,
   mode = "filter",
+  onPress,
 } = defineProps<{
   icon?: string;
   label: string;
   categoryId?: string | null;
   mode?: "filter" | "badge";
+  onPress?: (id: string) => void;
 }>();
 
 const route = useRoute();
@@ -35,7 +37,10 @@ const router = useRouter();
 const selectedCategory = computed(() => route.query.category);
 
 const handleClick = async () => {
-  if (categoryId && selectedCategory.value !== categoryId) {
+  if (onPress && categoryId) {
+    onPress(categoryId);
+    return;
+  } else if (categoryId && selectedCategory.value !== categoryId) {
     await router.replace({
       query: {
         ...route.query,
