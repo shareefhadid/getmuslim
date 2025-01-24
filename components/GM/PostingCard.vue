@@ -60,14 +60,6 @@ const props = defineProps<{
 const distance = computed(() => {
   if (!props.posting.distance) return null;
 
-  const distanceInKm = props.posting.distance / 1000;
-
-  if (distanceInKm > 100) {
-    return "100 km+";
-  } else if (distanceInKm >= 1) {
-    return `${Math.round(distanceInKm)} km`;
-  } else {
-    return `${distanceInKm.toFixed(1)} km`;
-  }
+  return formatDistance(props.posting.distance);
 });
 </script>

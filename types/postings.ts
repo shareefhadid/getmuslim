@@ -39,17 +39,23 @@ export type MediaDetail = Omit<DbMediaDetail, "id" | "url" | "media_type"> & {
 
 export type PostingDetails = Omit<
   DbPostingDetails,
-  "id" | "created_at" | "title" | "description" | "categories" | "links" | "media"
+  | "id"
+  | "created_at"
+  | "updated_at"
+  | "title"
+  | "description"
+  | "categories"
+  | "links"
+  | "media"
+  | "show_address"
 > & {
   id: number;
   created_at: string;
+  updated_at: string;
   title: string;
   description: string;
   categories: Array<CategoryDetail>;
   links: Array<LinkDetail>;
   media: Array<MediaDetail>;
-  // These remain nullable
-  address: string | null;
-  featured_image: string | null;
-  distance: number | null;
+  show_address: boolean;
 };
