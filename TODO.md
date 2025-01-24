@@ -17,5 +17,7 @@
 
 ## Notes
 
+- loading states
 - back button on single posting
 - share button for posting
+- SEO

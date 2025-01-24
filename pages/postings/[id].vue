@@ -1,28 +1,27 @@
 <template>
   <UContainer class="w-full py-12">
     <div
-      class="mx-auto flex w-4xl max-w-full flex-col items-center gap-y-8"
+      class="xs:items-center mx-auto flex w-4xl max-w-full flex-col gap-y-8"
       v-if="posting">
       <template v-if="posting.featured_image">
         <NuxtImg
-          class="aspect-square rounded-lg object-cover object-center transition-transform"
+          class="xs:w-[320px] aspect-square w-full rounded-lg object-cover object-center transition-transform"
           :src="posting.featured_image"
           :alt="posting.title" />
       </template>
 
-      <div class="flex flex-col gap-y-4 text-center">
-        <h2
-          class="xs:text-3xl text-2xl font-bold sm:text-4xl"
-          v-if="posting.title">
+      <div class="xs:text-center flex flex-col gap-y-5">
+        <h2 class="xs:text-4xl text-3xl font-bold" v-if="posting.title">
           {{ posting.title }}
         </h2>
         <div v-if="posting.categories.length > 0">
           <div
-            class="flex flex-wrap justify-center gap-3"
+            class="xs:justify-center flex flex-wrap gap-3"
             v-for="category in posting.categories"
             :key="category.id">
             <GMCategoryButton
               mode="badge"
+              :set-route="false"
               :icon="category.icon || 'lucide:tags'"
               :label="category.label"
               :category-id="category.id.toString()"
@@ -30,7 +29,7 @@
           </div>
         </div>
         <p
-          class="text-ui-text-muted text"
+          class="text-ui-text-muted text-sm"
           v-if="posting.address && !posting.show_address">
           {{ posting.address }}{{ formattedDistance }}
         </p>
@@ -38,7 +37,7 @@
           {{ posting.description }}
         </p>
         <div v-if="posting.links.length > 0">
-          <div class="flex flex-wrap justify-center gap-3">
+          <div class="xs:justify-center flex flex-wrap gap-3">
             <template v-for="link in posting.links" :key="link.id">
               <ULink
                 class="inline-flex items-center gap-x-1"

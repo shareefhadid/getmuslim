@@ -41,6 +41,7 @@
               mode="badge"
               :icon="category.icon || 'lucide:tags'"
               :label="category.label"
+              :onPress="() => (y = 0)"
               :category-id="category.id.toString()" />
           </div>
         </div>
@@ -52,6 +53,8 @@
 <script lang="ts" setup>
 import { computed } from "vue";
 import type { PostingDetails } from "~/types/postings";
+
+const { y } = useWindowScroll({ behavior: "smooth" });
 
 const props = defineProps<{
   posting: PostingDetails;
