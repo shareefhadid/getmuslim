@@ -62,7 +62,6 @@
         Return home
       </UButton>
     </div>
-    <pre class="mt-100 max-w-full text-wrap">{{ posting }} {{ error }}</pre>
   </UContainer>
 </template>
 <script setup lang="ts">

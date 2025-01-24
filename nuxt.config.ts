@@ -5,16 +5,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     mapboxToken: process.env.MAPBOX_ACCESS_TOKEN, // Available only on the server
   },
-  socialShare: {
-    baseUrl: "https://www.getmuslim.com",
-  },
-  modules: [
-    "@nuxt/ui",
-    "@nuxtjs/supabase",
-    "@vueuse/nuxt",
-    "@nuxt/image",
-    "@stefanobartoletti/nuxt-social-share",
-  ],
+  modules: ["@nuxt/ui", "@nuxtjs/supabase", "@vueuse/nuxt", "@nuxt/image"],
   supabase: {
     redirect: false,
     redirectOptions: {

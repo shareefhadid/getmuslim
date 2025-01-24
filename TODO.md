@@ -3,12 +3,11 @@
 ## Tasks
 
 - posting bottom sheet
-- postings page
+- check responsiveness
 
 ## Features
 
 - populate tables
-- banner for muslimhub
 - 🚀 deploy
 
 ### Basic search
@@ -17,3 +16,6 @@
 - Search by title
 
 ## Notes
+
+- back button on single posting
+- share button for posting
