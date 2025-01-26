@@ -2,6 +2,7 @@
 
 ## Tasks
 
+- fix loading on client rendering
 - posting bottom sheet
 - check responsiveness
 
@@ -15,9 +16,11 @@
 - Search by category
 - Search by title
 
-## Notes
+## Triage
 
-- loading states
 - back button on single posting
 - share button for posting
 - SEO
+- Page transition
+
+## Notes

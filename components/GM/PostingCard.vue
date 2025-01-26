@@ -1,5 +1,7 @@
 <template>
-  <ULink :to="`/postings/${posting.id}`" @click="">
+  <ULink
+    :to="{ path: `/postings/${posting.id}`, query: route.query }"
+    @click="">
     <UCard
       :ui="{
         root: 'group h-full items-stretch text-left transition hover:cursor-pointer hover:shadow-md',
@@ -54,6 +56,7 @@
 import { computed } from "vue";
 import type { PostingDetails } from "~/types/postings";
 
+const route = useRoute();
 const { y } = useWindowScroll({ behavior: "smooth" });
 
 const props = defineProps<{

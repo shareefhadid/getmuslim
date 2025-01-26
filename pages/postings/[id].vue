@@ -55,6 +55,9 @@
         </small>
       </div>
     </div>
+
+    <div v-else-if="isLoading" />
+
     <div class="flex flex-col items-center gap-y-3 py-10 text-center" v-else>
       <h2 class="text-2xl">😕 Unable to find posting</h2>
       <UButton class="cursor-pointer" color="neutral" to="/">
@@ -79,7 +82,7 @@ const handleCategoryPressed = async (id: string) => {
   });
 };
 
-const { posting, error } = usePosting(params);
+const { posting, error, isLoading } = usePosting(params);
 
 const formattedDistance = computed(() => {
   if (!posting.value?.distance) return "";

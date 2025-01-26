@@ -22,6 +22,9 @@
             :total-pages="pagination.totalPages" />
         </div>
       </div>
+
+      <div v-else-if="isLoading" />
+
       <div
         class="flex flex-col items-center justify-center gap-y-2 py-8 text-center"
         v-else>
@@ -63,5 +66,5 @@ const params = computed<PostingsParams>(() => ({
   long: locationCookie.value.long,
 }));
 
-const { postings, pagination } = usePostings(params);
+const { postings, pagination, isLoading } = usePostings(params);
 </script>
