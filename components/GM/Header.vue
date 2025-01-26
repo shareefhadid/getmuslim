@@ -5,7 +5,7 @@
       <div class="flex justify-between">
         <ULink
           class="flex items-center justify-center gap-x-2 transition-opacity hover:opacity-[.85]"
-          to="/">
+          :to="{ path: '/', query: route.query }">
           <GMLogo size="32" />
           <p
             class="text-lg leading-none font-semibold text-[var(--ui-text-highlighted)]">
@@ -30,5 +30,6 @@
 </template>
 
 <script lang="ts" setup>
+const route = useRoute();
 const colorMode = useColorMode();
 </script>
