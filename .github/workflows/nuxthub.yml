@@ -31,14 +31,9 @@ jobs:
       - name: Build application
         run: bun run build
 
-      - name: List output directory
-        run: |
-          echo "\nContents of .output directory:"
-          ls -la .output/
-
       - name: Deploy to NuxtHub
         uses: nuxt-hub/action@v1
         id: deploy
         with:
           project-key: getmuslim-albd
-          directory: .output
+          # directory: .output
