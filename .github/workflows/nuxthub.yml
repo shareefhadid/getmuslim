@@ -36,3 +36,4 @@ jobs:
         id: deploy
         with:
           project-key: getmuslim-albd
+          directory: .output
