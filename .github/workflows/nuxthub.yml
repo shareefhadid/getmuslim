@@ -32,7 +32,9 @@ jobs:
         run: bun run build
 
       - name: List output directory
-        run: ls -la
+        run: |
+          echo "\nContents of .output directory:"
+          ls -la .output/
 
       - name: Deploy to NuxtHub
         uses: nuxt-hub/action@v1
