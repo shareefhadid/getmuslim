@@ -41,7 +41,7 @@ const emit = defineEmits<{
 }>();
 
 const emptyText = computed(() =>
-  searchText.value?.length < 3
+  searchText.value.length < 3
     ? "Type 3 or more letters to searching"
     : "Searching...",
 );

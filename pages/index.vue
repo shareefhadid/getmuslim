@@ -9,7 +9,7 @@
     </UContainer>
 
     <UContainer class="pt-6 pb-10">
-      <div v-if="postings?.length > 0">
+      <div v-if="postings.length > 0">
         <div
           class="xs:grid-cols-2 grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
           <template v-for="posting in postings" :key="posting.id">

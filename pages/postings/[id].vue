@@ -14,7 +14,7 @@
         <h2 class="xs:text-4xl text-3xl font-bold" v-if="posting.title">
           {{ posting.title }}
         </h2>
-        <div v-if="posting.categories?.length > 0">
+        <div v-if="posting.categories.length > 0">
           <div
             class="xs:justify-center flex flex-wrap gap-3"
             v-for="category in posting.categories"
@@ -36,7 +36,7 @@
         <p class="text-ui-text-toned" v-if="posting.description">
           {{ posting.description }}
         </p>
-        <div v-if="posting.links?.length > 0">
+        <div v-if="posting.links.length > 0">
           <div class="xs:justify-center flex flex-wrap gap-3">
             <template v-for="link in posting.links" :key="link.id">
               <ULink
