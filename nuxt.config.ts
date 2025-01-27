@@ -5,7 +5,18 @@ export default defineNuxtConfig({
   runtimeConfig: {
     mapboxToken: process.env.MAPBOX_ACCESS_TOKEN, // Available only on the server
   },
-  modules: ["@nuxt/ui", "@nuxtjs/supabase", "@vueuse/nuxt", "@nuxt/image", "@nuxthub/core"],
+  nitro: {
+    experimental: {
+      openAPI: true,
+    },
+  },
+  modules: [
+    "@nuxt/ui",
+    "@nuxtjs/supabase",
+    "@vueuse/nuxt",
+    "@nuxt/image",
+    "@nuxthub/core",
+  ],
   supabase: {
     redirect: false,
     redirectOptions: {
