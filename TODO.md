@@ -2,24 +2,22 @@
 
 ## Tasks
 
-- fix loading on client rendering
+- fix deployment
 - posting bottom sheet
 - check responsiveness
+- 🚀 deploy
+- populate tables
 
 ## Features
-
-- populate tables
-- 🚀 deploy
-
-### Basic search
-
 - Search by category
 - Search by title
 
+
 ## Triage
 
-- back button on single posting
+- home button on single posting
 - share button for posting
+- better loading states
 - SEO
 - Page transition
 
