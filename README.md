@@ -1,5 +1,5 @@
 # getmuslim
-test
+test2
 Find local Muslim businesses and organizations easily.
 
 ## Overview
