@@ -3,6 +3,14 @@
     <div
       class="xs:items-center mx-auto flex w-4xl max-w-full flex-col gap-y-8"
       v-if="posting">
+      <ULink
+        class="flex cursor-pointer items-center gap-1 self-start"
+        color="neutral"
+        variant="link"
+        :to="{ path: '/', query: route.query }">
+        <UIcon name="mdi:arrow-left" />
+        Back
+      </ULink>
       <template v-if="posting.featured_image">
         <NuxtImg
           class="xs:w-[320px] aspect-square w-full rounded-lg object-cover object-center transition-transform"
@@ -36,8 +44,14 @@
         <p class="text-ui-text-toned" v-if="posting.description">
           {{ posting.description }}
         </p>
-        <div v-if="posting.links.length > 0">
+        <div>
           <div class="xs:justify-center flex flex-wrap gap-3">
+            <ULink
+              class="inline-flex items-center gap-x-1 hover:cursor-pointer"
+              @click="copyLink">
+              <UIcon name="mdi:content-copy" />
+              Copy link
+            </ULink>
             <template v-for="link in posting.links" :key="link.id">
               <ULink
                 class="inline-flex items-center gap-x-1"
@@ -60,14 +74,39 @@
 
     <div class="flex flex-col items-center gap-y-3 py-10 text-center" v-else>
       <h2 class="text-2xl">😕 Unable to find posting</h2>
-      <UButton class="cursor-pointer" color="neutral" to="/">
+      <UButton
+        class="cursor-pointer"
+        color="neutral"
+        :to="{ path: '/', query: route.query }">
         Return home
       </UButton>
     </div>
   </UContainer>
 </template>
 <script setup lang="ts">
+const clipboard = useClipboard();
+const toast = useToast();
 const route = useRoute();
+
+const copyLink = async () => {
+  toast.clear();
+  try {
+    await clipboard.copy(`${window.location.origin}${route.fullPath}`);
+    await toast.add({
+      description: "Copied to clipboard.",
+      color: "success",
+      duration: 2000,
+    });
+  } catch (error) {
+    await toast.add({
+      description: "Unable to copy.",
+      color: "error",
+      duration: 2000,
+    });
+    console.error(error);
+  }
+};
+
 const params = ref({
   id: parseInt(route.params.id as string),
 });
@@ -76,6 +115,7 @@ const handleCategoryPressed = async (id: string) => {
   await navigateTo({
     path: "/",
     query: {
+      ...route.query,
       category: id,
       page: undefined,
     },

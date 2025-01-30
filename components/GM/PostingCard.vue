@@ -1,7 +1,7 @@
 <template>
   <ULink
     :to="{ path: `/postings/${posting.id}`, query: route.query }"
-    @click="">
+    @click.prevent="handleClick">
     <UCard
       :ui="{
         root: 'group h-full items-stretch text-left transition hover:cursor-pointer hover:shadow-md',
@@ -53,10 +53,11 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from "vue";
+import { GMPostingModal } from "#components";
 import type { PostingDetails } from "~/types/postings";
 
 const route = useRoute();
+const modal = useModal();
 const { y } = useWindowScroll({ behavior: "smooth" });
 
 const props = defineProps<{
@@ -68,4 +69,8 @@ const distance = computed(() => {
 
   return formatDistance(props.posting.distance);
 });
+
+const handleClick = () => {
+  modal.open(GMPostingModal, { posting: props.posting });
+};
 </script>

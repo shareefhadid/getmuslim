@@ -12,5 +12,16 @@ export default defineAppConfig({
         header: "sm:p-4 pb-2 sm:pb-2",
       },
     },
+    modal: {
+      slots: {
+        header: "pt-4 pb-0 flex justify-end items-center gap-x-2",
+        title: "grow top-auto",
+        footer: "justify-end",
+        content: "divide-y-0",
+        description: "mt-2",
+        body: "pt-2 sm:pt-2",
+        close: "relative top-auto end-auto",
+      },
+    },
   },
 });

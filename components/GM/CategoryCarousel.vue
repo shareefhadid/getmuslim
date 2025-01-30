@@ -11,7 +11,6 @@
     drag-free>
     <GMCategoryButton
       :icon="item.icon ?? undefined"
-      :onPress="() => carousel?.emblaApi?.scrollTo(0)"
       :label="item.label"
       :category-id="item.id?.toString()" />
   </UCarousel>
@@ -20,27 +19,12 @@
 <script lang="ts" setup>
 import type { Category } from "~/types/supabase";
 
-const carousel = useTemplateRef("carousel");
-
 type CategoryCarouselItems = (Partial<Category> & { label: string })[];
 
 const { categories } = useCategories();
-const route = useRoute();
-const selectedCategory = computed(() => Number(route.query.category) || 0);
 
-const items = computed<CategoryCarouselItems>(() => {
-  const activeCategory = categories.value.find(
-    (category) => category.id === selectedCategory.value,
-  );
-
-  const otherCategories = categories.value.filter(
-    (category) => category.id !== selectedCategory.value,
-  );
-
-  if (activeCategory) {
-    return [{ label: "All" }, activeCategory, ...otherCategories];
-  } else {
-    return [{ label: "All" }, ...(categories.value ?? [])];
-  }
-});
+const items = computed<CategoryCarouselItems>(() => [
+  { label: "All" },
+  ...(categories.value ?? []),
+]);
 </script>

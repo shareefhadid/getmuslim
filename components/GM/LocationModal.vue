@@ -1,22 +1,18 @@
 <template>
   <UModal
-    title="Find nearby businesses"
-    :ui="{
-      header: 'pt-4 pb-2',
-      footer: 'justify-end',
-      content: 'divide-y-0',
-      description: 'mt-2',
-      body: 'pt-2 sm:pt-2',
-    }"
     :close="{
       color: 'neutral',
-      variant: 'subtle',
+      size: 'xs',
       class: 'hover:cursor-pointer',
-    }">
-    <template #description>
-      Enter your city to find businesses near you.
-    </template>
+    }"
+    :ui="{ description: 'hidden' }">
+    <template #title>Find nearby businesses</template>
+    <template #description>Find nearby businesses</template>
+
     <template #body>
+      <p class="text-ui-accented mb-3 text-sm">
+        Enter your city to find businesses near you.
+      </p>
       <UInputMenu
         class="w-full"
         v-model:search-term="searchText"
