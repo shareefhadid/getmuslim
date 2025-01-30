@@ -13,8 +13,8 @@
       {{ posting.title }}
     </template>
     <template #body>
-      <div class="flex flex-col xs:items-center gap-4 xs:text-center">
-        <div class="mb-1 w-full xs:max-w-xs">
+      <div class="xs:items-center xs:text-center flex flex-col gap-4">
+        <div class="xs:max-w-xs mb-1 w-full">
           <template v-if="posting.featured_image">
             <NuxtImg
               class="aspect-square w-full rounded-md object-cover object-center"
@@ -31,16 +31,15 @@
 
         <h2 class="text-xl font-bold">{{ posting.title }}</h2>
         <div v-if="posting.categories.length > 0">
-          <div
-            class="flex flex-wrap xs:justify-center gap-3"
-            v-for="category in posting.categories"
-            :key="category.id">
-            <GMCategoryButton
-              mode="badge"
-              :icon="category.icon || 'lucide:tags'"
-              :label="category.label"
-              :category-id="category.id.toString()"
-              :onPress="() => modal.close()" />
+          <div class="xs:justify-center flex flex-wrap gap-3">
+            <template v-for="category in posting.categories" :key="category.id">
+              <GMCategoryButton
+                mode="badge"
+                :icon="category.icon || 'lucide:tags'"
+                :label="category.label"
+                :category-id="category.id.toString()"
+                :onPress="() => modal.close()" />
+            </template>
           </div>
         </div>
         <p
@@ -50,7 +49,7 @@
         </p>
         <p class="text-ui-text-muted">{{ posting.description }}</p>
         <div>
-          <div class="flex flex-wrap xs:justify-center gap-3">
+          <div class="xs:justify-center flex flex-wrap gap-3">
             <ULink
               class="inline-flex items-center gap-x-1 text-sm hover:cursor-pointer"
               @click="copyLink">

@@ -15,17 +15,16 @@
           {{ posting.title }}
         </h2>
         <div v-if="posting.categories.length > 0">
-          <div
-            class="xs:justify-center flex flex-wrap gap-3"
-            v-for="category in posting.categories"
-            :key="category.id">
-            <GMCategoryButton
-              mode="badge"
-              :set-route="false"
-              :icon="category.icon || 'lucide:tags'"
-              :label="category.label"
-              :category-id="category.id.toString()"
-              :onPress="(categoryId) => handleCategoryPressed(categoryId)" />
+          <div class="xs:justify-center flex flex-wrap gap-3">
+            <template v-for="category in posting.categories" :key="category.id">
+              <GMCategoryButton
+                mode="badge"
+                :set-route="false"
+                :icon="category.icon || 'lucide:tags'"
+                :label="category.label"
+                :category-id="category.id.toString()"
+                :onPress="(categoryId) => handleCategoryPressed(categoryId)" />
+            </template>
           </div>
         </div>
         <p
