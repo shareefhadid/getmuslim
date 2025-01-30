@@ -30,7 +30,6 @@ filtered_postings AS (
 paginated_postings AS (
   SELECT fp.*
   FROM filtered_postings fp
-  ORDER BY fp.created_at DESC
   LIMIT limit_count OFFSET offset_count
 ),
 postings_with_distance AS (
@@ -46,7 +45,7 @@ posting_details AS (
   SELECT *
   FROM public.get_posting_details(
       (
-        SELECT array_agg(paginated_postings.id)
+        SELECT array_agg(id)
         FROM paginated_postings
       )
     )
@@ -66,9 +65,11 @@ final_results AS (
     pd.media
   FROM postings_with_distance pp
     LEFT JOIN posting_details pd ON pd.posting_id = pp.id
-  ORDER BY pp.created_at DESC
 )
-SELECT array_agg((final_results.*)::public.posting_details),
+SELECT array_agg(
+    (final_results.*)::public.posting_details
+    ORDER BY updated_at DESC
+  ),
   (
     SELECT COUNT(*)
     FROM filtered_postings
