@@ -3,14 +3,6 @@
     <div
       class="xs:items-center mx-auto flex w-4xl max-w-full flex-col gap-y-8"
       v-if="posting">
-      <ULink
-        class="flex cursor-pointer items-center gap-1 self-start"
-        color="neutral"
-        variant="link"
-        :to="{ path: '/', query: route.query }">
-        <UIcon name="mdi:arrow-left" />
-        Back
-      </ULink>
       <template v-if="posting.featured_image">
         <NuxtImg
           class="xs:w-[320px] aspect-square w-full rounded-lg object-cover object-center transition-transform"
