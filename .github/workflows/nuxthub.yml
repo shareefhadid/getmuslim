@@ -30,10 +30,10 @@ jobs:
 
       - name: Build application
         run: bun run build
-        env:
-          NUXT_HUB_PROJECT_DEPLOY_TOKEN: ${{ secrets.NUXT_HUB_PROJECT_DEPLOY_TOKEN }}
-          MAPBOX_ACCESS_TOKEN: ${{ secrets.MAPBOX_ACCESS_TOKEN }}
-          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        # env:
+          # NUXT_HUB_PROJECT_DEPLOY_TOKEN: ${{ secrets.NUXT_HUB_PROJECT_DEPLOY_TOKEN }}
+          # MAPBOX_ACCESS_TOKEN: ${{ secrets.MAPBOX_ACCESS_TOKEN }}
+          # SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
 
       - name: Deploy to NuxtHub
         uses: nuxt-hub/action@v1
