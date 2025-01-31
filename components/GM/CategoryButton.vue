@@ -5,7 +5,7 @@
     size="xs"
     :icon="icon"
     :color="mode === 'badge' ? undefined : 'neutral'"
-    @click.prevent="handleClick"
+    @click.prevent.stop="handleClick"
     :ui="{
       base:
         mode !== 'badge' && !isActive
