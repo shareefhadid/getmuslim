@@ -1,9 +1,5 @@
 # TODO
 
-## Tasks
-
-- populate tables
-
 ## Features
 
 - add suggestion form
@@ -13,8 +9,9 @@
 ## Triage
 
 - share button for posting
-- better loading states
 - SEO
+- blur modal on scroll
+- better loading states
 - Page transition
 
 ## Notes
