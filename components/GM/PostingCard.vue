@@ -25,10 +25,12 @@
       </template>
       <div class="items-between flex flex-col gap-3">
         <div class="flex items-baseline gap-x-2">
-          <h2 class="text-ui-text grow text-lg font-semibold">
+          <h2 class="text-ui-text grow text-lg font-semibold truncate">
             {{ posting.title }}
           </h2>
-          <p class="text-ui-text-muted text-sm font-light" v-if="distance">
+          <p
+            class="text-ui-text-muted shrink-0 text-sm font-light"
+            v-if="distance">
             {{ distance }}
           </p>
         </div>
