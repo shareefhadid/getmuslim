@@ -10,6 +10,17 @@
   </div>
 </template>
 
+<script setup lang="ts">
+useHead({
+  script: [
+    {
+      src: "https://tally.so/widgets/embed.js",
+      async: true,
+    },
+  ],
+});
+</script>
+
 <style>
 @import "tailwindcss";
 @import "@nuxt/ui";

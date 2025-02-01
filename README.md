@@ -19,7 +19,7 @@ Find local Muslim businesses and organizations easily.
 - **Framework**: [Nuxt 3](https://nuxt.com/)
 - **Database & Auth**: [Supabase](https://supabase.com/)
 - **Geolocation**: [Mapbox Search](https://www.mapbox.com/)
-- **UI Components**: [Nuxt UI](https://ui.nuxt.com/)
+- **UI Components**: [Nuxt UI](https://ui3.nuxt.dev)
 - **State & Utilities**: [VueUse](https://vueuse.org/)
 - **Validation**: [Zod](https://zod.dev/)
 - **Package Manager**: [Bun](https://bun.sh/)
@@ -38,6 +38,17 @@ Then, clone the repo and install dependencies:
 git clone https://github.com/shareefhadid/getmuslim
 cd getmuslim
 bun install
+```
+
+## Environment variables
+
+Setup the following environment variables:
+
+```
+SUPABASE_URL=
+SUPABASE_KEY=
+MAPBOX_ACCESS_TOKEN=
+NUXT_HUB_PROJECT_KEY=
 ```
 
 ## Development

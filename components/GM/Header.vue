@@ -12,18 +12,14 @@
             getmuslim
           </p>
         </ULink>
-        <ColorScheme>
-          <UButton
-            class="hover:cursor-pointer"
-            :icon="colorMode.value === 'light' ? 'lucide:sun' : 'lucide:moon'"
-            variant="link"
-            color="neutral"
-            @click="
-              colorMode.value === 'light'
-                ? (colorMode.preference = 'dark')
-                : (colorMode.preference = 'light')
-            " />
-        </ColorScheme>
+        <UButton
+          class="hover:cursor-pointer"
+          data-tally-open="mBjb0R"
+          data-tally-hide-title="1"
+          data-tally-overlay="1"
+          data-tally-auto-close="2000">
+          Submit posting
+        </UButton>
       </div>
     </UContainer>
   </header>
@@ -31,5 +27,4 @@
 
 <script lang="ts" setup>
 const route = useRoute();
-const colorMode = useColorMode();
 </script>
