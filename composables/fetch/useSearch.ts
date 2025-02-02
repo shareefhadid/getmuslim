@@ -1,5 +1,5 @@
-import type { CategoryDetail } from "~/types/postings";
 import type { Tables } from "~/types/database.types";
+import type { CategoryDetail } from "~/types/postings";
 
 interface SearchResults {
   categories: CategoryDetail[];
@@ -9,11 +9,14 @@ interface SearchResults {
 export const useSearch = (searchText: Ref<string>) => {
   const debouncedSearchText = refDebounced(searchText, 750);
 
-  const { data, status, error, refresh } = useFetch<{ data: SearchResults }>("/api/search", {
-    query: { searchText: debouncedSearchText },
-    immediate: false,
-    watch: false,
-  });
+  const { data, status, error, refresh } = useFetch<{ data: SearchResults }>(
+    "/api/search",
+    {
+      query: { searchText: debouncedSearchText },
+      immediate: false,
+      watch: false,
+    },
+  );
 
   watchEffect(() => {
     if ((debouncedSearchText.value?.length ?? 0) >= 3) {
@@ -25,6 +28,7 @@ export const useSearch = (searchText: Ref<string>) => {
     categories: computed(() => data.value?.data.categories ?? []),
     postings: computed(() => data.value?.data.postings ?? []),
     isLoading: computed(() => status.value === "pending"),
+    debouncing: computed(() => debouncedSearchText.value !== searchText.value),
     error,
   };
-}; 
+};

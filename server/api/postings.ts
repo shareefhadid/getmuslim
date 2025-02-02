@@ -2,52 +2,45 @@ import { serverSupabaseClient } from "#supabase/server";
 import { z } from "zod";
 import { Database } from "~/types/database.types";
 import { logError } from "../utils/logger";
-import { parseFloatParam } from "../utils/parse-float-param";
-import { parseNumericParam } from "../utils/parse-numeric-param";
 
 export default eventHandler(async (event) => {
   try {
     const locationCookie = getCookie(event, "location");
-    const { lat, long } = locationCookie ? JSON.parse(locationCookie) : {};
+    const { lat: cookieLat, long: cookieLong } = locationCookie
+      ? JSON.parse(locationCookie)
+      : {};
 
-    const { mode, ...params } = await getValidatedQuery(event, (data) =>
-      z
+    const { mode, ...queryParams } = await getValidatedQuery(event, (query) => {
+      return z
         .object({
-          lat: z
-            .string()
+          mode: z.enum(["nearby", "recent"]),
+          lat: z.coerce.number().min(-90).max(90).optional().default(cookieLat),
+          long: z.coerce
+            .number()
+            .min(-180)
+            .max(180)
             .optional()
-            .transform((val) => parseFloatParam(val) ?? lat),
-          long: z
-            .string()
-            .optional()
-            .transform((val) => parseFloatParam(val) ?? long),
-          category: z
-            .string()
-            .optional()
-            .transform((val) => (val ? parseNumericParam(val) : undefined)),
-          limit_count: z
-            .string()
-            .optional()
-            .transform((val) => (val ? parseNumericParam(val) : undefined)),
-          offset_count: z
-            .string()
-            .optional()
-            .transform((val) => (val ? parseNumericParam(val) : undefined)),
-          max_distance: z
-            .string()
-            .optional()
-            .transform((val) => (val ? parseNumericParam(val) : undefined)),
-          mode: z.enum(["nearby", "recent"]).optional(),
+            .default(cookieLong),
+          category: z.coerce.number().optional(),
+          page: z.coerce.number().min(1).default(1),
+          pageSize: z.coerce.number().min(1).max(100).default(8),
+          maxDistance: z.coerce.number().min(0).optional(),
         })
-        .parse(data),
-    );
+        .transform(({ page, pageSize, maxDistance, ...rest }) => ({
+          ...rest,
+          limit_count: pageSize,
+          offset_count: (page - 1) * pageSize,
+          max_distance: maxDistance,
+        }))
+        .parse(query);
+    });
 
     const client = await serverSupabaseClient<Database>(event);
 
     const functionName =
       mode === "nearby" ? "get_nearby_postings" : "get_recent_postings";
 
-    const { data, error } = await client.rpc(functionName, params);
+    const { data, error } = await client.rpc(functionName, queryParams);
 
     if (error) {
       logError(getRequestURL(event).pathname, error);

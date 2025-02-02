@@ -19,7 +19,9 @@
               <template v-if="searchText.length < 3">
                 Type at least 3 characters to search...
               </template>
-              <template v-else-if="isLoading">Searching...</template>
+              <template v-else-if="isLoading || debouncing">
+                Searching...
+              </template>
               <template v-else>
                 No results found for "{{ searchText }}"
               </template>
@@ -40,7 +42,7 @@ const modal = useModal();
 
 const searchText = ref("");
 
-const { categories, postings, isLoading } = useSearch(searchText);
+const { categories, postings, isLoading, debouncing } = useSearch(searchText);
 
 const handleCategorySelect = async (categoryId: number) => {
   await router.push({
