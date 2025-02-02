@@ -5,7 +5,7 @@
       size: 'xs',
       class: 'hover:cursor-pointer',
     }"
-    :ui="{ title: 'hidden', description: 'hidden' }">
+    :ui="{ title: 'sr-only', description: 'sr-only' }">
     <template #title>
       {{ posting.title }}
     </template>

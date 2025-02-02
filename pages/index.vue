@@ -19,7 +19,7 @@
       </UContainer>
     </div>
 
-    <div class="py-10">
+    <div id="results" class="py-10">
       <UContainer class="max-sm:px-0">
         <GMCategoryCarousel />
       </UContainer>

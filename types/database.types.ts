@@ -14,16 +14,19 @@ export type Database = {
           icon: string | null
           id: number
           label: string
+          search_text: unknown | null
         }
         Insert: {
           icon?: string | null
           id?: number
           label: string
+          search_text?: unknown | null
         }
         Update: {
           icon?: string | null
           id?: number
           label?: string
+          search_text?: unknown | null
         }
         Relationships: []
       }
@@ -160,6 +163,7 @@ export type Database = {
           featured_image: string | null
           id: number
           location: unknown
+          search_text: unknown | null
           show_address: boolean
           status: Database["public"]["Enums"]["posting_status"]
           title: string
@@ -172,6 +176,7 @@ export type Database = {
           featured_image?: string | null
           id?: number
           location: unknown
+          search_text?: unknown | null
           show_address?: boolean
           status?: Database["public"]["Enums"]["posting_status"]
           title: string
@@ -184,6 +189,7 @@ export type Database = {
           featured_image?: string | null
           id?: number
           location?: unknown
+          search_text?: unknown | null
           show_address?: boolean
           status?: Database["public"]["Enums"]["posting_status"]
           title?: string
@@ -264,6 +270,12 @@ export type Database = {
         }
         Returns: Database["public"]["CompositeTypes"]["paginated_postings"]
       }
+      search_content: {
+        Args: {
+          search_query: string
+        }
+        Returns: Database["public"]["CompositeTypes"]["search_results"]
+      }
     }
     Enums: {
       media_type_enum: "image" | "video"
@@ -310,6 +322,12 @@ export type Database = {
           | null
         links: Database["public"]["CompositeTypes"]["link_detail"][] | null
         media: Database["public"]["CompositeTypes"]["media_detail"][] | null
+      }
+      search_results: {
+        categories:
+          | Database["public"]["CompositeTypes"]["category_detail"][]
+          | null
+        postings: Database["public"]["Tables"]["postings"]["Row"][] | null
       }
     }
   }

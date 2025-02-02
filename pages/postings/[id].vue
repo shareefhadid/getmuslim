@@ -11,9 +11,9 @@
       </template>
 
       <div class="xs:text-center flex flex-col gap-y-5">
-        <h2 class="xs:text-4xl text-3xl font-bold" v-if="posting.title">
+        <h1 class="xs:text-4xl text-3xl font-bold" v-if="posting.title">
           {{ posting.title }}
-        </h2>
+        </h1>
         <div v-if="posting.categories.length > 0">
           <div class="xs:justify-center flex flex-wrap gap-3">
             <template v-for="category in posting.categories" :key="category.id">
