@@ -67,4 +67,10 @@ const params = computed<PostingsParams>(() => ({
 }));
 
 const { postings, pagination, isLoading } = usePostings(params);
+
+usePageMeta({
+  title: "Find Muslim-owned Businesses",
+  description:
+    "Discover and support Muslim-owned businesses and organizations in your area. Browse local halal restaurants, Islamic centers, and more.",
+});
 </script>
