@@ -1,7 +1,7 @@
 <template>
-  <UContainer class="w-full py-10">
+  <UContainer class="min-h-[calc(100vh-72px)] w-full py-10">
     <div
-      class="xs:align-center xs:text-center mx-auto flex min-h-[80vh] max-w-4xl flex-col justify-center gap-5 sm:gap-6 md:gap-7">
+      class="xs:align-center xs:text-center mx-auto flex h-full max-w-4xl flex-col justify-center gap-5 sm:gap-6 md:gap-7">
       <h1 class="text-4xl font-black sm:text-center sm:text-5xl md:text-7xl">
         Grow the Muslim Economy
       </h1>
@@ -33,10 +33,11 @@ usePageMeta({
 
 useSchemaOrg([
   defineWebPage({
-    '@type': 'AboutPage',
-    name: 'About getmuslim',
-    description: 'Grow the Muslim Economy by connecting with local Muslim-owned businesses and organizations.',
-    mainContentOfPage: 'Explore Muslim-owned businesses and organizations'
-  })
+    "@type": "AboutPage",
+    name: "About getmuslim",
+    description:
+      "Grow the Muslim Economy by connecting with local Muslim-owned businesses and organizations.",
+    mainContentOfPage: "Explore Muslim-owned businesses and organizations",
+  }),
 ]);
 </script>
