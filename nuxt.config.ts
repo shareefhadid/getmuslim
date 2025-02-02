@@ -57,7 +57,6 @@ export default defineNuxtConfig({
   },
   routeRules: {
     "/about": { prerender: true },
-    "/postings/**": { isr: 3600 },
   },
   feed: {
     sources: [
