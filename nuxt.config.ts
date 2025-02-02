@@ -20,6 +20,9 @@ export default defineNuxtConfig({
     urls: ["/feed.xml"],
     sources: ["/api/__sitemap__/urls"],
   },
+  linkChecker: {
+    failOnError: true,
+  },
   modules: [
     "@nuxt/ui",
     "@nuxtjs/supabase",
@@ -30,6 +33,7 @@ export default defineNuxtConfig({
     "nuxt-module-feed",
     "@nuxtjs/robots",
     "nuxt-schema-org",
+    "nuxt-link-checker",
   ],
   supabase: {
     redirect: false,
