@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-ui-bg-elevated/70 mt-4 py-6">
+  <div class="bg-ui-bg-elevated dark:bg-ui-bg-elevated/70 py-6 border-ui-border border-t">
     <UContainer
       class="xs:items-center xs:text-center flex flex-col justify-center gap-5 text-sm">
       <p class="text-ui-text-toned">

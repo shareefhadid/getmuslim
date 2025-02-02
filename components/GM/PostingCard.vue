@@ -4,7 +4,7 @@
     @click.prevent="handleClick">
     <UCard
       :ui="{
-        root: 'group h-full items-stretch text-left transition hover:cursor-pointer hover:shadow-md',
+        root: 'group h-full items-stretch text-left shadow-xs transition ease-in-out hover:cursor-pointer hover:shadow-sm',
         header: 'overflow-hidden rounded-t-[calc(var(--ui-radius)*2)] p-0!',
       }">
       <template #header>
@@ -25,7 +25,7 @@
       </template>
       <div class="items-between flex flex-col gap-3">
         <div class="flex items-baseline gap-x-2">
-          <h2 class="text-ui-text grow text-lg font-semibold truncate">
+          <h2 class="text-ui-text grow truncate text-lg font-semibold">
             {{ posting.title }}
           </h2>
           <p

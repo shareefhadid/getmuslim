@@ -1,5 +1,5 @@
 <template>
-  <div class="test">
+  <div>
     <GMHeader />
     <slot />
     <GMFooter />

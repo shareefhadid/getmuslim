@@ -1,6 +1,7 @@
 <template>
   <header
-    class="sticky top-0 z-50 -mb-px border-b border-[var(--ui-border)] bg-[var(--ui-bg)]/90 py-4 backdrop-blur-md">
+    class="border-ui-border bg-ui-bg/90 sticky top-0 z-50 -mb-px py-4 transition-all duration-300 ease-in-out"
+    :class="dynamicClasses">
     <UContainer>
       <div class="flex justify-between">
         <ULink
@@ -28,4 +29,9 @@
 
 <script lang="ts" setup>
 const route = useRoute();
+const { y } = useWindowScroll();
+
+const dynamicClasses = computed(() =>
+  y.value > 1 ? ["border-b", "backdrop-blur-md", "shadow-xs"] : [],
+);
 </script>
