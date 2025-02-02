@@ -56,7 +56,6 @@ export default defineNuxtConfig({
     },
   },
   routeRules: {
-    "/": { prerender: true },
     "/about": { prerender: true },
     "/postings/**": { isr: 3600 },
   },

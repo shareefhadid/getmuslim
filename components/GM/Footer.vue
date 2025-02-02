@@ -1,7 +1,7 @@
 <template>
   <div class="bg-ui-bg-elevated/70 mt-4 py-6">
     <UContainer
-      class="flex flex-col xs:items-center justify-center gap-5 xs:text-center text-sm">
+      class="xs:items-center xs:text-center flex flex-col justify-center gap-5 text-sm">
       <p class="text-ui-text-toned">
         Looking for global Muslim brands? Check out
         <ULink
@@ -12,11 +12,11 @@
           MuslimHub.co
         </ULink>
       </p>
-      <div class="text-md flex flex-col xs:flex-row gap-4">
+      <div class="text-md xs:flex-row flex flex-col gap-4">
         <ULink to="/">Home</ULink>
         <ULink to="/about">About</ULink>
         <ULink
-          class="hover:cursor-pointer self-start"
+          class="self-start hover:cursor-pointer"
           data-tally-open="wgJWqJ"
           data-tally-layout="modal"
           data-tally-width="420"
@@ -30,6 +30,7 @@
           class="hover:cursor-pointer"
           icon="mdi:rss"
           to="/feed.xml"
+          external
           size="xs"
           variant="ghost"
           title="RSS Feed" />
