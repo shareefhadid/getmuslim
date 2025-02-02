@@ -1,22 +1,24 @@
 export default defineNitroPlugin((nitroApp) => {
-  nitroApp.hooks.hook("feed:generate", async ({ feed }) => {
+  nitroApp.hooks.hook("feed:generate", async ({ feed, options }) => {
+    const config = useRuntimeConfig();
+    const siteUrl = config.public.siteUrl;
     const postings = await $fetch("/api/feed-data");
 
     feed.options = {
       title: "getmuslim",
       description: "Latest postings",
-      id: process.env.NUXT_PUBLIC_SITE_URL!,
-      link: process.env.NUXT_PUBLIC_SITE_URL!,
+      id: siteUrl,
+      link: siteUrl,
       language: "en",
-      favicon: `/favicon.ico`,
-      copyright: `© ${new Date().getFullYear()} getmuslim. All rights reserved.`,
+      favicon: `${siteUrl}/favicon.ico`,
+      copyright: `Copyright ${new Date().getFullYear()} getmuslim. All rights reserved.`,
     };
 
     postings?.forEach((posting) => {
       feed.addItem({
         title: posting.title,
-        id: `/postings/${posting.id}`,
-        link: `/postings/${posting.id}`,
+        id: `${siteUrl}/postings/${posting.id}`,
+        link: `${siteUrl}/postings/${posting.id}`,
         description: posting.description,
         content: posting.description,
         image: posting.featured_image ?? undefined,

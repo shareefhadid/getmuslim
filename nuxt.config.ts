@@ -4,6 +4,12 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   runtimeConfig: {
     mapboxToken: process.env.MAPBOX_ACCESS_TOKEN, // Available only on the server
+    public: {
+      siteUrl:
+        process.env.NODE_ENV === "production"
+          ? "https://getmuslim.com"
+          : "http://localhost:3000",
+    },
   },
   nitro: {
     experimental: {
@@ -11,7 +17,7 @@ export default defineNuxtConfig({
     },
   },
   sitemap: {
-    urls: ['/feed.xml'],
+    urls: ["/feed.xml"],
     sources: ["/api/__sitemap__/urls"],
   },
   modules: [
