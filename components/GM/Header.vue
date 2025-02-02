@@ -17,6 +17,7 @@
           data-tally-open="mBjb0R"
           data-tally-hide-title="1"
           data-tally-overlay="1"
+          data-tally-width="420"
           data-tally-auto-close="2000">
           Submit posting
         </UButton>

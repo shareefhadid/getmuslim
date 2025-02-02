@@ -9,6 +9,7 @@
               variant="subtle"
               :icon="option.icon"
               color="neutral"
+              class="hover:cursor-pointer"
               :class="selected === option.value ? 'bg-ui-bg-accented/75' : ''"
               @click="handleSortChange(option.value)">
               {{ option.label }}

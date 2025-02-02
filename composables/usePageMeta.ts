@@ -21,6 +21,8 @@ export const usePageMeta = (params: {
     ogTitle: fullTitle,
     ogDescription: params.description,
     ogImage: imageUrl,
+    ogType: 'website',
+    
     // Twitter
     twitterCard: 'summary_large_image',
     twitterTitle: fullTitle,
