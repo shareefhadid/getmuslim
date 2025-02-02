@@ -10,12 +10,16 @@ export default defineNuxtConfig({
       openAPI: true,
     },
   },
+  sitemap: {
+    sources: ["/api/__sitemap__/urls"],
+  },
   modules: [
     "@nuxt/ui",
     "@nuxtjs/supabase",
     "@vueuse/nuxt",
     "@nuxt/image",
     "@nuxthub/core",
+    "@nuxtjs/sitemap",
   ],
   supabase: {
     redirect: false,
@@ -26,5 +30,19 @@ export default defineNuxtConfig({
       exclude: [],
       cookieRedirect: false,
     },
+  },
+  image: {
+    provider: "ipx",
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+    },
+  },
+  routeRules: {
+    "/": { prerender: true },
+    "/postings/**": { isr: 3600 },
   },
 });

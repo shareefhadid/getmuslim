@@ -122,4 +122,20 @@ const formattedDistance = computed(() => {
 
   return ` (${distance} away)`;
 });
+
+useHead({
+  title: posting.value?.title,
+  meta: [
+    { name: 'description', content: posting.value?.description },
+    // Open Graph tags for social sharing
+    { property: 'og:title', content: posting.value?.title },
+    { property: 'og:description', content: posting.value?.description },
+    { property: 'og:image', content: posting.value?.featured_image },
+    // Twitter Card tags
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:title', content: posting.value?.title },
+    { name: 'twitter:description', content: posting.value?.description },
+    { name: 'twitter:image', content: posting.value?.featured_image },
+  ],
+})
 </script>

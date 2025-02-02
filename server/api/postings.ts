@@ -1,5 +1,6 @@
 import { serverSupabaseClient } from "#supabase/server";
 import { z } from "zod";
+import { Database } from "~/types/database.types";
 import { logError } from "../utils/logger";
 import { parseFloatParam } from "../utils/parse-float-param";
 import { parseNumericParam } from "../utils/parse-numeric-param";
@@ -41,7 +42,7 @@ export default eventHandler(async (event) => {
         .parse(data),
     );
 
-    const client = await serverSupabaseClient(event);
+    const client = await serverSupabaseClient<Database>(event);
 
     const functionName =
       mode === "nearby" ? "get_nearby_postings" : "get_recent_postings";
