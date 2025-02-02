@@ -15,5 +15,6 @@
 - Page transition
 - vector search
 - nuxtauth image upload with croppiejs
+- submit sitemap (https://nuxtseo.com/docs/sitemap/guides/submitting-sitemap)
 
 ## Notes

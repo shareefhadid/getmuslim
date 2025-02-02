@@ -18,6 +18,14 @@ useHead({
       async: true,
     },
   ],
+  link: [
+    {
+      rel: 'alternate',
+      type: 'application/rss+xml',
+      title: 'getmuslim RSS Feed',
+      href: '/feed.xml'
+    }
+  ]
 });
 </script>
 

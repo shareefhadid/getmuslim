@@ -20,6 +20,7 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxthub/core",
     "@nuxtjs/sitemap",
+    "nuxt-module-feed",
   ],
   supabase: {
     redirect: false,
@@ -44,5 +45,14 @@ export default defineNuxtConfig({
   routeRules: {
     "/": { prerender: true },
     "/postings/**": { isr: 3600 },
+  },
+  feed: {
+    sources: [
+      {
+        path: "/feed.xml",
+        type: "rss2",
+        cacheTime: 60 * 15,
+      },
+    ],
   },
 });
