@@ -72,4 +72,12 @@ export default defineNuxtConfig({
     robotsEnabledValue:
       "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
   },
+  schemaOrg: {
+    identity: {
+      type: "Organization",
+      name: "getmuslim",
+      description: "Find Muslim-owned businesses and organizations",
+      logo: "/logo.png",
+    },
+  },
 });

@@ -31,8 +31,14 @@ useHead({
 useSchemaOrg([
   defineWebSite({
     name: 'getmuslim',
-    description: 'Find Muslim-owned businesses and services',
+    description: 'Find Muslim-owned businesses and organizations',
     url: useRuntimeConfig().public.siteUrl,
+    inLanguage: 'en',
+    publisher: {
+      '@type': 'Organization',
+      name: 'getmuslim',
+      logo: `${useRuntimeConfig().public.siteUrl}/logo.png`
+    }
   })
 ])
 </script>
