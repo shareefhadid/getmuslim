@@ -6,11 +6,13 @@
     "@nuxt/image": "1.9.0",
     "@nuxt/ui": "3.0.0-alpha.12",
     "@nuxthub/core": "0.8.15",
+    "@nuxtjs/robots": "5.2.2",
     "@nuxtjs/sitemap": "7.2.4",
     "@nuxtjs/supabase": "1.4.6",
     "@vueuse/nuxt": "12.5.0",
     "nuxt": "^3.15.4",
     "nuxt-module-feed": "1.1.4",
+    "nuxt-schema-org": "4.1.1",
     "vue": "3.5.13",
     "zod": "^3.24.1"
   },

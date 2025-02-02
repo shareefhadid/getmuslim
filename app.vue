@@ -27,6 +27,14 @@ useHead({
     }
   ]
 });
+
+useSchemaOrg([
+  defineWebSite({
+    name: 'getmuslim',
+    description: 'Find Muslim-owned businesses and services',
+    url: useRuntimeConfig().public.siteUrl,
+  })
+])
 </script>
 
 <style>

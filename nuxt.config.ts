@@ -28,6 +28,8 @@ export default defineNuxtConfig({
     "@nuxthub/core",
     "@nuxtjs/sitemap",
     "nuxt-module-feed",
+    "@nuxtjs/robots",
+    "nuxt-schema-org",
   ],
   supabase: {
     redirect: false,
@@ -61,5 +63,13 @@ export default defineNuxtConfig({
         cacheTime: 60 * 15,
       },
     ],
+  },
+  robots: {
+    enabled: true,
+    sitemap: ["/sitemap.xml"],
+    allow: ["*"],
+    disallow: [],
+    robotsEnabledValue:
+      "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
   },
 });
