@@ -1,5 +1,6 @@
 <template>
-  <div class="bg-ui-bg-elevated dark:bg-ui-bg-elevated/70 py-6 border-ui-border border-t">
+  <div
+    class="bg-ui-bg-elevated dark:bg-ui-bg-elevated/70 border-ui-border border-t py-6">
     <UContainer
       class="xs:items-center xs:text-center flex flex-col justify-center gap-5 text-sm">
       <p class="text-ui-text-toned">
@@ -51,6 +52,14 @@
       <div>
         <p class="text-ui-text-dimmed text-xs">
           &copy; {{ new Date().getFullYear() }} getmuslim. All rights reserved.
+          Built by
+          <ULink
+            class="text-ui-primary hover:text-ui-primary/75 font-medium hover:cursor-pointer"
+            to="https://linkedin.com/in/shareefhadid"
+            external
+            target="_blank">
+            Shareef Hadid.
+          </ULink>
         </p>
       </div>
     </UContainer>
