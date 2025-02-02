@@ -4,8 +4,6 @@
 
 - Search by category
 - Search by title
-- Footer, About, Contact page
-- SEO
 
 ## Triage
 
