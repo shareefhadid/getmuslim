@@ -1,5 +1,5 @@
 <template>
-  <UContainer class="w-full py-12">
+  <UContainer class="w-full py-10">
     <div
       class="xs:align-center xs:text-center mx-auto flex min-h-[80vh] max-w-4xl flex-col justify-center gap-5 sm:gap-6 md:gap-7">
       <h1 class="text-4xl font-black sm:text-center sm:text-5xl md:text-7xl">
