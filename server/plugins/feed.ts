@@ -8,15 +8,15 @@ export default defineNitroPlugin((nitroApp) => {
       id: process.env.NUXT_PUBLIC_SITE_URL!,
       link: process.env.NUXT_PUBLIC_SITE_URL!,
       language: "en",
-      favicon: `${process.env.NUXT_PUBLIC_SITE_URL}/favicon.ico`,
+      favicon: `/favicon.ico`,
       copyright: `© ${new Date().getFullYear()} getmuslim. All rights reserved.`,
     };
 
     postings?.forEach((posting) => {
       feed.addItem({
         title: posting.title,
-        id: `${process.env.NUXT_PUBLIC_SITE_URL}/postings/${posting.id}`,
-        link: `${process.env.NUXT_PUBLIC_SITE_URL}/postings/${posting.id}`,
+        id: `/postings/${posting.id}`,
+        link: `/postings/${posting.id}`,
         description: posting.description,
         content: posting.description,
         image: posting.featured_image ?? undefined,

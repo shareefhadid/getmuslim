@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     },
   },
   sitemap: {
+    urls: ['/feed.xml'],
     sources: ["/api/__sitemap__/urls"],
   },
   modules: [
