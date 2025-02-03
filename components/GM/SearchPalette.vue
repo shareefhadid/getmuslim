@@ -55,6 +55,16 @@ const handleCategorySelect = async (categoryId: number) => {
   });
 };
 
+const scrollToResults = () => {
+  const resultsElement = document.getElementById("results");
+
+  if (resultsElement) {
+    const y = resultsElement.getBoundingClientRect().top + window.scrollY - 50;
+
+    window.scrollTo({ top: y, behavior: "smooth" });
+  }
+};
+
 const groups = computed<CommandPaletteGroup<CommandPaletteItem>[]>(() => {
   const base = [
     {
@@ -66,6 +76,7 @@ const groups = computed<CommandPaletteGroup<CommandPaletteItem>[]>(() => {
           onSelect: () => {
             router.replace("/");
             modal.close();
+            scrollToResults();
           },
         },
       ],
@@ -99,17 +110,10 @@ const groups = computed<CommandPaletteGroup<CommandPaletteItem>[]>(() => {
         label: category.label,
         icon: category.icon || "lucide:tags",
         onSelect: () => {
-          const resultsElement = document.getElementById("results");
           handleCategorySelect(category.id);
           modal.close();
           searchText.value = "";
-
-          const y =
-            (resultsElement?.getBoundingClientRect().top ?? 0) +
-            window.scrollY -
-            50;
-
-          window.scrollTo({ top: y, behavior: "smooth" });
+          scrollToResults();
         },
       })),
     },
