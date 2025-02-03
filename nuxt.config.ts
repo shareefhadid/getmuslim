@@ -15,10 +15,20 @@ export default defineNuxtConfig({
     experimental: {
       openAPI: true,
     },
+    prerender: {
+      routes: ["/sitemap.xml"],
+    },
+  },
+  site: {
+    url:
+      process.env.NODE_ENV === "production"
+        ? "https://getmuslim.com"
+        : "http://localhost:3000",
   },
   sitemap: {
     urls: ["/feed.xml"],
     sources: ["/api/__sitemap__/urls"],
+    xsl: false,
     autoLastmod: true,
   },
   linkChecker: {
@@ -58,6 +68,8 @@ export default defineNuxtConfig({
   },
   routeRules: {
     "/about": { prerender: true },
+    "/sitemap.xml": { prerender: true },
+    "/feed.xml": { prerender: true },
   },
   feed: {
     sources: [
