@@ -23,6 +23,8 @@ import { GMSearchPalette } from "#components";
 const modal = useModal();
 
 const openSearch = () => {
+  document.activeElement instanceof HTMLElement &&
+    document.activeElement.blur();
   modal.open(GMSearchPalette);
 };
 

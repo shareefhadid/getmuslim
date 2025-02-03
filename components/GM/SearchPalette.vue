@@ -83,7 +83,6 @@ const groups = computed<CommandPaletteGroup<CommandPaletteItem>[]>(() => {
       items: postings.value.map((posting) => ({
         id: posting.id,
         label: posting.title,
-
         suffix: posting.description,
         onSelect: () => {
           navigateTo(`/postings/${posting.id}`);
@@ -100,9 +99,17 @@ const groups = computed<CommandPaletteGroup<CommandPaletteItem>[]>(() => {
         label: category.label,
         icon: category.icon || "lucide:tags",
         onSelect: () => {
+          const resultsElement = document.getElementById("results");
           handleCategorySelect(category.id);
           modal.close();
           searchText.value = "";
+
+          const y =
+            (resultsElement?.getBoundingClientRect().top ?? 0) +
+            window.scrollY -
+            50;
+
+          window.scrollTo({ top: y, behavior: "smooth" });
         },
       })),
     },
