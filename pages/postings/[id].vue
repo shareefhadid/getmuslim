@@ -113,7 +113,7 @@ const handleCategoryPressed = async (id: string) => {
   });
 };
 
-const { posting, error, isLoading } = usePosting(params);
+const { posting, error, isLoading } = await usePosting(params);
 
 const formattedDistance = computed(() => {
   if (!posting.value?.distance) return "";

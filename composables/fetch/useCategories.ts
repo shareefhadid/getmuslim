@@ -1,9 +1,9 @@
-export const useCategories = () => {
+export const useCategories = async () => {
   const {
     data: response,
     error,
     status,
-  } = useAsyncData(() =>
+  } = await useAsyncData(() =>
     $fetch("/api/categories", { headers: useRequestHeaders(["cookie"]) }),
   );
 

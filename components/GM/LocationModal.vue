@@ -47,7 +47,7 @@ const selectedSuggestion = ref<any>(null);
 
 const { suggestions } = useSearchLocation(searchText);
 
-useRetrieveLocation(selectedSuggestion);
+await useRetrieveLocation(selectedSuggestion);
 
 const items = computed(() => {
   return suggestions.value.map((suggestion, index) => {

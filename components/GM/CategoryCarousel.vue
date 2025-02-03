@@ -21,7 +21,7 @@ import type { Category } from "~/types/supabase";
 
 type CategoryCarouselItems = (Partial<Category> & { label: string })[];
 
-const { categories } = useCategories();
+const { categories } = await useCategories();
 
 const items = computed<CategoryCarouselItems>(() => [
   { label: "All" },
