@@ -26,7 +26,7 @@ const PostingParamsSchema = z
     },
   );
 
-export const usePosting = (params: Ref<PostingParams>) => {
+export const usePosting = async (params: Ref<PostingParams>) => {
   const parsedParams = computed(() =>
     PostingParamsSchema.safeParse(params.value),
   );
@@ -39,7 +39,7 @@ export const usePosting = (params: Ref<PostingParams>) => {
     data: response,
     status,
     error,
-  } = useAsyncData(
+  } = await useAsyncData(
     `posting-${params.value.id}`,
     async () => {
       if (!validParams.value) {
@@ -50,7 +50,7 @@ export const usePosting = (params: Ref<PostingParams>) => {
         );
       }
 
-      return $fetch<{ data: PostingDetails }>(
+      return await $fetch<{ data: PostingDetails }>(
         `/api/postings/${validParams.value.id}`,
         {
           params: {

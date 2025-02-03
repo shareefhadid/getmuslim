@@ -38,7 +38,7 @@ const PostingsParamsSchema = z
     },
   );
 
-export const usePostings = (params: Ref<PostingsParams>) => {
+export const usePostings = async (params: Ref<PostingsParams>) => {
   const parsedParams = computed(() =>
     PostingsParamsSchema.safeParse(params.value),
   );
@@ -51,7 +51,7 @@ export const usePostings = (params: Ref<PostingsParams>) => {
     data: response,
     status,
     error,
-  } = useAsyncData(
+  } = await useAsyncData(
     "postings",
     async () => {
       if (!validParams.value) {
@@ -62,7 +62,7 @@ export const usePostings = (params: Ref<PostingsParams>) => {
         );
       }
 
-      return $fetch<{ data: PostingDetails[]; total: number }>(
+      return await $fetch<{ data: PostingDetails[]; total: number }>(
         "/api/postings",
         {
           params: {

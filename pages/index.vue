@@ -79,7 +79,7 @@ const params = computed<PostingsParams>(() => ({
   long: locationCookie.value.long,
 }));
 
-const { postings, pagination, isLoading } = usePostings(params);
+const { postings, pagination, isLoading } = await usePostings(params);
 
 usePageMeta({
   title: "Find Muslim-owned Businesses",
