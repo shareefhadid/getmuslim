@@ -30,6 +30,7 @@ filtered_postings AS (
 paginated_postings AS (
   SELECT fp.*
   FROM filtered_postings fp
+  ORDER BY fp.updated_at DESC NULLS LAST
   LIMIT limit_count OFFSET offset_count
 ),
 postings_with_distance AS (
@@ -68,7 +69,7 @@ final_results AS (
 )
 SELECT array_agg(
     (final_results.*)::public.posting_details
-    ORDER BY updated_at DESC
+    ORDER BY updated_at DESC NULLS LAST
   ),
   (
     SELECT COUNT(*)
