@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="bg-ui-bg-elevated/70 mb-10 py-20 border-ui-border border-y mt-px">
+    <div
+      class="bg-ui-bg-elevated/70 border-ui-border mt-px mb-10 border-y py-20">
       <UContainer class="w-full">
         <div
           class="xs:text-center mx-auto flex w-3xl max-w-full flex-col gap-y-6">
@@ -19,7 +20,7 @@
       </UContainer>
     </div>
 
-    <div id="results" class="py-10">
+    <div class="py-10" id="results">
       <UContainer class="max-sm:px-0">
         <GMCategoryCarousel />
       </UContainer>
