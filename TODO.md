@@ -6,6 +6,7 @@
 
 ## Triage
 
+- add address to search text
 - blur modal on scroll
 - better loading states
 - Page transition

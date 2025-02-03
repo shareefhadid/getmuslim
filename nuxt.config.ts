@@ -19,6 +19,7 @@ export default defineNuxtConfig({
   sitemap: {
     urls: ["/feed.xml"],
     sources: ["/api/__sitemap__/urls"],
+    autoLastmod: true,
   },
   linkChecker: {
     failOnError: true,
