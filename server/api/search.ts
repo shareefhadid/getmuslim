@@ -26,4 +26,4 @@ export default eventHandler(async (event) => {
   } catch (error) {
     handleServerError(event, error);
   }
-}); 
+});
