@@ -1,3 +1,4 @@
+import type { SitemapUrlInput } from "#sitemap/types";
 import { serverSupabaseClient } from "#supabase/server";
 import { Database } from "~/types/database.types";
 
@@ -11,15 +12,14 @@ export default defineSitemapEventHandler(async (event) => {
 
   const rows = data ?? [];
 
-  const sitemap = rows.map((row) => {
+  const sitemap: SitemapUrlInput[] = rows.map((row) => {
     return {
       loc: `/postings/${row.id}`,
-      lastmod: row.updated_at ?? undefined,
       changefreq: "daily" as const,
       priority: 0.8 as const,
       images: row.featured_image ? [{ loc: row.featured_image }] : [],
     };
-  });
+  }) satisfies SitemapUrlInput[];
 
   return sitemap;
 });

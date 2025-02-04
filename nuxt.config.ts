@@ -15,9 +15,9 @@ export default defineNuxtConfig({
     experimental: {
       openAPI: true,
     },
-    prerender: {
-      routes: ["/sitemap.xml"],
-    },
+    // prerender: {
+    //   routes: ["/sitemap.xml"],
+    // },
   },
   site: {
     url:
@@ -29,7 +29,7 @@ export default defineNuxtConfig({
     urls: ["/feed.xml"],
     sources: ["/api/__sitemap__/urls"],
     xsl: false,
-    autoLastmod: true,
+    autoLastmod: false,
   },
   linkChecker: {
     failOnError: true,
@@ -68,8 +68,8 @@ export default defineNuxtConfig({
   },
   routeRules: {
     "/about": { prerender: true },
-    "/sitemap.xml": { prerender: true },
-    "/feed.xml": { prerender: true },
+    // "/sitemap.xml": { prerender: true },
+    // "/feed.xml": { prerender: true },
   },
   feed: {
     sources: [
