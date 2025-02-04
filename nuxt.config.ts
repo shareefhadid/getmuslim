@@ -1,38 +1,23 @@
+const siteUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://getmuslim.com"
+    : "http://localhost:3000";
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   devtools: { enabled: true },
   runtimeConfig: {
-    mapboxToken: process.env.MAPBOX_ACCESS_TOKEN, // Available only on the server
-    public: {
-      siteUrl:
-        process.env.NODE_ENV === "production"
-          ? "https://getmuslim.com"
-          : "http://localhost:3000",
-    },
+    mapboxToken: process.env.MAPBOX_ACCESS_TOKEN,
+    public: { siteUrl },
   },
   nitro: {
     experimental: {
       openAPI: true,
     },
-    prerender: {
-      routes: ["/sitemap.xml", "/feed.xml"],
-    },
   },
-  site: {
-    url:
-      process.env.NODE_ENV === "production"
-        ? "https://getmuslim.com"
-        : "http://localhost:3000",
-  },
-  sitemap: {
-    urls: ["/feed.xml"],
-    sources: ["/api/__sitemap__/urls"],
-    xsl: false,
-    autoLastmod: false,
-  },
-  linkChecker: {
-    failOnError: true,
+  routeRules: {
+    "/about": { prerender: true },
   },
   modules: [
     "@nuxt/ui",
@@ -56,18 +41,8 @@ export default defineNuxtConfig({
       cookieRedirect: false,
     },
   },
-  image: {
-    provider: "ipx",
-    screens: {
-      xs: 320,
-      sm: 640,
-      md: 768,
-      lg: 1024,
-      xl: 1280,
-    },
-  },
-  routeRules: {
-    "/about": { prerender: true },
+  site: {
+    url: siteUrl,
   },
   feed: {
     sources: [
@@ -78,13 +53,13 @@ export default defineNuxtConfig({
       },
     ],
   },
+  sitemap: {
+    urls: ["/feed.xml"],
+    sources: ["/api/__sitemap__/urls"],
+  },
   robots: {
-    enabled: true,
     sitemap: ["/sitemap.xml"],
     allow: ["*"],
-    disallow: [],
-    robotsEnabledValue:
-      "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
   },
   schemaOrg: {
     identity: {
@@ -92,6 +67,19 @@ export default defineNuxtConfig({
       name: "getmuslim",
       description: "Find Muslim-owned businesses and organizations",
       logo: "/logo.png",
+    },
+  },
+  image: {
+    provider: "ipx",
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+    },
+    linkChecker: {
+      failOnError: true,
     },
   },
 });
