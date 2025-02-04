@@ -29,7 +29,7 @@
         </div>
         <p
           class="text-ui-text-muted text-sm"
-          v-if="posting.address && !posting.show_address">
+          v-if="posting.address && posting.show_address">
           {{ posting.address }}{{ formattedDistance }}
         </p>
         <p class="text-ui-text-toned" v-if="posting.description">

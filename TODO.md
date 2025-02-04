@@ -1,12 +1,12 @@
 # TODO
 
 - fix search styling
+- improve posting modal styling (make photo full width, left align everything)
 - share button for posting
 
 ## Triage
 
 - fix sitemap and resubmit
-- add address to search text
 - blur modal on scroll
 - better loading states
 - Page transition
