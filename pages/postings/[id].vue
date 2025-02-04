@@ -55,9 +55,12 @@
             </template>
           </div>
         </div>
-        <small class="text-ui-text-dimmed mt-3" v-if="posting.updated_at">
-          last updated {{ new Date(posting.updated_at).toLocaleDateString() }}
-        </small>
+        <ClientOnly>
+          <small class="text-ui-text-dimmed mt-3" v-if="posting.updated_at">
+            last updated
+            {{ new Date(posting.updated_at).toLocaleDateString() }}
+          </small>
+        </ClientOnly>
       </div>
     </div>
 
