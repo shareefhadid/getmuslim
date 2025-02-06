@@ -1,3 +1,3 @@
-update public.postings
-set show_location = false
-where show_location is null;
+UPDATE public.postings
+SET show_location = false
+WHERE show_location IS NULL;

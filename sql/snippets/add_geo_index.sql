@@ -1,1 +1,0 @@
-create index postings_geo_index on public.postings using GIST (location);
