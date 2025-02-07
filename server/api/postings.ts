@@ -38,7 +38,7 @@ export default eventHandler(async (event) => {
     const client = await serverSupabaseClient<Database>(event);
 
     const functionName =
-      mode === "nearby" ? "get_nearby_postings" : "get_recent_postings";
+      mode === "nearby" ? "get_nearby_postings_v2" : "get_recent_postings_v2";
 
     const { data, error } = await client.rpc(functionName, queryParams);
 
@@ -47,7 +47,7 @@ export default eventHandler(async (event) => {
       throw createError({ statusCode: 400, message: error.message });
     }
 
-    return { data: data?.rows, total: data?.count ?? 0 };
+    return { data: data[0].rows, total: data[0].total };
   } catch (error) {
     handleServerError(event, error);
   }

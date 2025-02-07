@@ -5,7 +5,7 @@
     "@mapbox/search-js-core": "^1.0.0-beta.25",
     "@nuxt/image": "1.9.0",
     "@nuxt/ui": "3.0.0-alpha.12",
-    "@nuxthub/core": "0.8.15",
+    "@nuxthub/core": "0.8.16",
     "@nuxtjs/robots": "5.2.2",
     "@nuxtjs/sitemap": "7.2.4",
     "@nuxtjs/supabase": "1.4.6",
@@ -26,7 +26,8 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "clean": "nuxt cleanup",
-    "db:generate": "supabase gen types typescript --project-id aldfzgmcgersdnecplul > types/database.types.ts",
+    "db:generate": "supabase gen types typescript --lang=typescript --linked > types/database.types.ts",
+    "db:generate:local": "supabase gen types --lang=typescript --local > types/database.types.ts",
     "format:vue": "npx prettier --write './**/*.vue'"
   },
   "type": "module",
@@ -40,7 +41,7 @@
     "prettier-plugin-tailwindcss": "^0.6.11",
     "unenv": "^1.10.0",
     "vue-tsc": "^2.2.0",
-    "wrangler": "^3.107.2"
+    "wrangler": "^3.107.3"
   },
   "trustedDependencies": [
     "@parcel/watcher",

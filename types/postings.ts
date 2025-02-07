@@ -58,4 +58,8 @@ export type PostingDetails = Omit<
   links: Array<LinkDetail>;
   media: Array<MediaDetail>;
   show_address: boolean;
+  email?: string;
+  website?: string;
+  phone?: string;
+  google_maps?: string;
 };

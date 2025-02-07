@@ -5,11 +5,11 @@
         <template v-for="option in sortOptions">
           <UTooltip :text="option.tooltip" ignoreNonKeyboardFocus>
             <UButton
-              size="xs"
+              class="hover:cursor-pointer"
+              size="sm"
               variant="subtle"
               :icon="option.icon"
               color="neutral"
-              class="hover:cursor-pointer"
               :class="selected === option.value ? 'bg-ui-bg-accented/75' : ''"
               @click="handleSortChange(option.value)">
               {{ option.label }}
@@ -25,7 +25,7 @@
         icon="mdi:map-marker"
         variant="ghost"
         color="neutral"
-        size="xs"
+        size="sm"
         @click="editLocation">
         {{ locationCookie.place }}
       </UButton>
@@ -49,7 +49,7 @@ const sortOptions = [
     tooltip: "Sort by newest",
   },
   {
-    label: "Nearest",
+    label: "Near me",
     value: PostingMode.Nearby,
     icon: "mdi:map-marker-radius-outline",
     tooltip: "Sort by nearest",

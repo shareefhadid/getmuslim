@@ -1,23 +1,25 @@
 <template>
   <UModal
-    :close="{
-      color: 'neutral',
-      size: 'xs',
-      class: 'hover:cursor-pointer',
+    :ui="{
+      title: 'sr-only',
+      description: 'sr-only',
+      content: 'overflow-hidden rounded-sm',
     }"
-    :ui="{ title: 'sr-only', description: 'sr-only' }">
-    <template #title>
-      {{ posting.title }}
-    </template>
-    <template #description>
-      {{ posting.title }}
-    </template>
-    <template #body>
-      <div class="xs:items-center xs:text-center flex flex-col gap-4">
-        <div class="xs:max-w-xs mb-1 w-full">
+    :title="posting.title"
+    :description="posting.description">
+    <template #content>
+      <div class="relative flex flex-col gap-4">
+        <UButton
+          class="ring-ui-border-accented absolute top-2 right-2 ring hover:cursor-pointer"
+          icon="mdi:close"
+          variant="soft"
+          size="xs"
+          @click="modal.close"
+          color="neutral" />
+        <div class="bg-ui-bg-elevated mb-1 w-full">
           <template v-if="posting.featured_image">
             <NuxtImg
-              class="aspect-square w-full rounded-md object-cover object-center"
+              class="aspect-square w-full object-cover object-center"
               :src="posting.featured_image"
               :alt="posting.title" />
           </template>
@@ -29,48 +31,78 @@
           </template>
         </div>
 
-        <h2 class="text-xl font-bold">{{ posting.title }}</h2>
-        <div v-if="posting.categories.length > 0">
-          <div class="xs:justify-center flex flex-wrap gap-3">
-            <template v-for="category in posting.categories" :key="category.id">
-              <GMCategoryButton
-                mode="badge"
-                :icon="category.icon || 'lucide:tags'"
-                :label="category.label"
-                :category-id="category.id.toString()"
-                :onPress="() => modal.close()" />
-            </template>
+        <div class="flex flex-col gap-4 px-4 pb-6 sm:px-6">
+          <h2 class="text-xl font-bold">{{ posting.title }}</h2>
+          <div v-if="posting.categories.length > 0">
+            <div class="flex flex-wrap gap-3">
+              <template
+                v-for="category in posting.categories"
+                :key="category.id">
+                <GMCategoryButton
+                  mode="badge"
+                  :icon="category.icon || 'lucide:tags'"
+                  :label="category.label"
+                  :category-id="category.id.toString()"
+                  :onPress="() => modal.close()" />
+              </template>
+            </div>
           </div>
-        </div>
-        <p
-          class="text-ui-text-muted text-sm"
-          v-if="posting.address && posting.show_address">
-          {{ posting.address }}{{ formattedDistance }}
-        </p>
-        <p class="text-ui-text-muted">{{ posting.description }}</p>
-        <div>
-          <div class="xs:justify-center flex flex-wrap gap-3">
-            <ULink
-              class="inline-flex items-center gap-x-1 text-sm hover:cursor-pointer"
-              @click="copyLink">
-              <UIcon name="mdi:content-copy" />
-              Copy link
-            </ULink>
-            <template v-for="link in posting.links" :key="link.id">
+          <p
+            class="text-ui-text-muted text-sm"
+            v-if="posting.address && posting.show_address">
+            {{ posting.address }}{{ formattedDistance }}
+          </p>
+          <p class="text-ui-text-muted">{{ posting.description }}</p>
+          <div>
+            <div class="flex flex-wrap gap-3">
+              <ULink
+                class="inline-flex items-center gap-x-1 text-sm hover:cursor-pointer"
+                @click="copyLink">
+                <UIcon name="mdi:content-copy" />
+                Copy link
+              </ULink>
               <ULink
                 class="inline-flex items-center gap-x-1 text-sm"
-                :href="link.url"
-                external
-                target="_blank">
-                <UIcon v-if="link.type.icon" :name="link.type.icon" />
-                {{ link.type.label }}
+                v-if="posting.google_maps"
+                :to="posting.google_maps"
+                target="_blank"
+                external>
+                <UIcon name="mdi:google-maps" />
+                Directions
               </ULink>
-            </template>
+              <ULink
+                class="inline-flex items-center gap-x-1 text-sm"
+                v-if="posting.website"
+                :to="posting.website"
+                target="_blank"
+                external>
+                <UIcon name="mdi:web" />
+                Website
+              </ULink>
+              <ULink
+                class="inline-flex items-center gap-x-1 text-sm"
+                v-if="posting.email"
+                :to="`mailto:${posting.email}`"
+                target="_blank"
+                external>
+                <UIcon name="mdi:email" />
+                {{ posting.email }}
+              </ULink>
+              <ULink
+                class="inline-flex items-center gap-x-1 text-sm"
+                v-if="posting.phone"
+                :to="`tel:${posting.phone}`"
+                target="_blank"
+                external>
+                <UIcon name="mdi:phone" />
+                {{ posting.phone }}
+              </ULink>
+            </div>
           </div>
+          <small class="text-ui-text-dimmed" v-if="posting.updated_at">
+            last updated {{ new Date(posting.updated_at).toLocaleDateString() }}
+          </small>
         </div>
-        <small class="text-ui-text-dimmed mt-3" v-if="posting.updated_at">
-          last updated {{ new Date(posting.updated_at).toLocaleDateString() }}
-        </small>
       </div>
     </template>
   </UModal>
