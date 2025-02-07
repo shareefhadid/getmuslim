@@ -56,16 +56,42 @@
               <UIcon name="mdi:content-copy" />
               Copy link
             </ULink>
-            <template v-for="link in posting.links" :key="link.id">
-              <ULink
-                class="inline-flex items-center gap-x-1 text-sm"
-                :href="link.url"
-                external
-                target="_blank">
-                <UIcon v-if="link.type.icon" :name="link.type.icon" />
-                {{ link.type.label }}
-              </ULink>
-            </template>
+            <ULink
+              class="inline-flex items-center gap-x-1 text-sm"
+              v-if="posting.google_maps"
+              :to="posting.google_maps"
+              target="_blank"
+              external>
+              <UIcon name="mdi:google-maps" />
+              Directions
+            </ULink>
+            <ULink
+              class="inline-flex items-center gap-x-1 text-sm"
+              v-if="posting.website"
+              :to="posting.website"
+              target="_blank"
+              external>
+              <UIcon name="mdi:web" />
+              Website
+            </ULink>
+            <ULink
+              class="inline-flex items-center gap-x-1 text-sm"
+              v-if="posting.email"
+              :to="`mailto:${posting.email}`"
+              target="_blank"
+              external>
+              <UIcon name="mdi:email" />
+              {{ posting.email }}
+            </ULink>
+            <ULink
+              class="inline-flex items-center gap-x-1 text-sm"
+              v-if="posting.phone"
+              :to="`tel:${posting.phone}`"
+              target="_blank"
+              external>
+              <UIcon name="mdi:phone" />
+              {{ posting.phone }}
+            </ULink>
           </div>
         </div>
         <small class="text-ui-text-dimmed mt-3" v-if="posting.updated_at">
