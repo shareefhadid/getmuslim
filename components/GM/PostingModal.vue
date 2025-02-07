@@ -8,7 +8,7 @@
     :title="posting.title"
     :description="posting.description">
     <template #content>
-      <div class="relative flex flex-col gap-4">
+      <div class="relative flex min-h-0 grow flex-col">
         <UButton
           class="ring-ui-border-accented absolute top-2 right-2 ring hover:cursor-pointer"
           icon="mdi:close"
@@ -16,7 +16,7 @@
           size="xs"
           @click="modal.close"
           color="neutral" />
-        <div class="bg-ui-bg-elevated mb-1 w-full">
+        <div class="bg-ui-bg-elevated w-full">
           <template v-if="posting.featured_image">
             <NuxtImg
               class="aspect-square w-full object-cover object-center"
@@ -31,77 +31,86 @@
           </template>
         </div>
 
-        <div class="flex flex-col gap-4 px-4 pb-6 sm:px-6">
-          <h2 class="text-xl font-bold">{{ posting.title }}</h2>
-          <div v-if="posting.categories.length > 0">
-            <div class="flex flex-wrap gap-3">
-              <template
-                v-for="category in posting.categories"
-                :key="category.id">
-                <GMCategoryButton
-                  mode="badge"
-                  :icon="category.icon || 'lucide:tags'"
-                  :label="category.label"
-                  :category-id="category.id.toString()"
-                  :onPress="() => modal.close()" />
-              </template>
+        <div class="relative flex min-h-0 grow flex-col">
+          <div
+            class="pointer-events-none absolute inset-x-0 top-0 z-10 h-8 bg-gradient-to-b from-[var(--ui-bg)] from-10% to-[var(--ui-bg)]/[0.10]" />
+
+          <div class="flex flex-col gap-4 overflow-scroll px-4 py-6 sm:px-6">
+            <h2 class="text-xl font-bold">{{ posting.title }}</h2>
+            <div v-if="posting.categories.length > 0">
+              <div class="flex flex-wrap gap-3">
+                <template
+                  v-for="category in posting.categories"
+                  :key="category.id">
+                  <GMCategoryButton
+                    mode="badge"
+                    :icon="category.icon || 'lucide:tags'"
+                    :label="category.label"
+                    :category-id="category.id.toString()"
+                    :onPress="() => modal.close()" />
+                </template>
+              </div>
             </div>
-          </div>
-          <p
-            class="text-ui-text-muted text-sm"
-            v-if="posting.address && posting.show_address">
-            {{ posting.address }}{{ formattedDistance }}
-          </p>
-          <p class="text-ui-text-muted">{{ posting.description }}</p>
-          <div>
-            <div class="flex flex-wrap gap-3">
-              <ULink
-                class="inline-flex items-center gap-x-1 text-sm hover:cursor-pointer"
-                @click="copyLink">
-                <UIcon name="mdi:content-copy" />
-                Copy link
-              </ULink>
-              <ULink
-                class="inline-flex items-center gap-x-1 text-sm"
-                v-if="posting.google_maps"
-                :to="posting.google_maps"
-                target="_blank"
-                external>
-                <UIcon name="mdi:google-maps" />
-                Directions
-              </ULink>
-              <ULink
-                class="inline-flex items-center gap-x-1 text-sm"
-                v-if="posting.website"
-                :to="posting.website"
-                target="_blank"
-                external>
-                <UIcon name="mdi:web" />
-                Website
-              </ULink>
-              <ULink
-                class="inline-flex items-center gap-x-1 text-sm"
-                v-if="posting.email"
-                :to="`mailto:${posting.email}`"
-                target="_blank"
-                external>
-                <UIcon name="mdi:email" />
-                {{ posting.email }}
-              </ULink>
-              <ULink
-                class="inline-flex items-center gap-x-1 text-sm"
-                v-if="posting.phone"
-                :to="`tel:${posting.phone}`"
-                target="_blank"
-                external>
-                <UIcon name="mdi:phone" />
-                {{ posting.phone }}
-              </ULink>
+            <p
+              class="text-ui-text-muted text-sm"
+              v-if="posting.address && posting.show_address">
+              {{ posting.address }}{{ formattedDistance }}
+            </p>
+            <p class="text-ui-text-muted">{{ posting.description }}</p>
+            <div>
+              <div class="flex flex-wrap gap-3">
+                <ULink
+                  class="inline-flex items-center gap-x-1 text-sm hover:cursor-pointer"
+                  @click="copyLink">
+                  <UIcon name="mdi:content-copy" />
+                  Copy link
+                </ULink>
+                <ULink
+                  class="inline-flex items-center gap-x-1 text-sm"
+                  v-if="posting.google_maps"
+                  :to="posting.google_maps"
+                  target="_blank"
+                  external>
+                  <UIcon name="mdi:google-maps" />
+                  Directions
+                </ULink>
+                <ULink
+                  class="inline-flex items-center gap-x-1 text-sm"
+                  v-if="posting.website"
+                  :to="posting.website"
+                  target="_blank"
+                  external>
+                  <UIcon name="mdi:web" />
+                  Website
+                </ULink>
+                <ULink
+                  class="inline-flex items-center gap-x-1 text-sm"
+                  v-if="posting.email"
+                  :to="`mailto:${posting.email}`"
+                  target="_blank"
+                  external>
+                  <UIcon name="mdi:email" />
+                  {{ posting.email }}
+                </ULink>
+                <ULink
+                  class="inline-flex items-center gap-x-1 text-sm"
+                  v-if="posting.phone"
+                  :to="`tel:${posting.phone}`"
+                  target="_blank"
+                  external>
+                  <UIcon name="mdi:phone" />
+                  {{ posting.phone }}
+                </ULink>
+              </div>
             </div>
+            <small class="text-ui-text-dimmed" v-if="posting.updated_at">
+              last updated
+              {{ new Date(posting.updated_at).toLocaleDateString() }}
+            </small>
           </div>
-          <small class="text-ui-text-dimmed" v-if="posting.updated_at">
-            last updated {{ new Date(posting.updated_at).toLocaleDateString() }}
-          </small>
+
+          <div
+            class="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-6 bg-gradient-to-t from-[var(--ui-bg)] from-10% to-[var(--ui-bg)]/[0.10]" />
         </div>
       </div>
     </template>
