@@ -104,3 +104,69 @@ To manually deploy:
 ```sh
 nuxthub deploy
 ```
+
+## Supabase local development
+
+Start supabase:
+
+```sh
+supabase start
+```
+
+Pull remote db:
+
+```sh
+supabase db pull
+```
+
+Create a migration:
+
+```sh
+# create_employees_table will be the migration name
+supabase migration new create_employees_table
+```
+
+Apply migrations locally:
+
+```sh
+# only apply migrations
+supabase migration up
+
+# reset db completely
+supabase db reset
+```
+
+See changes between local db and migrations:
+
+```sh
+# Diffs local migration files against the local database.
+supabase db diff
+```
+
+See changes between remote db and migrations:
+
+```sh
+# Diffs local migration files against the linked project.
+supabase db diff --linked
+```
+
+Generate migration from diff:
+
+```sh
+# Useful if you made changes directly without a migration
+supabase db diff -f file_name
+```
+
+Deploy local migrations to remote db:
+
+```sh
+supabase db push
+```
+
+### Sample data
+
+To add sample data, create a `supabase/seed.sql` file. You can apply this using:
+
+```sh
+supabase db reset
+```

@@ -7,6 +7,31 @@ export type Json =
   | Json[]
 
 export type Database = {
+  graphql_public: {
+    Tables: {
+      [_ in never]: never
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      graphql: {
+        Args: {
+          operationName?: string
+          query?: string
+          variables?: Json
+          extensions?: Json
+        }
+        Returns: Json
+      }
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
   public: {
     Tables: {
       categories: {
@@ -160,40 +185,52 @@ export type Database = {
           address: string
           created_at: string
           description: string
+          email: string | null
           featured_image: string | null
+          google_maps: string | null
           id: number
           location: unknown
+          phone: string | null
           search_text: unknown | null
           show_address: boolean
           status: Database["public"]["Enums"]["posting_status"]
           title: string
           updated_at: string | null
+          website: string | null
         }
         Insert: {
           address: string
           created_at?: string
           description: string
+          email?: string | null
           featured_image?: string | null
+          google_maps?: string | null
           id?: number
           location: unknown
+          phone?: string | null
           search_text?: unknown | null
           show_address?: boolean
           status?: Database["public"]["Enums"]["posting_status"]
           title: string
           updated_at?: string | null
+          website?: string | null
         }
         Update: {
           address?: string
           created_at?: string
           description?: string
+          email?: string | null
           featured_image?: string | null
+          google_maps?: string | null
           id?: number
           location?: unknown
+          phone?: string | null
           search_text?: unknown | null
           show_address?: boolean
           status?: Database["public"]["Enums"]["posting_status"]
           title?: string
           updated_at?: string | null
+          website?: string | null
         }
         Relationships: []
       }
@@ -212,6 +249,20 @@ export type Database = {
           offset_count?: number
         }
         Returns: Database["public"]["CompositeTypes"]["paginated_postings"]
+      }
+      get_nearby_postings_v2: {
+        Args: {
+          lat: number
+          long: number
+          max_distance?: number
+          category?: number
+          limit_count?: number
+          offset_count?: number
+        }
+        Returns: {
+          rows: Json[]
+          total: number
+        }[]
       }
       get_posting: {
         Args: {
@@ -260,6 +311,29 @@ export type Database = {
           media: Database["public"]["CompositeTypes"]["media_detail"][]
         }[]
       }
+      get_posting_v2: {
+        Args: {
+          posting_id: number
+          lat?: number
+          long?: number
+        }
+        Returns: {
+          id: number
+          created_at: string
+          updated_at: string
+          title: string
+          description: string
+          address: string
+          featured_image: string
+          distance: number
+          status: Database["public"]["Enums"]["posting_status"]
+          website: string
+          email: string
+          phone: string
+          google_maps: string
+          categories: Json
+        }[]
+      }
       get_recent_postings: {
         Args: {
           lat?: number
@@ -269,6 +343,19 @@ export type Database = {
           offset_count?: number
         }
         Returns: Database["public"]["CompositeTypes"]["paginated_postings"]
+      }
+      get_recent_postings_v2: {
+        Args: {
+          lat?: number
+          long?: number
+          category?: number
+          limit_count?: number
+          offset_count?: number
+        }
+        Returns: {
+          rows: Json[]
+          total: number
+        }[]
       }
       search_content: {
         Args: {
@@ -429,3 +516,4 @@ export type CompositeTypes<
   : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
     ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
+

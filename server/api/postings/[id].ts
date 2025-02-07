@@ -33,7 +33,7 @@ export default eventHandler(async (event) => {
 
     const client = await serverSupabaseClient(event);
 
-    const { data, error } = await client.rpc("get_posting", {
+    const { data, error } = await client.rpc("get_posting_v2", {
       posting_id,
       ...query,
     });
