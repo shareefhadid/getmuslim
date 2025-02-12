@@ -8,34 +8,32 @@
     :title="posting.title"
     :description="posting.description">
     <template #content>
-      <div class="relative flex min-h-0 grow flex-col">
+      <div class="relative min-h-0 grow overflow-scroll" ref="scroll">
         <UButton
-          class="ring-ui-border-accented absolute top-2 right-2 ring hover:cursor-pointer"
+          class="ring-ui-border-inverted/20 fixed top-2 right-2 z-10 ring hover:cursor-pointer"
           icon="mdi:close"
           variant="soft"
           size="xs"
           @click="modal.close"
           color="neutral" />
-        <div class="bg-ui-bg-elevated w-full">
-          <template v-if="posting.featured_image">
-            <NuxtImg
-              class="aspect-square w-full object-cover object-center"
-              :src="posting.featured_image"
-              :alt="posting.title" />
-          </template>
-          <template v-else>
-            <div
-              class="bg-ui-bg-accented flex aspect-square w-full items-center justify-center rounded-sm">
-              <UIcon class="text-ui-text h-12 w-12" name="lucide:image" />
-            </div>
-          </template>
-        </div>
 
-        <div class="relative flex min-h-0 grow flex-col">
-          <div
-            class="pointer-events-none absolute inset-x-0 top-0 z-10 h-8 bg-gradient-to-b from-[var(--ui-bg)] from-10% to-[var(--ui-bg)]/[0.10]" />
+        <div class="flex flex-col gap-y-6">
+          <div class="bg-ui-bg-elevated w-full">
+            <template v-if="posting.featured_image">
+              <NuxtImg
+                class="aspect-square w-full object-cover object-center"
+                :src="posting.featured_image"
+                :alt="posting.title" />
+            </template>
+            <template v-else>
+              <div
+                class="bg-ui-bg-accented flex aspect-square w-full items-center justify-center rounded-sm">
+                <UIcon class="text-ui-text h-12 w-12" name="lucide:image" />
+              </div>
+            </template>
+          </div>
 
-          <div class="flex flex-col gap-4 overflow-scroll px-4 py-6 sm:px-6">
+          <div class="flex flex-col gap-4 px-4 pb-6 sm:px-6">
             <h2 class="text-xl font-bold">{{ posting.title }}</h2>
             <div v-if="posting.categories.length > 0">
               <div class="flex flex-wrap gap-3">
@@ -108,9 +106,11 @@
               {{ new Date(posting.updated_at).toLocaleDateString() }}
             </small>
           </div>
-
-          <div
-            class="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-6 bg-gradient-to-t from-[var(--ui-bg)] from-10% to-[var(--ui-bg)]/[0.10]" />
+        </div>
+        <div
+          class="from-0 pointer-events-none fixed inset-x-0 bottom-0 z-20 flex h-7 items-end justify-center bg-gradient-to-t from-[var(--ui-bg)] to-[var(--ui-bg)]/[0.2] text-xs"
+          v-show="showScroll">
+          <UIcon class="mb-1 animate-bounce" name="mdi:arrow-down" />
         </div>
       </div>
     </template>
@@ -123,6 +123,20 @@ import type { PostingDetails } from "~/types/postings";
 const modal = useModal();
 const clipboard = useClipboard();
 const toast = useToast();
+
+const el = useTemplateRef<HTMLElement>("scroll");
+const { arrivedState, y } = useScroll(el);
+
+const showScroll = computed(() => !arrivedState.bottom);
+
+watch(modal.isOpen, (open) => {
+  if (open) {
+    setTimeout(() => {
+      y.value = 1;
+      y.value = 0;
+    }, 0);
+  }
+});
 
 const props = defineProps<{
   posting: PostingDetails;
