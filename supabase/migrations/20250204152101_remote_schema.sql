@@ -1,5 +1,3 @@
-
-
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
@@ -10,134 +8,53 @@ SET check_function_bodies = false;
 SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
-
-
 CREATE EXTENSION IF NOT EXISTS "pgsodium" WITH SCHEMA "pgsodium";
-
-
-
-
-
-
 CREATE SCHEMA IF NOT EXISTS "postgis";
-
-
 ALTER SCHEMA "postgis" OWNER TO "postgres";
-
-
 COMMENT ON SCHEMA "public" IS 'standard public schema';
-
-
-
 CREATE EXTENSION IF NOT EXISTS "pg_graphql" WITH SCHEMA "graphql";
-
-
-
-
-
-
 CREATE EXTENSION IF NOT EXISTS "pg_stat_statements" WITH SCHEMA "extensions";
-
-
-
-
-
-
 CREATE EXTENSION IF NOT EXISTS "pgcrypto" WITH SCHEMA "extensions";
-
-
-
-
-
-
 CREATE EXTENSION IF NOT EXISTS "pgjwt" WITH SCHEMA "extensions";
-
-
-
-
-
-
 CREATE EXTENSION IF NOT EXISTS "postgis" WITH SCHEMA "postgis";
-
-
-
-
-
-
 CREATE EXTENSION IF NOT EXISTS "supabase_vault" WITH SCHEMA "vault";
-
-
-
-
-
-
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA "extensions";
-
-
-
-
-
-
 CREATE TYPE "public"."category_detail" AS (
 	"id" bigint,
 	"label" "text",
 	"icon" "text"
 );
-
-
 ALTER TYPE "public"."category_detail" OWNER TO "postgres";
-
-
 CREATE TYPE "public"."link_type_detail" AS (
 	"id" bigint,
 	"label" "text",
 	"icon" "text",
 	"prefix" "text"
 );
-
-
 ALTER TYPE "public"."link_type_detail" OWNER TO "postgres";
-
-
 CREATE TYPE "public"."link_detail" AS (
 	"id" bigint,
 	"url" "text",
 	"type" "public"."link_type_detail"
 );
-
-
 ALTER TYPE "public"."link_detail" OWNER TO "postgres";
-
-
 CREATE TYPE "public"."media_type_enum" AS ENUM (
     'image',
     'video'
 );
-
-
 ALTER TYPE "public"."media_type_enum" OWNER TO "postgres";
-
-
 CREATE TYPE "public"."media_detail" AS (
 	"id" bigint,
 	"url" "text",
 	"media_type" "public"."media_type_enum"
 );
-
-
 ALTER TYPE "public"."media_detail" OWNER TO "postgres";
-
-
 CREATE TYPE "public"."posting_status" AS ENUM (
     'active',
     'inactive',
     'deleted'
 );
-
-
 ALTER TYPE "public"."posting_status" OWNER TO "postgres";
-
-
 CREATE TYPE "public"."posting_details" AS (
 	"id" bigint,
 	"created_at" timestamp with time zone,
@@ -152,24 +69,14 @@ CREATE TYPE "public"."posting_details" AS (
 	"links" "public"."link_detail"[],
 	"media" "public"."media_detail"[]
 );
-
-
 ALTER TYPE "public"."posting_details" OWNER TO "postgres";
-
-
 CREATE TYPE "public"."paginated_postings" AS (
 	"rows" "public"."posting_details"[],
 	"count" bigint
 );
-
-
 ALTER TYPE "public"."paginated_postings" OWNER TO "postgres";
-
 SET default_tablespace = '';
-
 SET default_table_access_method = "heap";
-
-
 CREATE TABLE IF NOT EXISTS "public"."postings" (
     "id" bigint NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
@@ -185,20 +92,12 @@ CREATE TABLE IF NOT EXISTS "public"."postings" (
     CONSTRAINT "postings_description_check" CHECK (("length"("description") < 500)),
     CONSTRAINT "postings_title_check" CHECK (("length"("title") < 100))
 );
-
-
 ALTER TABLE "public"."postings" OWNER TO "postgres";
-
-
 CREATE TYPE "public"."search_results" AS (
 	"categories" "public"."category_detail"[],
 	"postings" "public"."postings"[]
 );
-
-
 ALTER TYPE "public"."search_results" OWNER TO "postgres";
-
-
 CREATE OR REPLACE FUNCTION "public"."get_nearby_postings"("lat" double precision, "long" double precision, "max_distance" bigint DEFAULT 100000, "category" bigint DEFAULT NULL::bigint, "limit_count" integer DEFAULT 10, "offset_count" integer DEFAULT 0) RETURNS "public"."paginated_postings"
     LANGUAGE "plpgsql"
     SET "search_path" TO 'public, postgis'
@@ -271,11 +170,7 @@ FROM final_results;
 RETURN result;
 END;
 $$;
-
-
 ALTER FUNCTION "public"."get_nearby_postings"("lat" double precision, "long" double precision, "max_distance" bigint, "category" bigint, "limit_count" integer, "offset_count" integer) OWNER TO "postgres";
-
-
 CREATE OR REPLACE FUNCTION "public"."get_posting"("posting_id" bigint, "lat" double precision DEFAULT NULL::double precision, "long" double precision DEFAULT NULL::double precision) RETURNS TABLE("id" bigint, "created_at" timestamp with time zone, "updated_at" timestamp with time zone, "title" "text", "description" "text", "address" "text", "featured_image" "text", "distance" bigint, "status" "public"."posting_status", "categories" "public"."category_detail"[], "links" "public"."link_detail"[], "media" "public"."media_detail"[])
     LANGUAGE "sql"
     SET "search_path" TO 'public, postgis'
@@ -312,11 +207,7 @@ SELECT bp.id,
 FROM base_posting bp
     LEFT JOIN public.get_posting_details(ARRAY [posting_id]) pd ON pd.posting_id = bp.id;
 $$;
-
-
 ALTER FUNCTION "public"."get_posting"("posting_id" bigint, "lat" double precision, "long" double precision) OWNER TO "postgres";
-
-
 CREATE OR REPLACE FUNCTION "public"."get_posting_data"("posting_id" bigint) RETURNS TABLE("id" bigint, "title" "text", "description" "text", "lat" double precision, "long" double precision, "categories" "public"."category_detail"[], "media" "public"."media_detail"[], "links" "public"."link_detail"[])
     LANGUAGE "sql"
     SET "search_path" TO 'public'
@@ -339,11 +230,7 @@ FROM public.postings p
   LEFT JOIN get_posting_details(ARRAY [posting_id]) pd ON pd.posting_id = p.id
 WHERE p.id = posting_id;
 $$;
-
-
 ALTER FUNCTION "public"."get_posting_data"("posting_id" bigint) OWNER TO "postgres";
-
-
 CREATE OR REPLACE FUNCTION "public"."get_posting_details"("posting_ids" bigint[]) RETURNS TABLE("posting_id" bigint, "categories" "public"."category_detail"[], "links" "public"."link_detail"[], "media" "public"."media_detail"[])
     LANGUAGE "sql"
     SET "search_path" TO 'public'
@@ -408,11 +295,7 @@ FROM unnest(posting_ids) pid
     LEFT JOIN links_agg l ON l.posting_id = p.id
     LEFT JOIN media_agg m ON m.posting_id = p.id;
 $$;
-
-
 ALTER FUNCTION "public"."get_posting_details"("posting_ids" bigint[]) OWNER TO "postgres";
-
-
 CREATE OR REPLACE FUNCTION "public"."get_recent_postings"("lat" double precision DEFAULT NULL::double precision, "long" double precision DEFAULT NULL::double precision, "category" bigint DEFAULT NULL::bigint, "limit_count" integer DEFAULT 10, "offset_count" integer DEFAULT 0) RETURNS "public"."paginated_postings"
     LANGUAGE "plpgsql"
     SET "search_path" TO 'public, postgis'
@@ -491,11 +374,7 @@ FROM final_results;
 RETURN result;
 END;
 $$;
-
-
 ALTER FUNCTION "public"."get_recent_postings"("lat" double precision, "long" double precision, "category" bigint, "limit_count" integer, "offset_count" integer) OWNER TO "postgres";
-
-
 CREATE OR REPLACE FUNCTION "public"."search_content"("search_query" "text") RETURNS "public"."search_results"
     LANGUAGE "sql"
     SET "search_path" TO 'public, postgis'
@@ -558,11 +437,7 @@ SELECT COALESCE(
     ARRAY []::public.postings []
   ) AS postings;
 $$;
-
-
 ALTER FUNCTION "public"."search_content"("search_query" "text") OWNER TO "postgres";
-
-
 CREATE OR REPLACE FUNCTION "public"."update_timestamp"() RETURNS "trigger"
     LANGUAGE "plpgsql"
     SET "search_path" TO 'public'
@@ -572,22 +447,14 @@ begin
     return new;
 end;
 $$;
-
-
 ALTER FUNCTION "public"."update_timestamp"() OWNER TO "postgres";
-
-
 CREATE TABLE IF NOT EXISTS "public"."categories" (
     "id" bigint NOT NULL,
     "label" "text" NOT NULL,
     "icon" "text",
     "search_text" "tsvector" GENERATED ALWAYS AS ("to_tsvector"('"english"'::"regconfig", "label")) STORED
 );
-
-
 ALTER TABLE "public"."categories" OWNER TO "postgres";
-
-
 ALTER TABLE "public"."categories" ALTER COLUMN "id" ADD GENERATED BY DEFAULT AS IDENTITY (
     SEQUENCE NAME "public"."categories_id_seq"
     START WITH 1
@@ -596,20 +463,13 @@ ALTER TABLE "public"."categories" ALTER COLUMN "id" ADD GENERATED BY DEFAULT AS 
     NO MAXVALUE
     CACHE 1
 );
-
-
-
 CREATE TABLE IF NOT EXISTS "public"."link_types" (
     "id" bigint NOT NULL,
     "label" "text" NOT NULL,
     "icon" "text",
     "prefix" "text"
 );
-
-
 ALTER TABLE "public"."link_types" OWNER TO "postgres";
-
-
 ALTER TABLE "public"."link_types" ALTER COLUMN "id" ADD GENERATED BY DEFAULT AS IDENTITY (
     SEQUENCE NAME "public"."link_types_id_seq"
     START WITH 1
@@ -618,19 +478,12 @@ ALTER TABLE "public"."link_types" ALTER COLUMN "id" ADD GENERATED BY DEFAULT AS 
     NO MAXVALUE
     CACHE 1
 );
-
-
-
 CREATE TABLE IF NOT EXISTS "public"."posting_categories" (
     "id" bigint NOT NULL,
     "posting_id" bigint NOT NULL,
     "category_id" bigint NOT NULL
 );
-
-
 ALTER TABLE "public"."posting_categories" OWNER TO "postgres";
-
-
 ALTER TABLE "public"."posting_categories" ALTER COLUMN "id" ADD GENERATED BY DEFAULT AS IDENTITY (
     SEQUENCE NAME "public"."posting_categories_id_seq"
     START WITH 1
@@ -639,9 +492,6 @@ ALTER TABLE "public"."posting_categories" ALTER COLUMN "id" ADD GENERATED BY DEF
     NO MAXVALUE
     CACHE 1
 );
-
-
-
 CREATE TABLE IF NOT EXISTS "public"."posting_links" (
     "id" bigint NOT NULL,
     "url" "text" NOT NULL,
@@ -649,11 +499,7 @@ CREATE TABLE IF NOT EXISTS "public"."posting_links" (
     "posting_id" bigint NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL
 );
-
-
 ALTER TABLE "public"."posting_links" OWNER TO "postgres";
-
-
 ALTER TABLE "public"."posting_links" ALTER COLUMN "id" ADD GENERATED BY DEFAULT AS IDENTITY (
     SEQUENCE NAME "public"."posting_links_id_seq"
     START WITH 1
@@ -662,9 +508,6 @@ ALTER TABLE "public"."posting_links" ALTER COLUMN "id" ADD GENERATED BY DEFAULT 
     NO MAXVALUE
     CACHE 1
 );
-
-
-
 CREATE TABLE IF NOT EXISTS "public"."posting_media" (
     "id" bigint NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
@@ -672,11 +515,7 @@ CREATE TABLE IF NOT EXISTS "public"."posting_media" (
     "media_type" "public"."media_type_enum" DEFAULT 'image'::"public"."media_type_enum" NOT NULL,
     "url" "text" NOT NULL
 );
-
-
 ALTER TABLE "public"."posting_media" OWNER TO "postgres";
-
-
 ALTER TABLE "public"."posting_media" ALTER COLUMN "id" ADD GENERATED BY DEFAULT AS IDENTITY (
     SEQUENCE NAME "public"."posting_media_id_seq"
     START WITH 1
@@ -685,9 +524,6 @@ ALTER TABLE "public"."posting_media" ALTER COLUMN "id" ADD GENERATED BY DEFAULT 
     NO MAXVALUE
     CACHE 1
 );
-
-
-
 ALTER TABLE "public"."postings" ALTER COLUMN "id" ADD GENERATED BY DEFAULT AS IDENTITY (
     SEQUENCE NAME "public"."postings_id_seq"
     START WITH 1
@@ -696,518 +532,124 @@ ALTER TABLE "public"."postings" ALTER COLUMN "id" ADD GENERATED BY DEFAULT AS ID
     NO MAXVALUE
     CACHE 1
 );
-
-
-
 ALTER TABLE ONLY "public"."categories"
     ADD CONSTRAINT "categories_pkey" PRIMARY KEY ("id");
-
-
-
 ALTER TABLE ONLY "public"."link_types"
     ADD CONSTRAINT "link_types_pkey" PRIMARY KEY ("id");
-
-
-
 ALTER TABLE ONLY "public"."posting_categories"
     ADD CONSTRAINT "posting_categories_pkey" PRIMARY KEY ("id");
-
-
-
 ALTER TABLE ONLY "public"."posting_categories"
     ADD CONSTRAINT "posting_categories_posting_id_category_id" UNIQUE ("posting_id", "category_id");
-
-
-
 ALTER TABLE ONLY "public"."posting_links"
     ADD CONSTRAINT "posting_links_pkey" PRIMARY KEY ("id");
-
-
-
 ALTER TABLE ONLY "public"."posting_links"
     ADD CONSTRAINT "posting_links_posting_type_unique" UNIQUE ("posting_id", "link_type_id");
-
-
-
 ALTER TABLE ONLY "public"."posting_media"
     ADD CONSTRAINT "posting_media_pkey" PRIMARY KEY ("id");
-
-
-
 ALTER TABLE ONLY "public"."postings"
     ADD CONSTRAINT "postings_pkey" PRIMARY KEY ("id");
-
-
-
 CREATE INDEX "categories_search_idx" ON "public"."categories" USING "gin" ("search_text");
-
-
-
 CREATE INDEX "posting_categories_category_id_index" ON "public"."posting_categories" USING "btree" ("category_id");
-
-
-
 CREATE INDEX "posting_categories_posting_category_index" ON "public"."posting_categories" USING "btree" ("posting_id", "category_id");
-
-
-
 CREATE INDEX "postings_geo_index" ON "public"."postings" USING "gist" ("location");
-
-
-
 CREATE INDEX "postings_search_idx" ON "public"."postings" USING "gin" ("search_text");
-
-
-
 CREATE INDEX "postings_status_index" ON "public"."postings" USING "btree" ("status");
-
-
-
 CREATE OR REPLACE TRIGGER "update_timestamp" BEFORE UPDATE ON "public"."postings" FOR EACH ROW EXECUTE FUNCTION "public"."update_timestamp"();
-
-
-
 ALTER TABLE ONLY "public"."posting_categories"
     ADD CONSTRAINT "posting_categories_category_id_fkey" FOREIGN KEY ("category_id") REFERENCES "public"."categories"("id") ON DELETE CASCADE;
-
-
-
 ALTER TABLE ONLY "public"."posting_categories"
     ADD CONSTRAINT "posting_categories_posting_id_fkey" FOREIGN KEY ("posting_id") REFERENCES "public"."postings"("id") ON DELETE CASCADE;
-
-
-
 ALTER TABLE ONLY "public"."posting_links"
     ADD CONSTRAINT "posting_links_link_type_id_fkey" FOREIGN KEY ("link_type_id") REFERENCES "public"."link_types"("id");
-
-
-
 ALTER TABLE ONLY "public"."posting_links"
     ADD CONSTRAINT "posting_links_posting_id_fkey" FOREIGN KEY ("posting_id") REFERENCES "public"."postings"("id") ON UPDATE CASCADE ON DELETE CASCADE;
-
-
-
 ALTER TABLE ONLY "public"."posting_media"
     ADD CONSTRAINT "posting_media_posting_id_fkey" FOREIGN KEY ("posting_id") REFERENCES "public"."postings"("id") ON DELETE CASCADE;
-
-
-
 CREATE POLICY "Enable read access for all users" ON "public"."categories" FOR SELECT USING (true);
-
-
-
 CREATE POLICY "Enable read access for all users" ON "public"."link_types" FOR SELECT USING (true);
-
-
-
 CREATE POLICY "Enable read access for all users" ON "public"."posting_categories" FOR SELECT USING (true);
-
-
-
 CREATE POLICY "Enable read access for all users" ON "public"."posting_links" FOR SELECT USING (true);
-
-
-
 CREATE POLICY "Enable read access for all users" ON "public"."posting_media" FOR SELECT USING (true);
-
-
-
 CREATE POLICY "Enable read access for all users" ON "public"."postings" FOR SELECT USING (true);
-
-
-
 ALTER TABLE "public"."categories" ENABLE ROW LEVEL SECURITY;
-
-
 ALTER TABLE "public"."link_types" ENABLE ROW LEVEL SECURITY;
-
-
 ALTER TABLE "public"."posting_categories" ENABLE ROW LEVEL SECURITY;
-
-
 ALTER TABLE "public"."posting_links" ENABLE ROW LEVEL SECURITY;
-
-
 ALTER TABLE "public"."posting_media" ENABLE ROW LEVEL SECURITY;
-
-
 ALTER TABLE "public"."postings" ENABLE ROW LEVEL SECURITY;
-
-
-
-
 ALTER PUBLICATION "supabase_realtime" OWNER TO "postgres";
-
-
 GRANT USAGE ON SCHEMA "postgis" TO PUBLIC;
-
-
-
 GRANT USAGE ON SCHEMA "public" TO "postgres";
 GRANT USAGE ON SCHEMA "public" TO "anon";
 GRANT USAGE ON SCHEMA "public" TO "authenticated";
 GRANT USAGE ON SCHEMA "public" TO "service_role";
-
-
-
 GRANT ALL ON TABLE "public"."postings" TO "anon";
 GRANT ALL ON TABLE "public"."postings" TO "authenticated";
 GRANT ALL ON TABLE "public"."postings" TO "service_role";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 GRANT ALL ON FUNCTION "public"."get_nearby_postings"("lat" double precision, "long" double precision, "max_distance" bigint, "category" bigint, "limit_count" integer, "offset_count" integer) TO "anon";
 GRANT ALL ON FUNCTION "public"."get_nearby_postings"("lat" double precision, "long" double precision, "max_distance" bigint, "category" bigint, "limit_count" integer, "offset_count" integer) TO "authenticated";
 GRANT ALL ON FUNCTION "public"."get_nearby_postings"("lat" double precision, "long" double precision, "max_distance" bigint, "category" bigint, "limit_count" integer, "offset_count" integer) TO "service_role";
-
-
-
 GRANT ALL ON FUNCTION "public"."get_posting"("posting_id" bigint, "lat" double precision, "long" double precision) TO "anon";
 GRANT ALL ON FUNCTION "public"."get_posting"("posting_id" bigint, "lat" double precision, "long" double precision) TO "authenticated";
 GRANT ALL ON FUNCTION "public"."get_posting"("posting_id" bigint, "lat" double precision, "long" double precision) TO "service_role";
-
-
-
 GRANT ALL ON FUNCTION "public"."get_posting_data"("posting_id" bigint) TO "anon";
 GRANT ALL ON FUNCTION "public"."get_posting_data"("posting_id" bigint) TO "authenticated";
 GRANT ALL ON FUNCTION "public"."get_posting_data"("posting_id" bigint) TO "service_role";
-
-
-
 GRANT ALL ON FUNCTION "public"."get_posting_details"("posting_ids" bigint[]) TO "anon";
 GRANT ALL ON FUNCTION "public"."get_posting_details"("posting_ids" bigint[]) TO "authenticated";
 GRANT ALL ON FUNCTION "public"."get_posting_details"("posting_ids" bigint[]) TO "service_role";
-
-
-
 GRANT ALL ON FUNCTION "public"."get_recent_postings"("lat" double precision, "long" double precision, "category" bigint, "limit_count" integer, "offset_count" integer) TO "anon";
 GRANT ALL ON FUNCTION "public"."get_recent_postings"("lat" double precision, "long" double precision, "category" bigint, "limit_count" integer, "offset_count" integer) TO "authenticated";
 GRANT ALL ON FUNCTION "public"."get_recent_postings"("lat" double precision, "long" double precision, "category" bigint, "limit_count" integer, "offset_count" integer) TO "service_role";
-
-
-
 GRANT ALL ON FUNCTION "public"."search_content"("search_query" "text") TO "anon";
 GRANT ALL ON FUNCTION "public"."search_content"("search_query" "text") TO "authenticated";
 GRANT ALL ON FUNCTION "public"."search_content"("search_query" "text") TO "service_role";
-
-
-
 GRANT ALL ON FUNCTION "public"."update_timestamp"() TO "anon";
 GRANT ALL ON FUNCTION "public"."update_timestamp"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."update_timestamp"() TO "service_role";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 GRANT ALL ON TABLE "public"."categories" TO "anon";
 GRANT ALL ON TABLE "public"."categories" TO "authenticated";
 GRANT ALL ON TABLE "public"."categories" TO "service_role";
-
-
-
 GRANT ALL ON SEQUENCE "public"."categories_id_seq" TO "anon";
 GRANT ALL ON SEQUENCE "public"."categories_id_seq" TO "authenticated";
 GRANT ALL ON SEQUENCE "public"."categories_id_seq" TO "service_role";
-
-
-
 GRANT ALL ON TABLE "public"."link_types" TO "anon";
 GRANT ALL ON TABLE "public"."link_types" TO "authenticated";
 GRANT ALL ON TABLE "public"."link_types" TO "service_role";
-
-
-
 GRANT ALL ON SEQUENCE "public"."link_types_id_seq" TO "anon";
 GRANT ALL ON SEQUENCE "public"."link_types_id_seq" TO "authenticated";
 GRANT ALL ON SEQUENCE "public"."link_types_id_seq" TO "service_role";
-
-
-
 GRANT ALL ON TABLE "public"."posting_categories" TO "anon";
 GRANT ALL ON TABLE "public"."posting_categories" TO "authenticated";
 GRANT ALL ON TABLE "public"."posting_categories" TO "service_role";
-
-
-
 GRANT ALL ON SEQUENCE "public"."posting_categories_id_seq" TO "anon";
 GRANT ALL ON SEQUENCE "public"."posting_categories_id_seq" TO "authenticated";
 GRANT ALL ON SEQUENCE "public"."posting_categories_id_seq" TO "service_role";
-
-
-
 GRANT ALL ON TABLE "public"."posting_links" TO "anon";
 GRANT ALL ON TABLE "public"."posting_links" TO "authenticated";
 GRANT ALL ON TABLE "public"."posting_links" TO "service_role";
-
-
-
 GRANT ALL ON SEQUENCE "public"."posting_links_id_seq" TO "anon";
 GRANT ALL ON SEQUENCE "public"."posting_links_id_seq" TO "authenticated";
 GRANT ALL ON SEQUENCE "public"."posting_links_id_seq" TO "service_role";
-
-
-
 GRANT ALL ON TABLE "public"."posting_media" TO "anon";
 GRANT ALL ON TABLE "public"."posting_media" TO "authenticated";
 GRANT ALL ON TABLE "public"."posting_media" TO "service_role";
-
-
-
 GRANT ALL ON SEQUENCE "public"."posting_media_id_seq" TO "anon";
 GRANT ALL ON SEQUENCE "public"."posting_media_id_seq" TO "authenticated";
 GRANT ALL ON SEQUENCE "public"."posting_media_id_seq" TO "service_role";
-
-
-
 GRANT ALL ON SEQUENCE "public"."postings_id_seq" TO "anon";
 GRANT ALL ON SEQUENCE "public"."postings_id_seq" TO "authenticated";
 GRANT ALL ON SEQUENCE "public"."postings_id_seq" TO "service_role";
-
-
-
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON SEQUENCES  TO "postgres";
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON SEQUENCES  TO "anon";
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON SEQUENCES  TO "authenticated";
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON SEQUENCES  TO "service_role";
-
-
-
-
-
-
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON FUNCTIONS  TO "postgres";
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON FUNCTIONS  TO "anon";
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON FUNCTIONS  TO "authenticated";
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON FUNCTIONS  TO "service_role";
-
-
-
-
-
-
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES  TO "postgres";
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES  TO "anon";
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES  TO "authenticated";
 ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES  TO "service_role";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 RESET ALL;

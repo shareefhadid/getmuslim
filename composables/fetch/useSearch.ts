@@ -1,9 +1,12 @@
 import type { Tables } from "~/types/database.types";
-import type { CategoryDetail } from "~/types/postings";
+import type { Category } from "~/types/supabase";
 
 interface SearchResults {
-  categories: CategoryDetail[];
-  postings: Tables<"postings">[];
+  categories: Pick<Category, "id" | "label" | "icon">[];
+  postings: Pick<
+    Tables<"postings">,
+    "id" | "title" | "description" | "featured_image" | "address"
+  >[];
 }
 
 export const useSearch = (searchText: Ref<string>) => {

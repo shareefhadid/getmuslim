@@ -1,9 +1,10 @@
-CREATE OR REPLACE FUNCTION search_content(search_query text) RETURNS TABLE (
-    category_results json,
-    posting_results json
-  ) LANGUAGE SQL
+-- Drop the existing types and function if they exist
+DROP FUNCTION IF EXISTS public.search_content(text);
+DROP TYPE IF EXISTS public.search_results;
+-- Create the new function
+CREATE OR REPLACE FUNCTION search_content(search_query text) RETURNS TABLE(categories json, postings json) LANGUAGE SQL
 SET search_path = 'public, postgis' AS $$ WITH processed_query AS (
-    SELECT string_agg(word || ':*', ' | ') AS query
+    SELECT string_agg(word || ':*', ' & ') AS query
     FROM unnest(string_to_array(trim(search_query), ' ')) AS word
   )
 SELECT (
@@ -26,8 +27,7 @@ SELECT (
         )
       )
     LIMIT 5
-  ) AS category_results,
-  (
+  ), (
     SELECT json_agg(
         json_build_object(
           'id',
@@ -55,5 +55,9 @@ SELECT (
         )
       )
     LIMIT 5
-  ) AS posting_results;
+  );
 $$;
+-- Grant permissions to all users since this is public data
+GRANT EXECUTE ON FUNCTION public.search_content(text) TO anon,
+  authenticated,
+  service_role;

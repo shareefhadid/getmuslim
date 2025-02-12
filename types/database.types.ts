@@ -357,11 +357,32 @@ export type Database = {
           total: number
         }[]
       }
+      insert_posting: {
+        Args: {
+          title: string
+          description: string
+          lat: number
+          long: number
+          address: string
+          category_ids?: number[]
+          featured_image?: string
+          website?: string
+          email?: string
+          phone?: string
+          google_maps?: string
+          show_address?: boolean
+          status?: Database["public"]["Enums"]["posting_status"]
+        }
+        Returns: number
+      }
       search_content: {
         Args: {
           search_query: string
         }
-        Returns: Database["public"]["CompositeTypes"]["search_results"]
+        Returns: {
+          categories: Json
+          postings: Json
+        }[]
       }
     }
     Enums: {
@@ -409,12 +430,6 @@ export type Database = {
           | null
         links: Database["public"]["CompositeTypes"]["link_detail"][] | null
         media: Database["public"]["CompositeTypes"]["media_detail"][] | null
-      }
-      search_results: {
-        categories:
-          | Database["public"]["CompositeTypes"]["category_detail"][]
-          | null
-        postings: Database["public"]["Tables"]["postings"]["Row"][] | null
       }
     }
   }
