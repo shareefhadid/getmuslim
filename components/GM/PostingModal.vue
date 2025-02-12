@@ -8,7 +8,7 @@
     :title="posting.title"
     :description="posting.description">
     <template #content>
-      <div class="relative min-h-0 grow overflow-scroll">
+      <div class="relative min-h-0 grow overflow-scroll" ref="scroll">
         <UButton
           class="ring-ui-border-inverted/20 fixed top-2 right-2 z-10 ring hover:cursor-pointer"
           icon="mdi:close"
@@ -108,7 +108,10 @@
           </div>
         </div>
         <div
-          class="pointer-events-none fixed inset-x-0 bottom-0 z-20 h-6 bg-gradient-to-t from-[var(--ui-bg)] from-10% to-[var(--ui-bg)]/[0.10]"></div>
+          class="from-0 pointer-events-none fixed inset-x-0 bottom-0 z-20 flex h-7 items-end justify-center bg-gradient-to-t from-[var(--ui-bg)] to-[var(--ui-bg)]/[0.2] text-xs"
+          v-show="showScroll">
+          <UIcon class="mb-1 animate-bounce" name="mdi:arrow-down" />
+        </div>
       </div>
     </template>
   </UModal>
@@ -120,6 +123,20 @@ import type { PostingDetails } from "~/types/postings";
 const modal = useModal();
 const clipboard = useClipboard();
 const toast = useToast();
+
+const el = useTemplateRef<HTMLElement>("scroll");
+const { arrivedState, y } = useScroll(el);
+
+const showScroll = computed(() => !arrivedState.bottom);
+
+watch(modal.isOpen, (open) => {
+  if (open) {
+    setTimeout(() => {
+      y.value = 1;
+      y.value = 0;
+    }, 0);
+  }
+});
 
 const props = defineProps<{
   posting: PostingDetails;
