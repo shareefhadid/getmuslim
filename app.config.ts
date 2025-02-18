@@ -23,5 +23,12 @@ export default defineAppConfig({
         close: "relative top-auto end-auto",
       },
     },
+    input: {
+      variants: {
+        type: {
+          file: "file:me-2 file:font-medium file:text-(--ui-text-muted) file:outline-none file:hover:decoration-solid",
+        },
+      },
+    },
   },
 });
