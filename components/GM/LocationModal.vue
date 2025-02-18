@@ -36,6 +36,14 @@ const emit = defineEmits<{
   "location-set": [];
 }>();
 
+const searchText = ref("");
+const selectedSuggestion = ref<any>(null);
+
+const { suggestions, status, debouncing } = useSearchLocation(
+  searchText,
+  "place,address",
+);
+
 const emptyText = computed(() => {
   if (searchText.value.length < 3) {
     return "Type 3 or more letters to searching";
@@ -45,14 +53,6 @@ const emptyText = computed(() => {
     return "Searching...";
   }
 });
-
-const searchText = ref("");
-const selectedSuggestion = ref<any>(null);
-
-const { suggestions, status, debouncing } = useSearchLocation(
-  searchText,
-  "place,address",
-);
 
 await useRetrieveLocation(selectedSuggestion, true);
 
