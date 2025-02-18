@@ -1,4 +1,4 @@
-import mapbox from "@mapbox/search-js-core";
+import mapbox, { SearchBoxFeatureSuggestion } from "@mapbox/search-js-core";
 import { z } from "zod";
 
 const runtimeConfig = useRuntimeConfig();
@@ -8,9 +8,13 @@ const search = new mapbox.SearchBoxCore({
 
 export default defineEventHandler(async (event) => {
   try {
-    const body = await readBody(event);
-
-    const { suggestion } = z.object({ suggestion: z.any() }).parse(body);
+    const { suggestion, setLocationCookie } = await readValidatedBody(
+      event,
+      z.object({
+        suggestion: z.any(),
+        setLocationCookie: z.boolean().optional().default(false),
+      }).parse,
+    );
 
     const sessionToken =
       getCookie(event, "searchSessionToken") ||
@@ -22,9 +26,9 @@ export default defineEventHandler(async (event) => {
 
     deleteCookie(event, "searchSessionToken");
 
-    const feature = features[0] ?? null;
+    const feature: SearchBoxFeatureSuggestion = features[0] ?? null;
 
-    if (feature) {
+    if (feature && setLocationCookie) {
       setCookie(
         event,
         "location",

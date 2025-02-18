@@ -110,7 +110,9 @@
         <div
           class="from-0 pointer-events-none fixed inset-x-0 bottom-0 z-20 flex h-7 items-end justify-center bg-gradient-to-t from-[var(--ui-bg)] to-[var(--ui-bg)]/[0.2] text-xs"
           v-show="showScroll">
-          <UIcon class="mb-1 animate-bounce" name="mdi:arrow-down" />
+          <UIcon
+            class="max-xs:hidden mb-1 animate-pulse"
+            name="mdi:arrow-down" />
         </div>
       </div>
     </template>

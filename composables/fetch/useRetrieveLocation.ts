@@ -1,17 +1,19 @@
-import mapbox from "@mapbox/search-js-core";
+import mapbox, {
+  type SearchBoxFeatureSuggestion,
+} from "@mapbox/search-js-core";
 
 export const useRetrieveLocation = async (
   selectedSuggestion: Ref<mapbox.SearchBoxSuggestion | null>,
+  setLocationCookie?: boolean,
 ) => {
-  const { data, status, error, refresh } = await useFetch(
-    "/api/retrieve-location",
-    {
-      method: "POST",
-      body: { suggestion: selectedSuggestion },
-      headers: useRequestHeaders(["cookie"]),
-      immediate: false,
-    },
-  );
+  const { data, status, error, refresh } = await useFetch<{
+    feature: SearchBoxFeatureSuggestion;
+  }>("/api/retrieve-location", {
+    method: "POST",
+    body: { suggestion: selectedSuggestion, setLocationCookie },
+    headers: useRequestHeaders(["cookie"]),
+    immediate: false,
+  });
 
   watchEffect(() => {
     if (selectedSuggestion.value) {

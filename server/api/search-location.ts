@@ -8,13 +8,13 @@ const search = new mapbox.SearchBoxCore({
 
 export default defineEventHandler(async (event) => {
   try {
-    const query = getQuery(event);
-
-    const { searchText } = z
-      .object({
+    const { searchText, types } = await getValidatedQuery(
+      event,
+      z.object({
         searchText: z.string(),
-      })
-      .parse(query);
+        types: z.string().optional(),
+      }).parse,
+    );
 
     const sessionToken =
       getCookie(event, "searchSessionToken") ||
@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
     const { suggestions } = await search.suggest(searchText, {
       sessionToken,
       limit: 5,
-      types: "place",
+      types,
     });
 
     return { suggestions, sessionToken };
