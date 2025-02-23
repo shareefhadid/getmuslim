@@ -1,5 +1,5 @@
 <template>
-  <UContainer class="w-full pt-6 pb-16 flex flex-col justify-center">
+  <UContainer class="flex w-full flex-col justify-center pt-6 pb-16">
     <div
       class="mx-auto grid w-5xl max-w-full grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-[35%_1fr]"
       v-if="posting">
@@ -31,9 +31,7 @@
             </template>
           </div>
         </div>
-        <p
-          class="text-ui-text-muted text-sm"
-          v-if="posting.address && posting.show_address">
+        <p class="text-ui-text-muted text-sm" v-if="posting.address">
           {{ posting.address }}{{ formattedDistance }}
         </p>
         <p class="text-ui-text-toned" v-if="posting.description">

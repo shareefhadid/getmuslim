@@ -49,9 +49,7 @@
                 </template>
               </div>
             </div>
-            <p
-              class="text-ui-text-muted text-sm"
-              v-if="posting.address && posting.show_address">
+            <p class="text-ui-text-muted text-sm" v-if="posting.address">
               {{ posting.address }}{{ formattedDistance }}
             </p>
             <p class="text-ui-text-muted">{{ posting.description }}</p>
