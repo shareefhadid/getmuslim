@@ -24,8 +24,7 @@
             <UTextarea
               class="w-full"
               v-model="state.description"
-              :ui="{ base: ['resize-none'] }"
-              :rows="2" />
+              :ui="{ base: ['resize-none'] }" />
           </UFormField>
 
           <UFormField
@@ -74,7 +73,46 @@
           </UFormField>
 
           <UFormField label="Image" name="featured_image">
-            <UInput class="w-full" v-model="state.featured_image" type="file" />
+            <div
+              class="border-ui-border relative w-full rounded-lg border-2 border-dashed p-4 transition-all"
+              :class="{
+                'hover:border-ui-border-accented hover:cursor-pointer':
+                  !state.featured_image,
+              }"
+              @dragover.prevent
+              @drop.prevent="handleDrop"
+              @click="!state.featured_image && $refs.fileInput.click()">
+              <input
+                class="hidden"
+                ref="fileInput"
+                type="file"
+                accept="image/*"
+                @change="handleFileSelect" />
+              <div class="text-center">
+                <div class="space-y-2" v-if="state.featured_image">
+                  <img
+                    class="w-full"
+                    :src="previewUrl || undefined"
+                    alt="Preview" />
+                  <p class="text-ui-text-muted text-sm">
+                    {{ state.featured_image.name }}
+                  </p>
+                  <UButton
+                    icon="i-heroicons-arrow-path"
+                    @click.stop="$refs.fileInput.click()">
+                    Replace Image
+                  </UButton>
+                </div>
+                <div v-else>
+                  <p class="text-ui-text-muted text-sm">
+                    Drag and drop an image here, or click to select
+                  </p>
+                  <p class="text-ui-text-dimmed mt-1 text-xs">
+                    Recommended size: 512 x 512px (max 1MB, png or jpg)
+                  </p>
+                </div>
+              </div>
+            </div>
           </UFormField>
         </div>
 
@@ -97,7 +135,7 @@ const schema = z.object({
     .max(500, "Description cannot exceed 500 characters."),
   address: z.string().min(3, "Address must be at least 3 characters"),
   show_address: z.boolean().default(true),
-  featured_image: z.string().optional(),
+  featured_image: z.instanceof(File).optional(),
   website: z
     .string()
     .url("Must be a valid URL (should start with https://)")
@@ -192,5 +230,70 @@ const items = computed(() => {
       },
     };
   });
+});
+
+const fileInput = ref<HTMLInputElement | null>(null);
+
+const previewUrl = ref<string | null>(null);
+const MAX_FILE_SIZE = 1 * 1024 * 1024; // 1MB in bytes
+
+const validateFile = (file: File) => {
+  // Check if file is an image
+  if (!file.type.startsWith("image/")) {
+    toast.add({
+      title: "Invalid file type",
+      description: "Please upload an image file (JPG, PNG, GIF)",
+      color: "error",
+    });
+    return false;
+  }
+
+  // Check file size
+  if (file.size > MAX_FILE_SIZE) {
+    toast.add({
+      title: "Image is too large",
+      description: "Must be less than 1MB",
+      color: "error",
+    });
+    return false;
+  }
+
+  return true;
+};
+
+const handleFileSelect = (event: Event) => {
+  const input = event.target as HTMLInputElement;
+  if (input.files?.length) {
+    const file = input.files[0];
+    if (validateFile(file)) {
+      state.featured_image = file;
+      previewUrl.value = URL.createObjectURL(file);
+    } else {
+      input.value = ""; // Reset input
+      state.featured_image = undefined;
+      previewUrl.value = null;
+    }
+  }
+};
+
+const handleDrop = (event: DragEvent) => {
+  const files = event.dataTransfer?.files;
+  if (files?.length) {
+    const file = files[0];
+    if (validateFile(file)) {
+      state.featured_image = file;
+      previewUrl.value = URL.createObjectURL(file);
+    } else {
+      state.featured_image = undefined;
+      previewUrl.value = null;
+    }
+  }
+};
+
+// Clean up object URL when component is unmounted
+onUnmounted(() => {
+  if (previewUrl.value) {
+    URL.revokeObjectURL(previewUrl.value);
+  }
 });
 </script>
