@@ -81,10 +81,10 @@
               }"
               @dragover.prevent
               @drop.prevent="handleDrop"
-              @click="!state.featured_image && $refs.fileInput.click()">
+              @click="!state.featured_image && fileInputRef?.click()">
               <input
                 class="hidden"
-                ref="fileInput"
+                ref="file-input"
                 type="file"
                 accept="image/*"
                 @change="handleFileSelect" />
@@ -97,11 +97,20 @@
                   <p class="text-ui-text-muted text-sm">
                     {{ state.featured_image.name }}
                   </p>
-                  <UButton
-                    icon="i-heroicons-arrow-path"
-                    @click.stop="$refs.fileInput.click()">
-                    Replace Image
-                  </UButton>
+                  <div class="flex flex-wrap justify-center gap-4">
+                    <UButton
+                      class="hover:cursor-pointer"
+                      icon="mdi:refresh"
+                      @click.stop="fileInputRef?.click()">
+                      Replace
+                    </UButton>
+                    <UButton
+                      class="hover:cursor-pointer"
+                      icon="mdi:delete"
+                      @click.stop="handleClearImage">
+                      Clear
+                    </UButton>
+                  </div>
                 </div>
                 <div v-else>
                   <p class="text-ui-text-muted text-sm">
@@ -126,6 +135,8 @@
 import type { SearchBoxFeatureSuggestion } from "@mapbox/search-js-core";
 import type { FormSubmitEvent } from "@nuxt/ui";
 import * as z from "zod";
+
+const fileInputRef = useTemplateRef("file-input");
 
 const schema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
@@ -287,6 +298,18 @@ const handleDrop = (event: DragEvent) => {
       state.featured_image = undefined;
       previewUrl.value = null;
     }
+  }
+};
+
+const handleClearImage = () => {
+  state.featured_image = undefined;
+  if (previewUrl.value) {
+    URL.revokeObjectURL(previewUrl.value);
+    previewUrl.value = null;
+  }
+  // Reset file input
+  if (fileInputRef.value) {
+    fileInputRef.value.value = "";
   }
 };
 
