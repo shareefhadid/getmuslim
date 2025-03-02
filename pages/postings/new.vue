@@ -148,20 +148,20 @@ const categoryOptions = computed(() =>
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   // Extract just the category IDs for submission
-  const categoryIds = event.data.category.map(cat => cat.value);
-  
+  const categoryIds = event.data.category.map((cat) => cat.value);
+
   // Create a modified submission payload with just the category IDs
   const submissionData = {
     ...event.data,
-    category: categoryIds
+    category: categoryIds,
   };
-  
+
   toast.add({
     title: "Success",
     description: "The form has been submitted.",
     color: "success",
   });
-  
+
   // Log the modified data with category IDs
   console.log(submissionData);
 }
