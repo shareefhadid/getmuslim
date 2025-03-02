@@ -80,14 +80,12 @@
             <!-- Crop square with white border (no background to see image through) -->
             <div 
               ref="cropBoxRef"
-              class="absolute border-2 border-white"
+              class="absolute border-2 border-white bg-transparent cursor-move"
               :style="{
                 width: `${cropDisplaySize}px`,
                 height: `${cropDisplaySize}px`,
                 left: `${displayPosition.x}px`,
-                top: `${displayPosition.y}px`,
-                cursor: 'move',
-                background: 'transparent'  // Ensure transparency
+                top: `${displayPosition.y}px`
               }">
             </div>
           </div>
@@ -123,6 +121,16 @@
 </template>
 
 <script setup lang="ts">
+interface Position {
+  x: number; 
+  y: number;
+}
+
+interface Dimensions {
+  width: number;
+  height: number;
+}
+
 const props = defineProps<{
   modelValue: File | undefined
 }>();
@@ -131,7 +139,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: File | undefined]
 }>();
 
-const fileInputRef = useTemplateRef("file-input");
+const fileInputRef = useTemplateRef<HTMLInputElement>("file-input");
 const imageRef = ref<HTMLImageElement | null>(null);
 const cropBoxRef = ref<HTMLElement | null>(null);
 const previewUrl = ref<string | null>(null);
@@ -141,18 +149,18 @@ const toast = useToast();
 // Cropping state
 const needsCropping = ref(false);
 const imageLoaded = ref(false);
-const imageDimensions = ref({ width: 0, height: 0 });
-const displayDimensions = ref({ width: 0, height: 0 });
+const imageDimensions = ref<Dimensions>({ width: 0, height: 0 });
+const displayDimensions = ref<Dimensions>({ width: 0, height: 0 });
 const cropSize = ref(0);
 const cropDisplaySize = ref(0);
-const cropPosition = ref({ x: 0, y: 0 });
-const displayPosition = ref({ x: 0, y: 0 });
+const cropPosition = ref<Position>({ x: 0, y: 0 });
+const displayPosition = ref<Position>({ x: 0, y: 0 });
 const isDragging = ref(false);
-const dragOffset = ref({ x: 0, y: 0 });
+const dragOffset = ref<Position>({ x: 0, y: 0 });
 const originalImage = ref<HTMLImageElement | null>(null);
 const scaleFactor = ref(1);
 
-const validateFile = (file: File) => {
+const validateFile = (file: File): boolean => {
   // Check if file is an image
   if (!file.type.startsWith("image/")) {
     toast.add({
@@ -251,6 +259,8 @@ const analyzeImage = () => {
 };
 
 const startDrag = (event: MouseEvent | TouchEvent) => {
+  if (!cropBoxRef.value || !imageRef.value) return;
+  
   // Get initial position
   const clientX = 'touches' in event 
     ? event.touches[0].clientX 
@@ -259,10 +269,7 @@ const startDrag = (event: MouseEvent | TouchEvent) => {
     ? event.touches[0].clientY 
     : event.clientY;
   
-  if (!cropBoxRef.value) return;
-  
   const cropRect = cropBoxRef.value.getBoundingClientRect();
-  const imageRect = imageRef.value!.getBoundingClientRect();
   
   // Calculate offset from crop square origin
   dragOffset.value = {
@@ -316,8 +323,6 @@ const handleDrag = (event: MouseEvent | TouchEvent) => {
     x: newDisplayX / scaleFactor.value,
     y: newDisplayY / scaleFactor.value
   };
-  
-  // Don't process crop during dragging for better performance
 };
 
 const endDrag = () => {
@@ -334,7 +339,7 @@ const endDrag = () => {
 };
 
 const processCrop = () => {
-  if (!originalImage.value || !needsCropping.value) return;
+  if (!originalImage.value || !needsCropping.value || !props.modelValue) return;
   
   // Create canvas for cropping
   const canvas = document.createElement('canvas');
