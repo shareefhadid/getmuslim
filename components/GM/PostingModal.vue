@@ -14,7 +14,7 @@
           icon="mdi:close"
           variant="soft"
           size="xs"
-          @click="modal.close"
+          @click="handleClose"
           color="neutral" />
 
         <div class="flex flex-col gap-y-6">
@@ -45,7 +45,7 @@
                     :icon="category.icon || 'lucide:tags'"
                     :label="category.label"
                     :category-id="category.id.toString()"
-                    :onPress="() => modal.close()" />
+                    :onPress="() => handleClose" />
                 </template>
               </div>
             </div>
@@ -120,7 +120,11 @@
 <script lang="ts" setup>
 import type { PostingDetails } from "~/types/postings";
 
-const modal = useModal();
+const emit = defineEmits(["close"]);
+function handleClose() {
+  emit("close");
+}
+
 const clipboard = useClipboard();
 const toast = useToast();
 
@@ -128,15 +132,6 @@ const el = useTemplateRef<HTMLElement>("scroll");
 const { arrivedState, y } = useScroll(el);
 
 const showScroll = computed(() => !arrivedState.bottom);
-
-watch(modal.isOpen, (open) => {
-  if (open) {
-    setTimeout(() => {
-      y.value = 1;
-      y.value = 0;
-    }, 0);
-  }
-});
 
 const props = defineProps<{
   posting: PostingDetails;

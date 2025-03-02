@@ -6,10 +6,18 @@ export default defineAppConfig({
     },
     card: {
       slots: {
-        root: "flex flex-col divide-y-0 ring-[var(--ui-border-accented)] focus-visible:ring-2 focus-visible:ring-[var(--ui-border-inverted)] focus:outline-none rounded-[calc(var(--ui-radius)*2)]",
+        root: "divide-y-0 flex flex-col ring-[var(--ui-border-accented)] focus-visible:ring-2 focus-visible:ring-[var(--ui-border-inverted)] focus:outline-none rounded-[calc(var(--ui-radius)*2)]",
         body: "grow-1 sm:p-4",
         footer: "sm:p-4 pt-2 sm:pt-2",
         header: "sm:p-4 pb-2 sm:pb-2",
+      },
+      variants: {
+        variant: {
+          outline: { root: "divide-y-0" },
+          soft: { root: "divide-y-0" },
+          solid: { root: "divide-y-0" },
+          subtle: { root: "divide-y-0" },
+        },
       },
     },
     modal: {
@@ -21,13 +29,6 @@ export default defineAppConfig({
         description: "mt-2",
         body: "pt-2 sm:pt-2",
         close: "relative top-auto end-auto",
-      },
-    },
-    input: {
-      variants: {
-        type: {
-          file: "file:me-2 file:font-medium file:text-(--ui-text-muted) file:outline-none file:hover:decoration-solid",
-        },
       },
     },
   },

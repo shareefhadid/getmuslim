@@ -19,10 +19,6 @@ export default defineNuxtConfig({
   routeRules: {
     "/about": { prerender: true },
   },
-  colorMode: {
-    preference: "dark",
-    fallback: "dark",
-  },
   modules: [
     "@nuxt/ui",
     "@nuxtjs/supabase",
@@ -35,6 +31,9 @@ export default defineNuxtConfig({
     "nuxt-schema-org",
     "nuxt-link-checker",
   ],
+  ui: {
+    colorMode: false,
+  },
   supabase: {
     redirect: false,
     redirectOptions: {

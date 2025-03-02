@@ -30,12 +30,14 @@
 </template>
 
 <script lang="ts" setup>
-const modal = useModal();
-
 const emit = defineEmits<{
   "location-set": [];
+  close: [];
 }>();
 
+function handleClose() {
+  emit("close");
+}
 const searchText = ref("");
 const selectedSuggestion = ref<any>(null);
 
@@ -64,7 +66,7 @@ const items = computed(() => {
         if (suggestion) {
           selectedSuggestion.value = suggestion;
           emit("location-set");
-          modal.close();
+          handleClose();
           setTimeout(() => (searchText.value = ""), 500);
         }
       },

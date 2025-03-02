@@ -59,7 +59,8 @@ import { GMPostingModal } from "#components";
 import type { PostingDetails } from "~/types/postings";
 
 const route = useRoute();
-const modal = useModal();
+const overlay = useOverlay();
+const modal = overlay.create(GMPostingModal);
 const { y } = useWindowScroll({ behavior: "smooth" });
 
 const props = defineProps<{
@@ -73,6 +74,6 @@ const distance = computed(() => {
 });
 
 const handleClick = () => {
-  modal.open(GMPostingModal, { posting: props.posting });
+  modal.open({ posting: props.posting });
 };
 </script>
