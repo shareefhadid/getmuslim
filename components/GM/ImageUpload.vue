@@ -22,77 +22,27 @@
             :src="previewUrl || undefined"
             @load="onImageLoad"
             alt="Preview" />
-          
-          <!-- Crop overlay for non-square images -->
-          <div 
-            v-if="needsCropping && imageLoaded" 
+
+          <div
             class="absolute inset-0 overflow-hidden"
+            v-if="needsCropping && imageLoaded"
             @mousedown.prevent="startDrag"
             @touchstart.prevent="startDrag">
-            
-            <!-- Custom overlay with cutout for crop area -->
-            <div class="absolute inset-0">
-              <!-- Top overlay -->
-              <div 
-                class="absolute bg-black opacity-60" 
-                :style="{
-                  left: '0',
-                  top: '0',
-                  width: '100%',
-                  height: `${displayPosition.y}px`
-                }">
-              </div>
-              
-              <!-- Left overlay -->
-              <div 
-                class="absolute bg-black opacity-60" 
-                :style="{
-                  left: '0',
-                  top: `${displayPosition.y}px`,
-                  width: `${displayPosition.x}px`,
-                  height: `${cropDisplaySize}px`
-                }">
-              </div>
-              
-              <!-- Right overlay -->
-              <div 
-                class="absolute bg-black opacity-60" 
-                :style="{
-                  left: `${displayPosition.x + cropDisplaySize}px`,
-                  top: `${displayPosition.y}px`,
-                  width: `calc(100% - ${displayPosition.x + cropDisplaySize}px)`,
-                  height: `${cropDisplaySize}px`
-                }">
-              </div>
-              
-              <!-- Bottom overlay -->
-              <div 
-                class="absolute bg-black opacity-60" 
-                :style="{
-                  left: '0',
-                  top: `${displayPosition.y + cropDisplaySize}px`,
-                  width: '100%',
-                  height: `calc(100% - ${displayPosition.y + cropDisplaySize}px)`
-                }">
-              </div>
-            </div>
-            
-            <!-- Crop square with white border (no background to see image through) -->
-            <div 
+            <div
+              class="absolute bg-transparent"
               ref="cropBoxRef"
-              class="absolute border-2 border-white bg-transparent cursor-move"
               :style="{
+                top: `${displayPosition.y}px`,
+                left: `${displayPosition.x}px`,
                 width: `${cropDisplaySize}px`,
                 height: `${cropDisplaySize}px`,
-                left: `${displayPosition.x}px`,
-                top: `${displayPosition.y}px`
-              }">
-            </div>
+                boxShadow: '0 0 0 9999px rgba(0, 0, 0, 0.6)',
+                border: '2px solid white',
+                cursor: 'move',
+              }"></div>
           </div>
         </div>
-        <p class="text-ui-text-muted text-sm">
-          {{ modelValue.name }}
-        </p>
+        <p class="text-ui-text-muted text-sm">{{ modelValue.name }}</p>
         <div class="flex flex-wrap justify-center gap-4">
           <UButton
             class="hover:cursor-pointer"
@@ -122,7 +72,7 @@
 
 <script setup lang="ts">
 interface Position {
-  x: number; 
+  x: number;
   y: number;
 }
 
@@ -132,11 +82,11 @@ interface Dimensions {
 }
 
 const props = defineProps<{
-  modelValue: File | undefined
+  modelValue: File | undefined;
 }>();
 
 const emit = defineEmits<{
-  'update:modelValue': [value: File | undefined]
+  "update:modelValue": [value: File | undefined];
 }>();
 
 const fileInputRef = useTemplateRef<HTMLInputElement>("file-input");
@@ -146,7 +96,6 @@ const previewUrl = ref<string | null>(null);
 const MAX_FILE_SIZE = 1 * 1024 * 1024; // 1MB in bytes
 const toast = useToast();
 
-// Cropping state
 const needsCropping = ref(false);
 const imageLoaded = ref(false);
 const imageDimensions = ref<Dimensions>({ width: 0, height: 0 });
@@ -161,7 +110,6 @@ const originalImage = ref<HTMLImageElement | null>(null);
 const scaleFactor = ref(1);
 
 const validateFile = (file: File): boolean => {
-  // Check if file is an image
   if (!file.type.startsWith("image/")) {
     toast.add({
       title: "Invalid file type",
@@ -171,7 +119,6 @@ const validateFile = (file: File): boolean => {
     return false;
   }
 
-  // Check file size
   if (file.size > MAX_FILE_SIZE) {
     toast.add({
       title: "Image is too large",
@@ -186,73 +133,57 @@ const validateFile = (file: File): boolean => {
 
 const onImageLoad = () => {
   if (!imageRef.value) return;
-  
-  // Get the display dimensions of the image
+
   displayDimensions.value = {
     width: imageRef.value.clientWidth,
-    height: imageRef.value.clientHeight
+    height: imageRef.value.clientHeight,
   };
-  
-  // Now analyze the image's natural dimensions
+
   analyzeImage();
-  
   imageLoaded.value = true;
 };
 
 const calculateScaleFactor = () => {
   if (!imageRef.value || !imageDimensions.value.width) return;
-  
-  // Calculate scale factor between natural and displayed image
-  scaleFactor.value = displayDimensions.value.width / imageDimensions.value.width;
-  
-  // Update crop display size based on scale factor
+
+  scaleFactor.value =
+    displayDimensions.value.width / imageDimensions.value.width;
   cropDisplaySize.value = cropSize.value * scaleFactor.value;
-  
-  // Update display position based on crop position and scale factor
   updateDisplayPosition();
 };
 
 const updateDisplayPosition = () => {
   displayPosition.value = {
     x: cropPosition.value.x * scaleFactor.value,
-    y: cropPosition.value.y * scaleFactor.value
+    y: cropPosition.value.y * scaleFactor.value,
   };
 };
 
 const analyzeImage = () => {
   if (!props.modelValue || !imageRef.value) return;
-  
+
   const img = new Image();
   img.onload = () => {
-    // Store natural dimensions
-    imageDimensions.value = { 
-      width: img.naturalWidth, 
-      height: img.naturalHeight 
+    imageDimensions.value = {
+      width: img.naturalWidth,
+      height: img.naturalHeight,
     };
-    
-    // Check if image is square
+
     needsCropping.value = img.naturalWidth !== img.naturalHeight;
-    
+
     if (needsCropping.value) {
-      // Determine smaller dimension for crop square
       cropSize.value = Math.min(img.naturalWidth, img.naturalHeight);
-      
-      // Center crop square initially
+
       cropPosition.value = {
         x: (img.naturalWidth - cropSize.value) / 2,
-        y: (img.naturalHeight - cropSize.value) / 2
+        y: (img.naturalHeight - cropSize.value) / 2,
       };
-      
-      // Store original image for cropping
+
       originalImage.value = img;
-      
-      // Calculate scale factor and update display values
       calculateScaleFactor();
-      
-      // Process initial crop
       processCrop();
     }
-    
+
     URL.revokeObjectURL(img.src);
   };
   img.src = URL.createObjectURL(props.modelValue);
@@ -260,98 +191,87 @@ const analyzeImage = () => {
 
 const startDrag = (event: MouseEvent | TouchEvent) => {
   if (!cropBoxRef.value || !imageRef.value) return;
-  
-  // Get initial position
-  const clientX = 'touches' in event 
-    ? event.touches[0].clientX 
-    : event.clientX;
-  const clientY = 'touches' in event 
-    ? event.touches[0].clientY 
-    : event.clientY;
-  
+
+  const clientX = "touches" in event ? event.touches[0].clientX : event.clientX;
+  const clientY = "touches" in event ? event.touches[0].clientY : event.clientY;
+
   const cropRect = cropBoxRef.value.getBoundingClientRect();
-  
-  // Calculate offset from crop square origin
+
   dragOffset.value = {
     x: clientX - cropRect.left,
-    y: clientY - cropRect.top
+    y: clientY - cropRect.top,
   };
-  
+
   isDragging.value = true;
-  
-  // Add move and end event listeners
-  if ('touches' in event) {
-    window.addEventListener('touchmove', handleDrag, { passive: false });
-    window.addEventListener('touchend', endDrag);
+
+  if ("touches" in event) {
+    window.addEventListener("touchmove", handleDrag, { passive: false });
+    window.addEventListener("touchend", endDrag);
   } else {
-    window.addEventListener('mousemove', handleDrag);
-    window.addEventListener('mouseup', endDrag);
+    window.addEventListener("mousemove", handleDrag);
+    window.addEventListener("mouseup", endDrag);
   }
 };
 
 const handleDrag = (event: MouseEvent | TouchEvent) => {
   if (!isDragging.value || !imageRef.value) return;
-  
-  // Prevent default to stop scrolling on mobile
-  if ('touches' in event) {
+
+  if ("touches" in event) {
     event.preventDefault();
   }
-  
-  // Get current position
-  const clientX = 'touches' in event 
-    ? event.touches[0].clientX 
-    : event.clientX;
-  const clientY = 'touches' in event 
-    ? event.touches[0].clientY 
-    : event.clientY;
-  
+
+  const clientX = "touches" in event ? event.touches[0].clientX : event.clientX;
+  const clientY = "touches" in event ? event.touches[0].clientY : event.clientY;
+
   const imageRect = imageRef.value.getBoundingClientRect();
-  
-  // Calculate new position relative to image container
+
   let newDisplayX = clientX - imageRect.left - dragOffset.value.x;
   let newDisplayY = clientY - imageRect.top - dragOffset.value.y;
-  
-  // Constrain to image display boundaries
-  newDisplayX = Math.max(0, Math.min(newDisplayX, displayDimensions.value.width - cropDisplaySize.value));
-  newDisplayY = Math.max(0, Math.min(newDisplayY, displayDimensions.value.height - cropDisplaySize.value));
-  
-  // Update display position
+
+  newDisplayX = Math.max(
+    0,
+    Math.min(
+      newDisplayX,
+      displayDimensions.value.width - cropDisplaySize.value,
+    ),
+  );
+  newDisplayY = Math.max(
+    0,
+    Math.min(
+      newDisplayY,
+      displayDimensions.value.height - cropDisplaySize.value,
+    ),
+  );
+
   displayPosition.value = { x: newDisplayX, y: newDisplayY };
-  
-  // Calculate actual image position based on scale factor
+
   cropPosition.value = {
     x: newDisplayX / scaleFactor.value,
-    y: newDisplayY / scaleFactor.value
+    y: newDisplayY / scaleFactor.value,
   };
 };
 
 const endDrag = () => {
   isDragging.value = false;
-  
-  // Process crop when dragging ends
   processCrop();
-  
-  // Remove event listeners
-  window.removeEventListener('mousemove', handleDrag);
-  window.removeEventListener('mouseup', endDrag);
-  window.removeEventListener('touchmove', handleDrag);
-  window.removeEventListener('touchend', endDrag);
+
+  window.removeEventListener("mousemove", handleDrag);
+  window.removeEventListener("mouseup", endDrag);
+  window.removeEventListener("touchmove", handleDrag);
+  window.removeEventListener("touchend", endDrag);
 };
 
 const processCrop = () => {
   if (!originalImage.value || !needsCropping.value || !props.modelValue) return;
-  
-  // Create canvas for cropping
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-  
+
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
   if (!ctx) return;
-  
-  // Set canvas size to crop size (square)
+
   canvas.width = cropSize.value;
   canvas.height = cropSize.value;
-  
-  // Draw only the cropped portion to canvas
+
   ctx.drawImage(
     originalImage.value,
     cropPosition.value.x,
@@ -361,22 +281,20 @@ const processCrop = () => {
     0,
     0,
     cropSize.value,
-    cropSize.value
+    cropSize.value,
   );
-  
-  // Convert canvas to blob and create new File
+
   canvas.toBlob((blob) => {
     if (blob && props.modelValue) {
       const croppedFile = new File(
-        [blob], 
-        props.modelValue.name || 'cropped-image.jpg',
-        { type: 'image/jpeg' }
+        [blob],
+        props.modelValue.name || "cropped-image.jpg",
+        { type: "image/jpeg" },
       );
-      
-      // Update model value with cropped file without affecting the preview
-      emit('update:modelValue', croppedFile);
+
+      emit("update:modelValue", croppedFile);
     }
-  }, 'image/jpeg');
+  }, "image/jpeg");
 };
 
 const handleFileSelect = (event: Event) => {
@@ -384,22 +302,17 @@ const handleFileSelect = (event: Event) => {
   if (input.files?.length) {
     const file = input.files[0];
     if (validateFile(file)) {
-      // Reset loading state
       imageLoaded.value = false;
-      
-      // Set original file and preview URL
-      emit('update:modelValue', file);
-      
-      // Update preview URL
+
+      emit("update:modelValue", file);
+
       if (previewUrl.value) {
         URL.revokeObjectURL(previewUrl.value);
       }
       previewUrl.value = URL.createObjectURL(file);
-      
-      // Image analysis will happen on image load
     } else {
-      input.value = ""; // Reset input
-      emit('update:modelValue', undefined);
+      input.value = "";
+      emit("update:modelValue", undefined);
       previewUrl.value = null;
     }
   }
@@ -410,53 +323,45 @@ const handleDrop = (event: DragEvent) => {
   if (files?.length) {
     const file = files[0];
     if (validateFile(file)) {
-      // Reset loading state
       imageLoaded.value = false;
-      
-      // Set original file
-      emit('update:modelValue', file);
-      
-      // Update preview URL
+
+      emit("update:modelValue", file);
+
       if (previewUrl.value) {
         URL.revokeObjectURL(previewUrl.value);
       }
       previewUrl.value = URL.createObjectURL(file);
-      
-      // Image analysis will happen on image load
     } else {
-      emit('update:modelValue', undefined);
+      emit("update:modelValue", undefined);
       previewUrl.value = null;
     }
   }
 };
 
 const handleClearImage = () => {
-  emit('update:modelValue', undefined);
+  emit("update:modelValue", undefined);
   if (previewUrl.value) {
     URL.revokeObjectURL(previewUrl.value);
     previewUrl.value = null;
   }
-  // Reset file input
+
   if (fileInputRef.value) {
     fileInputRef.value.value = "";
   }
-  
-  // Reset cropping state
+
   needsCropping.value = false;
   originalImage.value = null;
   imageLoaded.value = false;
 };
 
-// Clean up object URL when component is unmounted
 onUnmounted(() => {
   if (previewUrl.value) {
     URL.revokeObjectURL(previewUrl.value);
   }
-  
-  // Remove any lingering event listeners
-  window.removeEventListener('mousemove', handleDrag);
-  window.removeEventListener('mouseup', endDrag);
-  window.removeEventListener('touchmove', handleDrag);
-  window.removeEventListener('touchend', endDrag);
+
+  window.removeEventListener("mousemove", handleDrag);
+  window.removeEventListener("mouseup", endDrag);
+  window.removeEventListener("touchmove", handleDrag);
+  window.removeEventListener("touchend", endDrag);
 });
-</script> 
+</script>
