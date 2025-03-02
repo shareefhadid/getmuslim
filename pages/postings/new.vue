@@ -147,80 +147,23 @@ const categoryOptions = computed(() =>
 );
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  try {
-    // Create form data for submission
-    const formData = new FormData();
+  // Extract just the category IDs for submission
+  const categoryIds = event.data.category.map((cat) => cat.value);
 
-    // Add all fields to FormData
-    formData.append("title", event.data.title);
-    formData.append("description", event.data.description);
-    formData.append("address", event.data.address);
-    formData.append("show_address", event.data.show_address.toString());
+  // Create a modified submission payload with just the category IDs
+  const submissionData = {
+    ...event.data,
+    category: categoryIds,
+  };
 
-    // Add the location if available
-    if (location.value) {
-      formData.append("location", location.value);
-    }
+  toast.add({
+    title: "Success",
+    description: "The form has been submitted.",
+    color: "success",
+  });
 
-    // Add optional fields if they exist
-    if (event.data.website) formData.append("website", event.data.website);
-    if (event.data.email) formData.append("email", event.data.email);
-    if (event.data.phone) formData.append("phone", event.data.phone);
-    if (event.data.google_maps)
-      formData.append("google_maps", event.data.google_maps);
-
-    // Add categories (must be stringified as JSON)
-    formData.append("category", JSON.stringify(event.data.category));
-
-    // Add image if there is one
-    if (event.data.featured_image) {
-      formData.append("featured_image", event.data.featured_image);
-    }
-
-    // Submit the form data to our API endpoint
-    const response = await $fetch("/api/postings/submit", {
-      method: "POST",
-      body: formData,
-    });
-
-    if (response.success) {
-      // Show success toast message
-      toast.add({
-        title: "Success",
-        description: "Your posting has been submitted for review.",
-        color: "success",
-      });
-
-      // Optionally, reset the form or redirect
-      state.title = "";
-      state.description = "";
-      state.address = "";
-      state.show_address = true;
-      state.featured_image = undefined;
-      state.website = undefined;
-      state.email = undefined;
-      state.phone = undefined;
-      state.google_maps = undefined;
-      state.category = [];
-    } else {
-      // Show error toast if submission was unsuccessful
-      toast.add({
-        title: "Error",
-        description:
-          (response as any).message ||
-          "Something went wrong. Please try again.",
-        color: "error",
-      });
-    }
-  } catch (error: any) {
-    // Handle errors during submission
-    console.error("Error submitting posting:", error);
-    toast.add({
-      title: "Error",
-      description: error.message || "Something went wrong. Please try again.",
-      color: "error",
-    });
-  }
+  // Log the modified data with category IDs
+  console.log(submissionData);
 }
 
 // Address search
