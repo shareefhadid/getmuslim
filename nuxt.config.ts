@@ -19,6 +19,10 @@ export default defineNuxtConfig({
   routeRules: {
     "/about": { prerender: true },
   },
+  colorMode: {
+    preference: "dark",
+    fallback: "dark",
+  },
   modules: [
     "@nuxt/ui",
     "@nuxtjs/supabase",
