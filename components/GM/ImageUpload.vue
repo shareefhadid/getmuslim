@@ -108,10 +108,13 @@ const originalImage = ref<HTMLImageElement | null>(null);
 const scaleFactor = ref(1);
 
 const validateFile = (file: File): boolean => {
-  if (!file.type.startsWith("image/")) {
+  // Check for accepted image formats (only PNG and JPEG/JPG)
+  const acceptedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+  
+  if (!acceptedTypes.includes(file.type)) {
     toast.add({
       title: "Invalid file type",
-      description: "Please upload an image file (JPG, PNG, GIF)",
+      description: "Please upload only PNG or JPG images",
       color: "error",
     });
     return false;
