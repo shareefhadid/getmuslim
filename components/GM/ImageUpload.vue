@@ -29,16 +29,14 @@
             @mousedown.prevent="startDrag"
             @touchstart.prevent="startDrag">
             <div
-              class="absolute bg-transparent"
+              class="absolute bg-transparent border-2 border-white cursor-move"
               ref="cropBoxRef"
               :style="{
                 top: `${displayPosition.y}px`,
                 left: `${displayPosition.x}px`,
                 width: `${cropDisplaySize}px`,
                 height: `${cropDisplaySize}px`,
-                boxShadow: '0 0 0 9999px rgba(0, 0, 0, 0.6)',
-                border: '2px solid white',
-                cursor: 'move',
+                boxShadow: '0 0 0 9999px rgba(0, 0, 0, 0.6)'
               }"></div>
           </div>
         </div>
