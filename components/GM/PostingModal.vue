@@ -14,7 +14,7 @@
           icon="mdi:close"
           variant="soft"
           size="xs"
-          @click="modal.close"
+          @click="handleClose"
           color="neutral" />
 
         <div class="flex flex-col gap-y-6">
@@ -45,13 +45,11 @@
                     :icon="category.icon || 'lucide:tags'"
                     :label="category.label"
                     :category-id="category.id.toString()"
-                    :onPress="() => modal.close()" />
+                    :onPress="() => handleClose" />
                 </template>
               </div>
             </div>
-            <p
-              class="text-ui-text-muted text-sm"
-              v-if="posting.address && posting.show_address">
+            <p class="text-ui-text-muted text-sm" v-if="posting.address">
               {{ posting.address }}{{ formattedDistance }}
             </p>
             <p class="text-ui-text-muted">{{ posting.description }}</p>
@@ -110,7 +108,9 @@
         <div
           class="from-0 pointer-events-none fixed inset-x-0 bottom-0 z-20 flex h-7 items-end justify-center bg-gradient-to-t from-[var(--ui-bg)] to-[var(--ui-bg)]/[0.2] text-xs"
           v-show="showScroll">
-          <UIcon class="mb-1 animate-bounce" name="mdi:arrow-down" />
+          <UIcon
+            class="max-xs:hidden mb-1 animate-pulse"
+            name="mdi:arrow-down" />
         </div>
       </div>
     </template>
@@ -120,7 +120,11 @@
 <script lang="ts" setup>
 import type { PostingDetails } from "~/types/postings";
 
-const modal = useModal();
+const emit = defineEmits(["close"]);
+function handleClose() {
+  emit("close");
+}
+
 const clipboard = useClipboard();
 const toast = useToast();
 
@@ -128,15 +132,6 @@ const el = useTemplateRef<HTMLElement>("scroll");
 const { arrivedState, y } = useScroll(el);
 
 const showScroll = computed(() => !arrivedState.bottom);
-
-watch(modal.isOpen, (open) => {
-  if (open) {
-    setTimeout(() => {
-      y.value = 1;
-      y.value = 0;
-    }, 0);
-  }
-});
 
 const props = defineProps<{
   posting: PostingDetails;
