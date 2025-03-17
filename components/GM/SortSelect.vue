@@ -38,7 +38,8 @@ import { GMLocationModal } from "#components";
 
 const route = useRoute();
 const router = useRouter();
-const modal = useModal();
+const overlay = useOverlay();
+const modal = overlay.create(GMLocationModal);
 const locationCookie = useLocationCookie();
 
 const sortOptions = [
@@ -63,7 +64,7 @@ const selected = computed(() =>
 );
 
 const editLocation = () => {
-  modal.open(GMLocationModal, {
+  modal.open({
     onLocationSet: () => {
       router.replace({
         query: {
@@ -78,7 +79,7 @@ const editLocation = () => {
 function handleSortChange(payload: PostingMode) {
   if (payload === selected.value) return;
   if (payload === PostingMode.Nearby && !locationCookie.value.isSet) {
-    modal.open(GMLocationModal, {
+    modal.open({
       onLocationSet: () => {
         router.replace({
           query: {

@@ -35,19 +35,6 @@
           size="xs"
           variant="ghost"
           title="RSS Feed" />
-        <ColorScheme>
-          <UButton
-            class="hover:cursor-pointer"
-            :icon="colorMode.value === 'light' ? 'lucide:sun' : 'lucide:moon'"
-            size="xs"
-            variant="ghost"
-            @click="
-              colorMode.value === 'light'
-                ? (colorMode.preference = 'dark')
-                : (colorMode.preference = 'light')
-            "
-            title="RSS Feed" />
-        </ColorScheme>
       </div>
       <div>
         <p class="text-ui-text-dimmed text-xs">

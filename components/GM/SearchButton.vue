@@ -1,6 +1,6 @@
 <template>
   <UButton
-    class="xs:self-center w-3xs self-start bg-white font-normal text-zinc-500 ring-1 shadow-sm ring-zinc-300 transition-all ease-in-out hover:cursor-pointer hover:bg-zinc-50 hover:shadow-md"
+    class="xs:self-center w-3xs self-start bg-white font-normal text-zinc-500 shadow-sm ring-1 ring-zinc-300 transition-all ease-in-out hover:cursor-pointer hover:bg-zinc-50 hover:shadow-md"
     icon="mdi:magnify"
     @click="openSearch">
     Search...
@@ -20,12 +20,13 @@
 <script lang="ts" setup>
 import { GMSearchPalette } from "#components";
 
-const modal = useModal();
+const overlay = useOverlay();
+const modal = overlay.create(GMSearchPalette);
 
 const openSearch = () => {
   document.activeElement instanceof HTMLElement &&
     document.activeElement.blur();
-  modal.open(GMSearchPalette);
+  modal.open();
 };
 
 defineShortcuts({
