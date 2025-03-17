@@ -1,9 +1,10 @@
-import mapbox, {
+import {
   type SearchBoxFeatureSuggestion,
+  type SearchBoxSuggestion,
 } from "@mapbox/search-js-core";
 
 export const useRetrieveLocation = async (
-  selectedSuggestion: Ref<mapbox.SearchBoxSuggestion | null>,
+  selectedSuggestion: Ref<SearchBoxSuggestion | null>,
   setLocationCookie?: boolean,
 ) => {
   const { data, status, error, refresh } = await useFetch<{
