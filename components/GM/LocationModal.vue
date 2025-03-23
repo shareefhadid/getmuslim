@@ -49,7 +49,7 @@ const { suggestions, status, debouncing } = useSearchLocation(
 const emptyText = computed(() => {
   if (searchText.value.length < 3) {
     return "Type 3 or more letters to searching";
-  } else if (status.value === "success" && !debouncing) {
+  } else if (status.value === "success" && !debouncing.value) {
     return "No results";
   } else {
     return "Searching...";

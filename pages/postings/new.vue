@@ -69,6 +69,7 @@
               class="w-full"
               v-model="state.category"
               :items="categoryOptions"
+              :reset-search-term-on-blur="false"
               multiple />
           </UFormField>
 
@@ -147,10 +148,8 @@ const categoryOptions = computed(() =>
 );
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  // Extract just the category IDs for submission
   const categoryIds = event.data.category.map((cat) => cat.value);
 
-  // Create a modified submission payload with just the category IDs
   const submissionData = {
     ...event.data,
     category: categoryIds,
@@ -162,11 +161,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     color: "success",
   });
 
-  // Log the modified data with category IDs
   console.log(submissionData);
 }
 
-// Address search
 const { suggestions, status, debouncing } = useSearchLocation(
   toRef(state, "address"),
   "place,address",
@@ -175,7 +172,7 @@ const { suggestions, status, debouncing } = useSearchLocation(
 const emptyText = computed(() => {
   if (state.address?.length < 3) {
     return "Type 3 or more letters to searching";
-  } else if (status.value === "success" && !debouncing) {
+  } else if (status.value === "success" && !debouncing.value) {
     return "No results";
   } else {
     return "Searching...";

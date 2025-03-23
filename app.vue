@@ -44,7 +44,7 @@ useSchemaOrg([
 </script>
 
 <style>
-@import "tailwindcss" theme(static);
+@import "tailwindcss";
 @import "@nuxt/ui";
 
 #__nuxt {
