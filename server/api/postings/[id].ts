@@ -1,9 +1,9 @@
 import { serverSupabaseClient } from "#supabase/server";
 import { z } from "zod";
-import { logError } from "../../utils/logger";
-import { parseFloatParam } from "../../utils/parse-float-param";
+import { logError } from "@/server/utils/logger";
+import { parseFloatParam } from "@/server/utils/parse-float-param";
 
-export default eventHandler(async (event) => {
+export default defineEventHandler(async (event) => {
   try {
     const locationCookie = getCookie(event, "location");
     const { lat, long } = locationCookie ? JSON.parse(locationCookie) : {};

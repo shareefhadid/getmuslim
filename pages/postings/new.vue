@@ -8,6 +8,7 @@
       </p>
       <UForm
         class="mt-3 space-y-4"
+        ref="form"
         :schema="schema"
         :state="state"
         @submit="onSubmit">
@@ -78,7 +79,7 @@
           </UFormField>
         </div>
 
-        <UButton type="submit">Submit</UButton>
+        <UButton class="hover:cursor-pointer" type="submit">Submit</UButton>
       </UForm>
     </div>
   </UContainer>
@@ -88,6 +89,8 @@
 import type { SearchBoxFeatureSuggestion } from "@mapbox/search-js-core";
 import type { FormSubmitEvent } from "@nuxt/ui";
 import * as z from "zod";
+
+const form = useTemplateRef("form");
 
 const schema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
@@ -124,7 +127,7 @@ const location = ref<string | undefined>(undefined);
 
 type Schema = z.output<typeof schema>;
 
-const state = reactive<Schema>({
+const initialState: Schema = {
   title: "",
   description: "",
   address: "",
@@ -135,7 +138,9 @@ const state = reactive<Schema>({
   phone: undefined,
   google_maps: undefined,
   category: [] as { label: string; value: number; icon: string | null }[],
-});
+};
+
+const state = reactive<Schema>({ ...initialState });
 
 const toast = useToast();
 const { categories } = await useCategories();
@@ -153,15 +158,33 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   const submissionData = {
     ...event.data,
     category: categoryIds,
+    location: location.value,
   };
 
-  toast.add({
-    title: "Success",
-    description: "The form has been submitted.",
-    color: "success",
-  });
+  try {
+    await $fetch("/api/postings", {
+      method: "POST",
+      body: submissionData,
+    });
 
-  console.log(submissionData);
+    toast.add({
+      title: "Success",
+      description: "The form has been submitted.",
+      color: "success",
+    });
+
+    Object.assign(state, { ...initialState });
+
+    location.value = undefined;
+
+    form.value?.clear();
+  } catch (error) {
+    toast.add({
+      title: "Error",
+      description: "Something went wrong.",
+      color: "error",
+    });
+  }
 }
 
 const { suggestions, status, debouncing } = useSearchLocation(
