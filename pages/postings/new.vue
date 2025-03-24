@@ -153,15 +153,15 @@ const categoryOptions = computed(() =>
 );
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  const categoryIds = event.data.category.map((cat) => cat.value);
-
-  const submissionData = {
-    ...event.data,
-    category: categoryIds,
-    location: location.value,
-  };
-
   try {
+    const categoryIds = event.data.category.map((cat) => cat.value);
+
+    const submissionData = toFormData({
+      ...event.data,
+      location: location.value,
+      category: categoryIds,
+    });
+
     await $fetch("/api/postings", {
       method: "POST",
       body: submissionData,
