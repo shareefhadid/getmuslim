@@ -10,7 +10,7 @@
         :groups="groups"
         autofocus
         close
-        @update:open="modal.close()"
+        @update:open="handleClose()"
         placeholder="Search businesses and categories..."
         :ui="{}">
         <template #empty>
@@ -36,9 +36,13 @@
 <script setup lang="ts">
 import type { CommandPaletteGroup, CommandPaletteItem } from "@nuxt/ui";
 
+const emit = defineEmits(["close"]);
+function handleClose() {
+  emit("close");
+}
+
 const route = useRoute();
 const router = useRouter();
-const modal = useModal();
 
 const searchText = ref("");
 
@@ -75,7 +79,7 @@ const groups = computed<CommandPaletteGroup<CommandPaletteItem>[]>(() => {
           label: "View all postings",
           onSelect: () => {
             router.replace("/");
-            modal.close();
+            handleClose();
             scrollToResults();
           },
         },
@@ -97,7 +101,7 @@ const groups = computed<CommandPaletteGroup<CommandPaletteItem>[]>(() => {
         suffix: posting.description,
         onSelect: () => {
           navigateTo(`/postings/${posting.id}`);
-          modal.close();
+          handleClose();
           searchText.value = "";
         },
       })),
@@ -111,7 +115,7 @@ const groups = computed<CommandPaletteGroup<CommandPaletteItem>[]>(() => {
         icon: category.icon || "lucide:tags",
         onSelect: () => {
           handleCategorySelect(category.id);
-          modal.close();
+          handleClose();
           searchText.value = "";
           scrollToResults();
         },

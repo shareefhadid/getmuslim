@@ -11,7 +11,7 @@
 
     <template #body>
       <p class="text-ui-accented mb-3 text-sm">
-        Enter your city to find businesses near you.
+        Enter your address or city to find businesses near you.
       </p>
       <UInputMenu
         class="w-full"
@@ -19,7 +19,7 @@
         :ui="{
           base: 'focus-visible:ring-ui-border-accented',
         }"
-        placeholder="Enter your city"
+        placeholder="Enter your address or city"
         autofocus
         trailing-icon=""
         :items="items">
@@ -30,24 +30,33 @@
 </template>
 
 <script lang="ts" setup>
-const modal = useModal();
-
 const emit = defineEmits<{
   "location-set": [];
+  close: [];
 }>();
 
-const emptyText = computed(() =>
-  searchText.value.length < 3
-    ? "Type 3 or more letters to searching"
-    : "Searching...",
-);
-
+function handleClose() {
+  emit("close");
+}
 const searchText = ref("");
 const selectedSuggestion = ref<any>(null);
 
-const { suggestions } = useSearchLocation(searchText);
+const { suggestions, status, debouncing } = useSearchLocation(
+  searchText,
+  "place,address",
+);
 
-await useRetrieveLocation(selectedSuggestion);
+const emptyText = computed(() => {
+  if (searchText.value.length < 3) {
+    return "Type 3 or more letters to searching";
+  } else if (status.value === "success" && !debouncing.value) {
+    return "No results";
+  } else {
+    return "Searching...";
+  }
+});
+
+await useRetrieveLocation(selectedSuggestion, true);
 
 const items = computed(() => {
   return suggestions.value.map((suggestion, index) => {
@@ -57,7 +66,7 @@ const items = computed(() => {
         if (suggestion) {
           selectedSuggestion.value = suggestion;
           emit("location-set");
-          modal.close();
+          handleClose();
           setTimeout(() => (searchText.value = ""), 500);
         }
       },

@@ -2,7 +2,7 @@ import { serverSupabaseClient } from "#supabase/server";
 import { z } from "zod";
 import type { Database } from "~/types/database.types";
 
-export default eventHandler(async (event) => {
+export default defineEventHandler(async (event) => {
   try {
     const query = await getValidatedQuery(event, (data) =>
       z

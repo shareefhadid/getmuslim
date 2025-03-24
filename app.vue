@@ -1,7 +1,7 @@
 <template>
   <div class="h-full">
-    <Html class="h-full scroll-smooth" />
-    <Body class="flex h-full flex-col antialiased" />
+    <Html class="dark h-full scroll-smooth" />
+    <Body class="flex h-full flex-col" />
     <UApp>
       <NuxtLayout class="flex h-full flex-col">
         <NuxtPage class="grow" />
@@ -128,7 +128,7 @@ useSchemaOrg([
   --ui-error: var(--ui-color-error-400);
 }
 
-@theme {
+@theme static {
   /* breakpoints */
   --breakpoint-xs: 32rem;
   /* fonts */
@@ -174,11 +174,12 @@ useSchemaOrg([
   --shadow-2xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-xs: 0 1px 3px 0px rgb(0 0 0 / 0.05);
   --shadow-sm: 0 2px 5px 0px rgb(0 0 0 / 0.08), 0 2px 3px 0px rgb(0 0 0 / 0.08);
-  --shadow-md: 0 4px 8px -1px rgb(0 0 0 / 0.08), 0 3px 6px -1px rgb(0 0 0 / 0.08);
-  --shadow-lg: 0 10px 20px -2px rgb(0 0 0 / 0.08),
-    0 5px 10px -3px rgb(0 0 0 / 0.08);
-  --shadow-xl: 0 20px 30px -4px rgb(0 0 0 / 0.08),
-    0 8px 15px -5px rgb(0 0 0 / 0.08);
+  --shadow-md:
+    0 4px 8px -1px rgb(0 0 0 / 0.08), 0 3px 6px -1px rgb(0 0 0 / 0.08);
+  --shadow-lg:
+    0 10px 20px -2px rgb(0 0 0 / 0.08), 0 5px 10px -3px rgb(0 0 0 / 0.08);
+  --shadow-xl:
+    0 20px 30px -4px rgb(0 0 0 / 0.08), 0 8px 15px -5px rgb(0 0 0 / 0.08);
   --shadow-2xl: 0 30px 60px -10px rgb(0 0 0 / 0.2);
 }
 
