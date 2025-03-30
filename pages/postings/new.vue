@@ -69,8 +69,8 @@
           <UFormField label="Categories (max 3)" name="category" required>
             <UInputMenu
               class="w-full"
-              v-model="state.category"
-              :items="categoryOptions"
+              v-model="state.category as InputMenuItem[]"
+              :items="categoryOptions as InputMenuItem[]"
               :reset-search-term-on-blur="false"
               multiple />
           </UFormField>
@@ -88,7 +88,7 @@
 
 <script setup lang="ts">
 import type { SearchBoxFeatureSuggestion } from "@mapbox/search-js-core";
-import type { FormSubmitEvent } from "@nuxt/ui";
+import type { FormSubmitEvent, InputMenuItem } from "@nuxt/ui";
 import * as z from "zod";
 
 const form = useTemplateRef("form");
