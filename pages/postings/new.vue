@@ -35,6 +35,7 @@
             description="You can also enter your city.">
             <UInputMenu
               class="w-full"
+              v-model="selectedAddress"
               v-model:search-term="state.address"
               trailing-icon=""
               :items="items">
@@ -65,7 +66,7 @@
             <UInput class="w-full" v-model="state.google_maps" type="url" />
           </UFormField>
 
-          <UFormField label="Categories (max 3)" name="category">
+          <UFormField label="Categories (max 3)" name="category" required>
             <UInputMenu
               class="w-full"
               v-model="state.category"
@@ -123,7 +124,16 @@ const schema = z.object({
     .max(3, "Maximum 3 categories allowed"),
 });
 
-const location = ref<string | undefined>(undefined);
+const latitude = ref<number | undefined>(undefined);
+const longitude = ref<number | undefined>(undefined);
+
+const selectedAddress = ref<
+  | {
+      label: string;
+      onSelect: (e: Event) => Promise<void>;
+    }
+  | undefined
+>(undefined);
 
 type Schema = z.output<typeof schema>;
 
@@ -137,7 +147,7 @@ const initialState: Schema = {
   email: undefined,
   phone: undefined,
   google_maps: undefined,
-  category: [] as { label: string; value: number; icon: string | null }[],
+  category: [],
 };
 
 const state = reactive<Schema>({ ...initialState });
@@ -158,7 +168,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
     const submissionData = toFormData({
       ...event.data,
-      location: location.value,
+      latitude: latitude.value,
+      longitude: longitude.value,
       category: categoryIds,
     });
 
@@ -168,15 +179,15 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     });
 
     toast.add({
-      title: "Success",
-      description: "The form has been submitted.",
+      title: "Thank you for your submission",
+      description: "We will review it as soon as possible",
       color: "success",
     });
 
     Object.assign(state, { ...initialState });
-
-    location.value = undefined;
-
+    latitude.value = undefined;
+    longitude.value = undefined;
+    selectedAddress.value = undefined;
     form.value?.clear();
   } catch (error) {
     toast.add({
@@ -216,11 +227,21 @@ const items = computed(() => {
             headers: useRequestHeaders(["cookie"]),
           });
           if (feature) {
-            location.value = `POINT(${feature.geometry.coordinates[0]} ${feature.geometry.coordinates[1]})`;
+            latitude.value = feature.geometry.coordinates[1];
+            longitude.value = feature.geometry.coordinates[0];
           }
         }
       },
     };
   });
 });
+
+watch(
+  () => state.address,
+  () => {
+    if (state.address?.length < 3) {
+      selectedAddress.value = undefined;
+    }
+  },
+);
 </script>

@@ -1,5 +1,4 @@
 import { serverSupabaseClient } from "#supabase/server";
-import { logError } from "@/server/utils/logger";
 import { z } from "zod";
 import { Database } from "~/types/database.types";
 

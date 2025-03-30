@@ -1,7 +1,6 @@
 import { serverSupabaseClient } from "#supabase/server";
 import { z } from "zod";
-import { logError } from "@/server/utils/logger";
-import { parseFloatParam } from "@/server/utils/parse-float-param";
+import { Database } from "~/types/database.types";
 
 export default defineEventHandler(async (event) => {
   try {
@@ -31,7 +30,7 @@ export default defineEventHandler(async (event) => {
         .parse(params),
     );
 
-    const client = await serverSupabaseClient(event);
+    const client = await serverSupabaseClient<Database>(event);
 
     const { data, error } = await client.rpc("get_posting_v2", {
       posting_id,

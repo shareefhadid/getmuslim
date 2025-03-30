@@ -15,7 +15,11 @@ export const useSearchLocation = (searchText: Ref<string>, types?: string) => {
   });
 
   return {
-    suggestions: computed(() => data.value?.suggestions ?? []),
+    suggestions: computed(() =>
+      (searchText.value?.length ?? 0) >= 3
+        ? (data.value?.suggestions ?? [])
+        : [],
+    ),
     isLoading: computed(() => status.value === "pending"),
     debouncing: computed(() => debouncedSearchText.value !== searchText.value),
     status,

@@ -13,7 +13,9 @@
             getmuslim
           </p>
         </ULink>
-        <UButton to="/postings/new" class="font-semibold" icon="mdi:plus">Submit posting</UButton>
+        <UButton class="font-semibold" to="/postings/new" icon="mdi:plus">
+          Submit posting
+        </UButton>
       </div>
     </UContainer>
   </header>
