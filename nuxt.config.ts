@@ -16,9 +16,6 @@ export default defineNuxtConfig({
       openAPI: true,
     },
   },
-  routeRules: {
-    "/about": { prerender: true },
-  },
   modules: [
     "@nuxt/ui",
     "@nuxtjs/supabase",
