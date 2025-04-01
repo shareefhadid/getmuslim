@@ -80,7 +80,12 @@
           </UFormField>
         </div>
 
-        <UButton class="hover:cursor-pointer" type="submit">Submit</UButton>
+        <UButton
+          class="hover:cursor-pointer"
+          type="submit"
+          :loading="submitLoad">
+          Submit
+        </UButton>
       </UForm>
     </div>
   </UContainer>
@@ -92,6 +97,7 @@ import type { FormSubmitEvent, InputMenuItem } from "@nuxt/ui";
 import * as z from "zod";
 
 const form = useTemplateRef("form");
+const submitLoad = ref(false);
 
 const schema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
@@ -164,6 +170,7 @@ const categoryOptions = computed(() =>
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   try {
+    submitLoad.value = true;
     const categoryIds = event.data.category.map((cat) => cat.value);
 
     const submissionData = toFormData({
@@ -195,6 +202,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       description: "Something went wrong.",
       color: "error",
     });
+  } finally {
+    submitLoad.value = false;
   }
 }
 
