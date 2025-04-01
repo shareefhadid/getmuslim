@@ -14,7 +14,7 @@
           icon="mdi:close"
           variant="soft"
           size="xs"
-          @click="modal.close"
+          @click="handleClose"
           color="neutral" />
 
         <div class="flex flex-col gap-y-6">
@@ -22,7 +22,7 @@
             <template v-if="posting.featured_image">
               <NuxtImg
                 class="aspect-square w-full object-cover object-center"
-                :src="posting.featured_image"
+                :src="formatPostingImagePath(posting.featured_image)"
                 :alt="posting.title" />
             </template>
             <template v-else>
@@ -45,13 +45,11 @@
                     :icon="category.icon || 'lucide:tags'"
                     :label="category.label"
                     :category-id="category.id.toString()"
-                    :onPress="() => modal.close()" />
+                    :onPress="() => handleClose" />
                 </template>
               </div>
             </div>
-            <p
-              class="text-ui-text-muted text-sm"
-              v-if="posting.address && posting.show_address">
+            <p class="text-ui-text-muted text-sm" v-if="posting.address">
               {{ posting.address }}{{ formattedDistance }}
             </p>
             <p class="text-ui-text-muted">{{ posting.description }}</p>
@@ -60,8 +58,8 @@
                 <ULink
                   class="inline-flex items-center gap-x-1 text-sm hover:cursor-pointer"
                   @click="copyLink">
-                  <UIcon name="mdi:content-copy" />
-                  Copy link
+                  <UIcon name="mdi:share" />
+                  Share
                 </ULink>
                 <ULink
                   class="inline-flex items-center gap-x-1 text-sm"
@@ -110,7 +108,10 @@
         <div
           class="from-0 pointer-events-none fixed inset-x-0 bottom-0 z-20 flex h-7 items-end justify-center bg-gradient-to-t from-[var(--ui-bg)] to-[var(--ui-bg)]/[0.2] text-xs"
           v-show="showScroll">
-          <UIcon class="mb-1 animate-bounce" name="mdi:arrow-down" />
+          <UIcon
+            class="pointer-events-auto mb-1 animate-pulse cursor-pointer"
+            name="mdi:arrow-down"
+            @click="scrollToBottom" />
         </div>
       </div>
     </template>
@@ -120,23 +121,32 @@
 <script lang="ts" setup>
 import type { PostingDetails } from "~/types/postings";
 
-const modal = useModal();
+const emit = defineEmits(["close"]);
+function handleClose() {
+  emit("close");
+}
+
 const clipboard = useClipboard();
 const toast = useToast();
+const { share, isSupported: isShareSupported } = useShare();
 
 const el = useTemplateRef<HTMLElement>("scroll");
-const { arrivedState, y } = useScroll(el);
+const { arrivedState } = useScroll(el);
 
-const showScroll = computed(() => !arrivedState.bottom);
-
-watch(modal.isOpen, (open) => {
-  if (open) {
-    setTimeout(() => {
-      y.value = 1;
-      y.value = 0;
-    }, 0);
-  }
+const showScroll = computed(() => {
+  if (!el.value) return false;
+  const isScrollable = el.value.scrollHeight > el.value.clientHeight;
+  return isScrollable && !arrivedState.bottom;
 });
+
+const scrollToBottom = () => {
+  if (el.value) {
+    el.value.scrollTo({
+      top: el.value.scrollHeight,
+      behavior: "smooth",
+    });
+  }
+};
 
 const props = defineProps<{
   posting: PostingDetails;
@@ -152,10 +162,27 @@ const formattedDistance = computed(() => {
 
 const copyLink = async () => {
   toast.clear();
+  const url = `${window.location.origin}/postings/${props.posting.id}`;
+  const shareData = {
+    title: props.posting.title,
+    text: props.posting.description,
+    url,
+  };
+
+  if (isShareSupported.value) {
+    try {
+      await share(shareData);
+      return;
+    } catch (error) {
+      if (error instanceof Error && error.name === "AbortError") {
+        return;
+      }
+      console.warn("Share failed, falling back to clipboard:", error);
+    }
+  }
+
   try {
-    await clipboard.copy(
-      `${window.location.origin}/postings/${props.posting.id}`,
-    );
+    await clipboard.copy(url);
     await toast.add({
       description: "Copied to clipboard.",
       color: "success",

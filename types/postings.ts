@@ -57,7 +57,6 @@ export type PostingDetails = Omit<
   categories: Array<CategoryDetail>;
   links: Array<LinkDetail>;
   media: Array<MediaDetail>;
-  show_address: boolean;
   email?: string;
   website?: string;
   phone?: string;

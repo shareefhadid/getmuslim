@@ -15,9 +15,6 @@ export default defineSitemapEventHandler(async (event) => {
   const sitemap: SitemapUrlInput[] = rows.map((row) => {
     return {
       loc: `/postings/${row.id}`,
-      changefreq: "daily" as const,
-      priority: 0.8 as const,
-      images: row.featured_image ? [{ loc: row.featured_image }] : [],
     };
   }) satisfies SitemapUrlInput[];
 

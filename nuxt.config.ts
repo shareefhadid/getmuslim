@@ -16,9 +16,6 @@ export default defineNuxtConfig({
       openAPI: true,
     },
   },
-  routeRules: {
-    "/about": { prerender: true },
-  },
   modules: [
     "@nuxt/ui",
     "@nuxtjs/supabase",
@@ -31,6 +28,9 @@ export default defineNuxtConfig({
     "nuxt-schema-org",
     "nuxt-link-checker",
   ],
+  ui: {
+    colorMode: false,
+  },
   supabase: {
     redirect: false,
     redirectOptions: {
@@ -81,5 +81,8 @@ export default defineNuxtConfig({
     linkChecker: {
       failOnError: true,
     },
+  },
+  hub: {
+    blob: true,
   },
 });

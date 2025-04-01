@@ -1,9 +1,8 @@
 import { serverSupabaseClient } from "#supabase/server";
 import { z } from "zod";
-import { logError } from "../../utils/logger";
-import { parseFloatParam } from "../../utils/parse-float-param";
+import { Database } from "~/types/database.types";
 
-export default eventHandler(async (event) => {
+export default defineEventHandler(async (event) => {
   try {
     const locationCookie = getCookie(event, "location");
     const { lat, long } = locationCookie ? JSON.parse(locationCookie) : {};
@@ -31,7 +30,7 @@ export default eventHandler(async (event) => {
         .parse(params),
     );
 
-    const client = await serverSupabaseClient(event);
+    const client = await serverSupabaseClient<Database>(event);
 
     const { data, error } = await client.rpc("get_posting_v2", {
       posting_id,

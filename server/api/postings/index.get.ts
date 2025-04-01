@@ -1,9 +1,8 @@
 import { serverSupabaseClient } from "#supabase/server";
 import { z } from "zod";
 import { Database } from "~/types/database.types";
-import { logError } from "../utils/logger";
 
-export default eventHandler(async (event) => {
+export default defineEventHandler(async (event) => {
   try {
     const locationCookie = getCookie(event, "location");
     const { lat: cookieLat, long: cookieLong } = locationCookie
