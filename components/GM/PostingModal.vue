@@ -109,7 +109,7 @@
           class="from-0 pointer-events-none fixed inset-x-0 bottom-0 z-20 flex h-7 items-end justify-center bg-gradient-to-t from-[var(--ui-bg)] to-[var(--ui-bg)]/[0.2] text-xs"
           v-show="showScroll">
           <UIcon
-            class="max-xs:hidden pointer-events-auto mb-1 animate-pulse cursor-pointer"
+            class="pointer-events-auto mb-1 animate-pulse cursor-pointer"
             name="mdi:arrow-down"
             @click="scrollToBottom" />
         </div>
