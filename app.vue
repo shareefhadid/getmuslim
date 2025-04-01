@@ -4,7 +4,9 @@
     <Body class="flex h-full flex-col" />
     <UApp>
       <NuxtLayout class="flex h-full flex-col">
-        <NuxtPage class="grow" />
+        <main class="flex h-full grow flex-col" id="main">
+          <NuxtPage class="grow" />
+        </main>
       </NuxtLayout>
     </UApp>
   </div>
@@ -72,7 +74,7 @@ useSchemaOrg([
         "@type": "ImageObject",
         url: `${useRuntimeConfig().public.siteUrl}/logo.png`,
         width: 512,
-        height: 512
+        height: 512,
       },
     },
   }),
