@@ -66,6 +66,7 @@ export default defineEventHandler(async (event) => {
 
       const blob = await hubBlob().put(imageFile.name, imageFile, {
         addRandomSuffix: true,
+        prefix: "images",
       });
 
       imagePath = blob.pathname;

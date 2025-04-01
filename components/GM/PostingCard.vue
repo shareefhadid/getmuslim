@@ -12,7 +12,7 @@
           <template v-if="posting.featured_image">
             <NuxtImg
               class="ring-ui-border-accented h-full w-full object-cover object-center ring transition-transform group-hover:scale-105"
-              :src="posting.featured_image"
+              :src="formatPostingImagePath(posting.featured_image)"
               :alt="posting.title" />
           </template>
           <template v-else>

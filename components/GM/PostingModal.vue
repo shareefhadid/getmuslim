@@ -22,7 +22,7 @@
             <template v-if="posting.featured_image">
               <NuxtImg
                 class="aspect-square w-full object-cover object-center"
-                :src="posting.featured_image"
+                :src="formatPostingImagePath(posting.featured_image)"
                 :alt="posting.title" />
             </template>
             <template v-else>
