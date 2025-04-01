@@ -58,8 +58,8 @@
                 <ULink
                   class="inline-flex items-center gap-x-1 text-sm hover:cursor-pointer"
                   @click="copyLink">
-                  <UIcon name="mdi:content-copy" />
-                  Copy link
+                  <UIcon name="mdi:share" />
+                  Share
                 </ULink>
                 <ULink
                   class="inline-flex items-center gap-x-1 text-sm"
@@ -128,6 +128,7 @@ function handleClose() {
 
 const clipboard = useClipboard();
 const toast = useToast();
+const { share, isSupported: isShareSupported } = useShare();
 
 const el = useTemplateRef<HTMLElement>("scroll");
 const { arrivedState } = useScroll(el);
@@ -161,10 +162,27 @@ const formattedDistance = computed(() => {
 
 const copyLink = async () => {
   toast.clear();
+  const url = `${window.location.origin}/postings/${props.posting.id}`;
+  const shareData = {
+    title: props.posting.title,
+    text: props.posting.description,
+    url,
+  };
+
+  if (isShareSupported.value) {
+    try {
+      await share(shareData);
+      return;
+    } catch (error) {
+      if (error instanceof Error && error.name === "AbortError") {
+        return;
+      }
+      console.warn("Share failed, falling back to clipboard:", error);
+    }
+  }
+
   try {
-    await clipboard.copy(
-      `${window.location.origin}/postings/${props.posting.id}`,
-    );
+    await clipboard.copy(url);
     await toast.add({
       description: "Copied to clipboard.",
       color: "success",
