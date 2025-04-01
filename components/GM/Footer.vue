@@ -1,5 +1,5 @@
 <template>
-  <div
+  <footer
     class="bg-ui-bg-elevated dark:bg-ui-bg-elevated/70 border-ui-border border-t py-6">
     <UContainer
       class="xs:items-center xs:text-center flex flex-col justify-center gap-5 text-sm">
@@ -50,7 +50,7 @@
         </p>
       </div>
     </UContainer>
-  </div>
+  </footer>
 </template>
 
 <script setup lang="ts">
