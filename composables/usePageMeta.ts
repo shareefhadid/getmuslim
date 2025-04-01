@@ -4,8 +4,10 @@ export const usePageMeta = (params: {
   title: string;
   description: string;
   image?: string;
+  canonical?: string;
 }) => {
   const config = useRuntimeConfig();
+  const route = useRoute();
   const fullTitle = `${params.title} | getmuslim`;
   
   // Construct absolute URL for image
@@ -14,10 +16,15 @@ export const usePageMeta = (params: {
     config.public.siteUrl
   ).toString();
 
+  // Construct canonical URL (use provided or current route)
+  const canonicalUrl = params.canonical || 
+    new URL(route.path, config.public.siteUrl).toString();
+
   useSeoMeta({
     title: fullTitle,
     description: params.description,
     // Open Graph
+    ogUrl: canonicalUrl,
     ogTitle: fullTitle,
     ogDescription: params.description,
     ogImage: imageUrl,
@@ -28,5 +35,15 @@ export const usePageMeta = (params: {
     twitterTitle: fullTitle,
     twitterDescription: params.description,
     twitterImage: imageUrl,
+  });
+  
+  // Add canonical link separately
+  useHead({
+    link: [
+      {
+        rel: 'canonical',
+        href: canonicalUrl
+      }
+    ]
   });
 }; 
