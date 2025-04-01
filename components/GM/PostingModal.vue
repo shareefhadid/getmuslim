@@ -109,8 +109,9 @@
           class="from-0 pointer-events-none fixed inset-x-0 bottom-0 z-20 flex h-7 items-end justify-center bg-gradient-to-t from-[var(--ui-bg)] to-[var(--ui-bg)]/[0.2] text-xs"
           v-show="showScroll">
           <UIcon
-            class="max-xs:hidden mb-1 animate-pulse"
-            name="mdi:arrow-down" />
+            class="max-xs:hidden pointer-events-auto mb-1 animate-pulse cursor-pointer"
+            name="mdi:arrow-down"
+            @click="scrollToBottom" />
         </div>
       </div>
     </template>
@@ -129,9 +130,22 @@ const clipboard = useClipboard();
 const toast = useToast();
 
 const el = useTemplateRef<HTMLElement>("scroll");
-const { arrivedState, y } = useScroll(el);
+const { arrivedState } = useScroll(el);
 
-const showScroll = computed(() => !arrivedState.bottom);
+const showScroll = computed(() => {
+  if (!el.value) return false;
+  const isScrollable = el.value.scrollHeight > el.value.clientHeight;
+  return isScrollable && !arrivedState.bottom;
+});
+
+const scrollToBottom = () => {
+  if (el.value) {
+    el.value.scrollTo({
+      top: el.value.scrollHeight,
+      behavior: "smooth",
+    });
+  }
+};
 
 const props = defineProps<{
   posting: PostingDetails;
