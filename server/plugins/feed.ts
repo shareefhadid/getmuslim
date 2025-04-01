@@ -15,13 +15,21 @@ export default defineNitroPlugin((nitroApp) => {
     };
 
     postings?.forEach((posting) => {
+      let image: string | undefined;
+
+      if (posting.featured_image) {
+        image = posting.featured_image.startsWith("images/")
+          ? `${siteUrl}/${posting.featured_image}`
+          : posting.featured_image;
+      }
+
       feed.addItem({
         title: posting.title,
         id: `${siteUrl}/postings/${posting.id}`,
         link: `${siteUrl}/postings/${posting.id}`,
         description: posting.description,
         content: posting.description,
-        image: posting.featured_image ?? undefined,
+        image,
         date: new Date(posting.updated_at ?? posting.created_at),
       });
     });
