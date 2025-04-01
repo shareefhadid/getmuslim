@@ -20,7 +20,7 @@
         "zod": "^3.24.2",
       },
       "devDependencies": {
-        "@iconify-json/lucide": "^1.2.33",
+        "@iconify-json/lucide": "^1.2.34",
         "@iconify-json/mdi": "^1.2.3",
         "consola": "^3.4.2",
         "prettier": "^3.5.3",
@@ -191,7 +191,7 @@
 
     "@floating-ui/vue": ["@floating-ui/vue@1.1.6", "", { "dependencies": { "@floating-ui/dom": "^1.0.0", "@floating-ui/utils": "^0.2.9", "vue-demi": ">=0.13.0" } }, "sha512-XFlUzGHGv12zbgHNk5FN2mUB7ROul3oG2ENdTpWdE+qMFxyNxWSRmsoyhiEnpmabNm6WnUvR1OvJfUfN4ojC1A=="],
 
-    "@iconify-json/lucide": ["@iconify-json/lucide@1.2.33", "", { "dependencies": { "@iconify/types": "*" } }, "sha512-2Ty+rI0tRHJEbM6J48G40ONvCPrcFC3o4PpAqOXZ3X+Uz2vMzrGj6tl2XHToZ64nc6lg+fC3WhkJebyyQxLVcw=="],
+    "@iconify-json/lucide": ["@iconify-json/lucide@1.2.34", "", { "dependencies": { "@iconify/types": "*" } }, "sha512-6xiITvlYP/5d6KQPRBHDQ+eaLxRWiTvXfuVGuNX2ahNLbEi0VKB04v008IQLPrMu/C4tRMI4+sRzHd/wSFxGZQ=="],
 
     "@iconify-json/mdi": ["@iconify-json/mdi@1.2.3", "", { "dependencies": { "@iconify/types": "*" } }, "sha512-O3cLwbDOK7NNDf2ihaQOH5F9JglnulNDFV7WprU2dSoZu3h3cWH//h74uQAB87brHmvFVxIOkuBX2sZSzYhScg=="],
 
