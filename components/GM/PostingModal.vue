@@ -57,7 +57,7 @@
               <div class="flex flex-wrap gap-3">
                 <ULink
                   class="inline-flex items-center gap-x-1 text-sm hover:cursor-pointer"
-                  @click="copyLink">
+                  @click="sharePost">
                   <UIcon name="mdi:share" />
                   Share
                 </ULink>
@@ -160,7 +160,7 @@ const formattedDistance = computed(() => {
   return ` (${distance} away)`;
 });
 
-const copyLink = async () => {
+const sharePost = async () => {
   toast.clear();
   const url = `${window.location.origin}/postings/${props.posting.id}`;
   const shareData = {

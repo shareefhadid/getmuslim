@@ -40,9 +40,9 @@
         <div class="flex flex-wrap gap-3 text-sm">
           <ULink
             class="inline-flex items-center gap-x-1 hover:cursor-pointer"
-            @click="copyLink">
-            <UIcon name="mdi:content-copy" />
-            Copy link
+            @click="sharePost">
+            <UIcon name="mdi:share" />
+            Share
           </ULink>
           <ULink
             class="inline-flex items-center gap-x-1 hover:cursor-pointer"
@@ -106,25 +106,7 @@
 const clipboard = useClipboard();
 const toast = useToast();
 const route = useRoute();
-
-const copyLink = async () => {
-  toast.clear();
-  try {
-    await clipboard.copy(`${window.location.origin}${route.fullPath}`);
-    await toast.add({
-      description: "Copied to clipboard.",
-      color: "success",
-      duration: 2000,
-    });
-  } catch (error) {
-    await toast.add({
-      description: "Unable to copy.",
-      color: "error",
-      duration: 2000,
-    });
-    console.error(error);
-  }
-};
+const { share, isSupported: isShareSupported } = useShare();
 
 const params = ref({
   id: parseInt(route.params.id as string),
@@ -141,7 +123,45 @@ const handleCategoryPressed = async (id: string) => {
   });
 };
 
-const { posting, error, isLoading } = await usePosting(params);
+const { posting, isLoading } = await usePosting(params);
+
+const sharePost = async () => {
+  toast.clear();
+  const url = `${window.location.origin}/postings/${route.params.id}`;
+  const shareData = {
+    title: posting.value?.title,
+    text: posting.value?.description,
+    url,
+  };
+
+  if (isShareSupported.value) {
+    try {
+      await share(shareData);
+      return;
+    } catch (error) {
+      if (error instanceof Error && error.name === "AbortError") {
+        return;
+      }
+      console.warn("Share failed, falling back to clipboard:", error);
+    }
+  }
+
+  try {
+    await clipboard.copy(url);
+    await toast.add({
+      description: "Copied to clipboard.",
+      color: "success",
+      duration: 2000,
+    });
+  } catch (error) {
+    await toast.add({
+      description: "Unable to copy.",
+      color: "error",
+      duration: 2000,
+    });
+    console.error(error);
+  }
+};
 
 const formattedDistance = computed(() => {
   if (!posting.value?.distance) return "";
