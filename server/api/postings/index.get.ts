@@ -37,7 +37,7 @@ export default defineEventHandler(async (event) => {
     const client = await serverSupabaseClient<Database>(event);
 
     const functionName =
-      mode === "nearby" ? "get_nearby_postings_v2" : "get_recent_postings_v2";
+      mode === "nearby" ? "get_nearby_postings_v3" : "get_recent_postings_v3";
 
     const { data, error } = await client.rpc(functionName, queryParams);
 
