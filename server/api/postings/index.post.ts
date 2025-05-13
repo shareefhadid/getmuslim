@@ -3,7 +3,8 @@ import { Resend } from "resend";
 import { z } from "zod";
 import { Database } from "~/types/database.types";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const runtimeConfig = useRuntimeConfig();
+const resend = new Resend(runtimeConfig.resendApiKey);
 
 const schema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),

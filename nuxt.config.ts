@@ -9,6 +9,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   runtimeConfig: {
     mapboxToken: process.env.MAPBOX_ACCESS_TOKEN,
+    resendApiKey: process.env.RESEND_API_KEY,
     public: { siteUrl },
   },
   nitro: {

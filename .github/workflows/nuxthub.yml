@@ -31,11 +31,11 @@ jobs:
       - name: Build application
         run: bun run build
         env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           MAPBOX_ACCESS_TOKEN: ${{ secrets.MAPBOX_ACCESS_TOKEN }}
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
           SUPABASE_URL: ${{ vars.SUPABASE_URL }}
-          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
 
       - name: Deploy to NuxtHub
         uses: nuxt-hub/action@v1
