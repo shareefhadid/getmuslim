@@ -239,88 +239,21 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      get_nearby_postings: {
-        Args: {
-          lat: number
-          long: number
-          max_distance?: number
-          category?: number
-          limit_count?: number
-          offset_count?: number
-        }
-        Returns: Database["public"]["CompositeTypes"]["paginated_postings"]
-      }
-      get_nearby_postings_v2: {
-        Args: {
-          lat: number
-          long: number
-          max_distance?: number
-          category?: number
-          limit_count?: number
-          offset_count?: number
-        }
-        Returns: {
-          rows: Json[]
-          total: number
-        }[]
-      }
-      get_nearby_postings_v3: {
-        Args: {
-          lat: number
-          long: number
-          max_distance?: number
-          category?: number
-          limit_count?: number
-          offset_count?: number
-        }
-        Returns: {
-          rows: Json[]
-          total: number
-        }[]
-      }
-      get_nearby_postings_v4: {
-        Args: {
-          lat: number
-          long: number
-          max_distance?: number
-          category?: number
-          limit_count?: number
-          offset_count?: number
-        }
-        Returns: {
-          rows: Json[]
-          count: number
-        }[]
-      }
-      get_nearby_postings_v5: {
-        Args: {
-          lat: number
-          long: number
-          max_distance?: number
-          category?: number
-          limit_count?: number
-          offset_count?: number
-        }
-        Returns: {
-          rows: Json[]
-          total: number
-        }[]
-      }
-      get_nearby_postings_v6: {
-        Args: {
-          lat: number
-          long: number
-          max_distance?: number
-          category?: number
-          limit_count?: number
-          offset_count?: number
-        }
-        Returns: {
-          rows: Json[]
-          total: number
-        }[]
-      }
       get_nearby_postings_v7: {
+        Args: {
+          lat: number
+          long: number
+          max_distance?: number
+          category?: number
+          limit_count?: number
+          offset_count?: number
+        }
+        Returns: {
+          rows: Json[]
+          total: number
+        }[]
+      }
+      get_nearby_postings_v8: {
         Args: {
           lat: number
           long: number
@@ -390,81 +323,6 @@ export type Database = {
           phone: string
           google_maps: string
           categories: Json
-        }[]
-      }
-      get_recent_postings: {
-        Args: {
-          lat?: number
-          long?: number
-          category?: number
-          limit_count?: number
-          offset_count?: number
-        }
-        Returns: Database["public"]["CompositeTypes"]["paginated_postings"]
-      }
-      get_recent_postings_v2: {
-        Args: {
-          lat?: number
-          long?: number
-          category?: number
-          limit_count?: number
-          offset_count?: number
-        }
-        Returns: {
-          rows: Json[]
-          total: number
-        }[]
-      }
-      get_recent_postings_v3: {
-        Args: {
-          lat?: number
-          long?: number
-          category?: number
-          limit_count?: number
-          offset_count?: number
-        }
-        Returns: {
-          rows: Json[]
-          total: number
-        }[]
-      }
-      get_recent_postings_v4: {
-        Args: {
-          lat?: number
-          long?: number
-          category?: number
-          limit_count?: number
-          offset_count?: number
-        }
-        Returns: {
-          rows: Json[]
-          count: number
-        }[]
-      }
-      get_recent_postings_v5: {
-        Args: {
-          lat?: number
-          long?: number
-          category?: number
-          limit_count?: number
-          offset_count?: number
-        }
-        Returns: {
-          rows: Json[]
-          total: number
-        }[]
-      }
-      get_recent_postings_v6: {
-        Args: {
-          lat?: number
-          long?: number
-          category?: number
-          limit_count?: number
-          offset_count?: number
-        }
-        Returns: {
-          rows: Json[]
-          total: number
         }[]
       }
       get_recent_postings_v7: {
