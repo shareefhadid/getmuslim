@@ -5,7 +5,7 @@
       size: 'xs',
       class: 'hover:cursor-pointer',
     }"
-    :ui="{ description: 'hidden' }">
+    :ui="{ description: 'hidden', wrapper: 'grow' }">
     <template #title>Find nearby businesses</template>
     <template #description>Find nearby businesses</template>
 
