@@ -47,6 +47,7 @@ Setup the following environment variables:
 ```
 SUPABASE_URL=
 SUPABASE_KEY=
+RESEND_API_KEY=
 MAPBOX_ACCESS_TOKEN=
 NUXT_HUB_PROJECT_KEY=
 ```

@@ -1,6 +1,10 @@
 import { serverSupabaseServiceRole } from "#supabase/server";
+import { Resend } from "resend";
 import { z } from "zod";
 import { Database } from "~/types/database.types";
+
+const runtimeConfig = useRuntimeConfig();
+const resend = new Resend(runtimeConfig.resendApiKey);
 
 const schema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
@@ -91,6 +95,21 @@ export default defineEventHandler(async (event) => {
 
     if (response.error) {
       throw new Error(response.error.message);
+    }
+
+    try {
+      const data = await resend.emails.send({
+        from: "getmuslim <no-reply@transactional.getmuslim.com>",
+        text: Object.entries(validatedData)
+          .map(([key, value]) => `${key}: ${value}`)
+          .join("\n"),
+        to: ["shareefhadid@gmail.com"],
+        subject: "New submission",
+      });
+
+      if (data.error) throw new Error(data.error.message);
+    } catch (error) {
+      logError(getRequestURL(event).pathname, error);
     }
 
     return { success: true };
